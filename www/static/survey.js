@@ -475,26 +475,23 @@ navigator.app.exitApp();
 }
 
 // ----------------Camera-----------------------------------------------
-
-
 //Acheivement
 function getImage() {
-	navigator.camera.getPicture(onSuccess, onFail, { quality: 10,
+	navigator.camera.getPicture(onSuccessA, onFailA, { quality: 10,
 		destinationType: Camera.DestinationType.FILE_URI });
 }
 
-function onSuccess(imageURI) {
-    var image = document.getElementById('myImage');
+function onSuccessA(imageURI) {
+    var image = document.getElementById('myImageA');
     image.src = imageURI;
-	imagePath = imageURI;
-	$("#lscPhoto").val(imagePath);
+	imagePathA = imageURI;
+	$("#lscPhoto").val(imagePathA);
 }
 
-function onFail(message) {
-	imagePath="";
+function onFailA(message) {
+	imagePathA="";
     alert('Failed because: ' + message);
 }
-
 
 //------------------------------------------------------------------------------
 //File upload 
