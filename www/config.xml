@@ -3,13 +3,13 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.businesssolutionapps.rmap"
-        version   = "1.0.0">
+        id        = "com.businesssolutionapps.lscrmap"
+        version   = "1.0.1">
 
-    <name>LSC Retail Mapping</name>
+    <name>Retailer Mapping</name>
 
     <description>
-        LSC Retail Mapping
+        Retailer Mapping
     </description>
 
     <author href="http://phonegap.com" email="sabbir456@gmail.com">
