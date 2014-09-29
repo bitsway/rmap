@@ -2488,24 +2488,31 @@ function exit() {
 navigator.app.exitApp();
 }
 
-// ----------------Camera-----------------------------------------------
 
+
+// ----------------Camera-----------------------------------------------
 
 //Image
 function getImage() {
-	navigator.camera.getPicture(onSuccess, onFail, { quality: 10,
+//	navigator.camera.getPicture(onSuccess, onFail, { quality: 10, 
+//		destinationType: Camera.DestinationType.FILE_URI });
+	
+	navigator.camera.getPicture(onSuccessFd, onFailFd, { quality: 5,
 		destinationType: Camera.DestinationType.FILE_URI });
 }
-function onSuccess(imageURI) {
+function onSuccessFd(imageURI) {
     var image = document.getElementById('myImage');
     image.src = imageURI;
 	imagePath = imageURI;
 	$("#lscPhoto").val(imagePath);
 }
-function onFail(message) {
+function onFailFd(message) {
 	imagePath="";
     alert('Failed because: ' + message);
 }
+
+
+
 
 //image Profile
 function getImageProfile() {	
