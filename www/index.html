@@ -61,34 +61,9 @@
 		
 		$("#product_list_tbl").html(localStorage.product_tbl_str);
 		$("#del_product_list_tbl").html(localStorage.product_tbl_del_str);
-		
-		//$("#visit_plan_marketlist_combo").html(localStorage.visit_plan_marketlist_combo);
-		//$("#visit_plan_client_cmb_list").html(localStorage.visit_plan_client_cmb_list);
-		
-		//$("#delivery_distributor_cmb_list").html(localStorage.delivery_distributor_cmb_list);
-		//$("#delivery_retailer_cmb_list").html(localStorage.delivery_retailer_cmb_list);
-		
-		//$("#unschedule_market_cmb_id").html(localStorage.unschedule_market_cmb_id);
-		//$("#market_cmb_list_cp").html(localStorage.market_cmb_list_cp);
-		
-		//$("#profile_m_client_org_id").html(localStorage.profile_m_client_org_id);
-		
+				
 		$("#sch_date").val(localStorage.search_date);
-		//$(".visit_type").html(localStorage.visit_type);
-		//$(".s_date").html(localStorage.scheduled_date);
-		
-		//$(".market").html(localStorage.visitMarketStr);
-		//$(".visit_client").html(localStorage.visit_client);
-		
-		
-		//$(".delivery_dt").html(localStorage.delivery_date);
-		//$(".distributor").html(localStorage.distributor_name);
-		
-		//$(".visit_plan_date").html(localStorage.plan_date);
-		//$(".plan_market").html(localStorage.plan_market);		
-		
-		//$("#marchandizing_tbl").html(localStorage.marchandizingStrTbl);
-		
+				
 		
 		// delivery qty refresh during client change
 		jQuery("#delivery_retailer_cmb_id").change(function(){	
@@ -394,11 +369,9 @@
 	
     <body>
 	
-	
 
-		<!-- =====================Home page===============#CCE6E6=== -->
+		<!-- =====================Home page=============== -->
 		<div data-theme="c" data-role="page" id="pageHome">
-		
 			<div data-role="panel" id="routePanel" data-display="overlay" style="width:60%; background-color:#FFF">
 				<!-- panel content goes here unilogo1.jpg-->
 				<div align="center">
@@ -410,22 +383,19 @@
                 
 				<ul data-role="listview">                    
                     <br><br>
-                    
                     <div style="background:#008A8A; height:1px"></div>
                     <li ><div ><a href="#login" ><img src="sync.png"></a></div></li> 
                     <div style="background:#008A8A; height:1px"></div>
-                    
                 </ul>
                 
 				<div style="margin:100%;"></div>
 				<!--<img src="lafarge.png" alt="Grameen Phone" />-->
-				
 			</div><!-- /panel -->
 			
             <div data-theme="c" data-role="header" data-position="fixed" >
 			
 			<a  data-role="button" href="#routePanel" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-                <a data-role="button" href="#pagelogin" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-right ui-icon-power ui-btn-icon-notext " onClick="exit()"></a>
+                <a data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-right ui-icon-power ui-btn-icon-notext " onClick="exit();"></a>
                 <h3>LSC</h3>
             </div>
 			<img style="width:100%; height:100px"  src="images_2.jpg">
@@ -436,7 +406,7 @@
                 
                 <div data-role="fieldcontain"> 
                 
-                <div class="ui-grid-a">
+                	<div class="ui-grid-a">
 						<div class="ui-block-a" style="text-align:center;" >
 							<a onClick="getScheduleDate();" ><img src="schedule_visit.png"></a> <!--onClick="getSheduledRetailer();"-->
 						</div>
@@ -469,17 +439,11 @@
 						</div>					
 					</div>                                 
                 </div>
-                            
-               
-                </div>				
+                 
+                </div>	
+                <div data-theme="c" data-role="footer" data-position="fixed"></div>			
             </div>
 		
-	<div data-theme="c" data-role="footer" data-position="fixed">
-		
-	</div>
-	
-
-</div><!---------/page-->   
 
 	        <!--===================== pageSync ==================-->
 		<div data-theme="c" data-role="page" id="login">
@@ -505,10 +469,10 @@
                        
             </div>
 			
-<!-- ==========footer====== -->	
-<div data-theme="c" data-role="footer" data-position="fixed"></div>
-
-</div>		
+        <!-- ==========footer====== -->	
+        <div data-theme="c" data-role="footer" data-position="fixed"></div>
+        
+        </div>		
 
 <!--=====================scheduled Page==================-->
 		<div data-theme="c" data-role="page" id="page_scheduled">
@@ -858,10 +822,12 @@
 			
 			<a data-role="button" onClick="getImageProfile();" >Take Picture</a>       
 			<img src="" width="128" height="128" alt="-" id="myImageProfile">
-			<input name="lscPhotoProfile" id="lscPhotoProfile"   type="hidden">	
+			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden">	
             
-			<input name="lat_p" id="lat_p"   type="hidden">
-			<input name="long_p" id="long_p"  type="hidden">
+			<input type="text" name="lat_p" id="lat_p">
+			<input type="text" name="long_p" id="long_p">
+            
+            <!--<input type="text" name="urlpath" id="urlpath">-->
             
 			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>
 			<div id="checkLocation" style="color:#FF0000;"></div>
@@ -960,7 +926,7 @@
 
 
 </div> 
- <!--===========================dialog end=============-->
+
 <!--=====================order Page==================-->
 		<div data-theme="c" data-role="page" id="page_order">
             <div data-theme="c" data-role="header" data-position="fixed">
@@ -1005,8 +971,7 @@
 <!--=====================marchendizing  Show==================-->
 		<div data-theme="c" data-role="page" id="marchendizing">
             <div data-theme="c" data-role="header" data-position="fixed">
-			<!--<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>-->
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+			<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
                 <h3>Merchandizing Info</h3>
             </div>
 			
@@ -1024,7 +989,10 @@
                 
                 <table width="100%"><tr><td>&nbsp;</td><td style="text-align:right; float:right"><div style="width:50px;"><a data-role="button" onClick="addMarchandizingItem();" >+</a></div></td></tr></table>
                 
-				<div id="marchandizing_tbl"></div>
+				<!--<div id="marchandizing_tbl"></div>-->
+                <table style="width:100%" border="0" cellpadding="1px" cellspacing="0" id="tbl_marchandizing_show"></table>
+                
+                
 			
 			<br/><br/>				
 			<a data-role="button" onClick="getMarchandizingData();" >Done</a>
@@ -1099,7 +1067,7 @@
 
 </div> 
 		 
-	<!-- -------------Confirm  page3 -------------------- -->
+	<!-- ------------- Visit Confirm  page -------------------- -->
 	<div data-theme="c" data-role="page" id="page_confirm" >
 		<div data-theme="c" data-role="header" data-position="fixed" >
 			<!--<a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " ><img src="menu.png"></a>-->
@@ -1113,8 +1081,8 @@
 			<img src="" width="128" height="128" alt="-" id="myImage">
 			<input name="lscPhoto" id="lscPhoto"   type="hidden">	
             
-			<input name="lat" id="lat"   type="hidden">
-			<input name="long" id="long"  type="hidden">
+			<input type="text" name="lat" id="lat">
+			<input type="text" name="long" id="long">
             
 			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>            
             
@@ -1613,7 +1581,9 @@
 			</div>
 			
 		 </div><!--/page-->
-	<script type="text/javascript" src="phonegap.js"></script>
+
+
+	 <script type="text/javascript" src="phonegap.js"></script>
 
     </body>
 </html>
