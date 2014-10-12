@@ -12,8 +12,7 @@
 		<link rel="stylesheet" href="static/jquery.mobile-1.4.0/jquery.mobile-1.4.0.min.css" />
         <script src="static/jquery/1.10.2/jquery-1.10.2.min.js">   </script>
         <script src="static/jquery.mobile-1.4.0/jquery.mobile-1.4.0.min.js">   </script>
-		<script src="static/survey.js">  </script>
-		
+		<script src="static/survey.js"></script>		
 	<script>
 	
 	$(document).ready(function(){
@@ -61,7 +60,7 @@
 		
 		$("#product_list_tbl").html(localStorage.product_tbl_str);
 		$("#del_product_list_tbl").html(localStorage.product_tbl_del_str);
-				
+		
 		$("#sch_date").val(localStorage.search_date);
 				
 		
@@ -392,12 +391,14 @@
 				<!--<img src="lafarge.png" alt="Grameen Phone" />-->
 			</div><!-- /panel -->
 			
-            <div data-theme="c" data-role="header" data-position="fixed" >
-			
-			<a  data-role="button" href="#routePanel" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-                <a data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-right ui-icon-power ui-btn-icon-notext " onClick="exit();"></a>
+            <div data-theme="c" data-role="header" data-position="fixed" >			
+				<a  data-role="button" href="#routePanel" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+                <a  data-role="button" onClick="exit();" class="ui-btn-right" style="padding:4px;"><img src="exit.png" style="height:25px; width:25px;"></a>
+                
+                <!--<a data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-right ui-icon-power ui-btn-icon-notext " onClick="exit();"><img src="exit.png"></a>-->
                 <h3>LSC</h3>
             </div>
+            
 			<img style="width:100%; height:100px"  src="images_2.jpg">
             <div data-role="content">
 			
@@ -483,11 +484,8 @@
             </div>
 			
             <div data-role="content">
-			
-				<div id="err_retailer_date_next" style="color:#C00"></div>               
-                 
-				<input type="date" id="sch_date" name="sch_date" placeholder="Date" >
-                
+				<div id="err_retailer_date_next" style="color:#C00"></div>
+				<input type="date" id="sch_date" name="sch_date" placeholder="Select Date" >
                 
 				<a data-role="button" id="btn_schedule_date" onClick="getSheduledRetailer();" >Next</a>
                 <div align="center"><img id="wait_image_schedule_date" style="" width="50px;" src="loading.gif" alt=""></div>
@@ -821,16 +819,16 @@
 			<div id="errorConfirmProfileUpdate" style="color:#C00"></div>
 			
 			<a data-role="button" onClick="getImageProfile();" >Take Picture</a>       
-			<img src="" width="128" height="128" alt="-" id="myImageProfile">
+			<img src="" width="128" height="128" alt="" id="myImageProfile">
 			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden">	
             
-			<input type="text" name="lat_p" id="lat_p">
-			<input type="text" name="long_p" id="long_p">
+			<input type="hidden" name="lat_p" id="lat_p">
+			<input type="hidden" name="long_p" id="long_p">
             
             <!--<input type="text" name="urlpath" id="urlpath">-->
             
 			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>
-			<div id="checkLocation" style="color:#FF0000;"></div>
+			<div id="checkLocationProfileUpdate" style="color:#FF0000;"></div>
 			<br/><br/>		
             	
 			<a data-role="button" id="btn_profile_update" onClick="lscProfileSubmit();" >Submit</a>            
@@ -1078,16 +1076,18 @@
 			<div id="errorChkVSubmit" style="color:#C00"></div>
 			
 			<a data-role="button" onClick="getImage();" >Take Picture</a>       
-			<img src="" width="128" height="128" alt="-" id="myImage">
-			<input name="lscPhoto" id="lscPhoto"   type="hidden">	
+			<img src="" width="128" height="128" alt="" id="myImage">
+			<input name="lscPhoto" id="lscPhoto"   type="hidden">
             
-			<input type="text" name="lat" id="lat">
-			<input type="text" name="long" id="long">
+			<input type="hidden" name="lat" id="lat">
+			<input type="hidden" name="long" id="long">
             
 			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>            
             
 			<div id="checkLocation" style="color:#FF0000;"></div>
-			<br/><br/>
+            
+			<br/>
+            <br/>
             
 			<a data-role="button" id="btn_visit_submit" onClick="lscVisitSubmit();" >Submit</a>
 			<div align="center"><img id="wait_image_visit_submit" style="" width="50px;" src="loading.gif" alt=""></div>
@@ -1107,9 +1107,15 @@
 	  </div>
 		<div data-role="content">
         	<div>Submitted Successfully</div>		
-			<a data-role="button" onClick="getScheduleDate();" >Scheduled Visit</a>       
+            
+            <a data-role="button" onClick="getOtherOutlet();" >Other Outlet</a>
+            
+			<!--<a data-role="button" onClick="getScheduleDate();" >Other Outlet</a>
+               
 			<br/>
-			<a data-role="button" onClick="addMarketList();" >Unscheduled Visit</a>
+            
+			<a data-role="button" onClick="addMarketList();" >Other Outlet</a>-->
+            
 			<br/>
 			<a data-role="button" href="#pageHome" >Home</a>
 			
@@ -1389,7 +1395,7 @@
 			
             <div data-role="content">				
 				<div id="err_distributor" style="color:#C00"></div>
-				 <input type="date" id="delivery_date" name="delivery_date" placeholder="YYYY-MM-DD">
+				 <input type="date" id="delivery_date" name="delivery_date" value="" placeholder="Select Date">
                  
                  <!--<div id="delivery_distributor_cmb_list"></div>-->
                  <select name="distributor" id="delivery_distributor_cmb_id" data-native-menu="false">							
@@ -1582,8 +1588,6 @@
 			
 		 </div><!--/page-->
 
-
-	 <script type="text/javascript" src="phonegap.js"></script>
 
     </body>
 </html>

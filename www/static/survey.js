@@ -5,7 +5,7 @@ var apipath='http://e.businesssolutionapps.com/lscmreporting/syncmobile/';
 
 
 //-------GET GEO LOCATION
-function getLocationInfo() { //location	
+function getLocationInfo() { //location
 	navigator.geolocation.getCurrentPosition(onSuccess, onError);
 }
 
@@ -17,8 +17,8 @@ function onSuccess(position) {
 	$("#lat_p").val(position.coords.latitude);
 	$("#long_p").val(position.coords.longitude);
 	
-	$("#errorChkVSubmit").val('Location Confirmed');
-	$("#errorConfirmProfileUpdate").val('Location Confirmed');	
+	$("#checkLocation").html('Location Confirmed');
+	$("#checkLocationProfileUpdate").html('Location Confirmed');	
 }
 
 function onError(error) {
@@ -27,6 +27,9 @@ function onError(error) {
 	
 	$("#lat_p").val(0);
 	$("#long_p").val(0);
+	
+	$("#checkLocation").html('Location not found');
+	$("#checkLocationProfileUpdate").html('Location not found');
 	
 	}
 
@@ -112,7 +115,7 @@ function check_user() {
 	var user_pass=$("#user_pass").val();
 	
 	//Market,product,merchandizing,distributor
-		
+	
 	if (user_id=="" || user_id==undefined || user_pass=="" || user_pass==undefined){
 		var url = "#login";      
 		$.mobile.navigate(url);
@@ -266,6 +269,21 @@ function check_user() {
 			  });//end ajax
 		  }//end else	
 	}//function
+
+function getOtherOutlet(){
+	var visit_type=localStorage.visit_type;
+	//alert(visit_type);
+	if (visit_type=="Scheduled"){
+		var url = "#page_scheduled";
+		$.mobile.navigate(url);
+		
+	}else if(visit_type=="Unscheduled"){
+		var url = "#page_market_ret";
+		$.mobile.navigate(url);
+	};
+
+}
+
 
 //-------------- Schedule Date Page
 function getScheduleDate(){
@@ -865,8 +883,10 @@ function setMarketInfo(){
 	}
 
 //--------------------------------- Order: Show order from home
-function getOrder(){
-	//$("#product_list_tbl").html(localStorage.product_tbl_str);
+function getOrder(){	
+	var url = "#page_order";	
+	$.mobile.navigate(url);	
+	//-----
 	
 	var productList=localStorage.productListStr.split('<rd>');
 	var productLength=productList.length;
@@ -878,9 +898,9 @@ function getOrder(){
 		$("#order_qty"+product_id2).val('');
 	}
 	
-	
 	var orderProductList=localStorage.productOrderStr.split('<rd>');
-	for (var j=0; j < orderProductList.length; j++){
+	var orderProductLength=orderProductList.length;
+	for (var j=0; j < orderProductLength; j++){
 		var orderProductIdQtyList=orderProductList[j].split('<fd>');
 		if(orderProductIdQtyList.length==2){
 			var orderProductId=orderProductIdQtyList[0];
@@ -889,10 +909,7 @@ function getOrder(){
 		}		
 	}
 	
-	var url = "#page_order";	
-	$.mobile.navigate(url);
-	//location.reload();
-	}
+}
 
 //--------------------------------- Order: Set Order data
 function getOrderData(){
@@ -925,11 +942,7 @@ function getOrderData(){
 	
 	var url = "#page_visit";	
 	$.mobile.navigate(url);	
-	
-	//var url = "#page_order";	
-	//$.mobile.navigate(url);
-	//location.reload();
-	
+		
 	}
 
 
@@ -1238,6 +1251,9 @@ function lscVisitSubmit(){
 	var lscPhoto=$("#lscPhoto").val();
 	var lat=$("#lat").val();
 	var long=$("#long").val();
+	var now = $.now();
+	
+	var imageName=localStorage.user_id+'_'+now.toString()+'.jpg'
 	
 	if (lat=='' || lat==0 || long=='' || long==0){
 		$("#errorChkVSubmit").html('Location not Confirmed');		
@@ -1257,7 +1273,7 @@ function lscVisitSubmit(){
 				// ajax-------
 				$.ajax({
 					 type: 'POST',
-					 url: apipath+'visitSubmit?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_id='+visitClientId+'&visit_type='+visit_type+'&schedule_date='+scheduled_date+'&market_info='+marketInfoStr+'&order_info='+productOrderStr+'&merchandizing='+marchandizingInfoStr+'&lat='+lat+'&long='+long+'&visit_photo='+lscPhoto,
+					 url: apipath+'visitSubmit?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_id='+visitClientId+'&visit_type='+visit_type+'&schedule_date='+scheduled_date+'&market_info='+marketInfoStr+'&order_info='+productOrderStr+'&merchandizing='+marchandizingInfoStr+'&lat='+lat+'&long='+long+'&visit_photo='+imageName,
 					 success: function(result) {
 							
 							//alert(result);
@@ -1275,8 +1291,8 @@ function lscVisitSubmit(){
 									
 									//-----------
 									localStorage.visit_client=''
-									localStorage.visit_type=''
-									localStorage.scheduled_date=''
+									//localStorage.visit_type=''
+									//localStorage.scheduled_date=''
 									localStorage.marchandizingStr=''
 									
 									localStorage.marketInfoLSCStr=''
@@ -1296,10 +1312,16 @@ function lscVisitSubmit(){
 									$("#lat_p").val('');
 									$("#long_p").val('');								
 									
+									$("#checkLocation").html('');
+									$("#checkLocationProfileUpdate").html('');
 									
 									$("#wait_image_visit_submit").hide();
 									$("#btn_visit_submit").show();
 									
+									//image upload function									
+									uploadPhotoV(lscPhoto, imageName);
+									//----
+								
 									var url = "#page_confirm_visit_success";	
 									$.mobile.navigate(url);
 									//location.reload();
@@ -1323,11 +1345,10 @@ function lscVisitSubmit(){
   }
 
 
-
 //------------------- Client Profile: Page from home
 function addMarketListCp() {
 	//$("#btn_profile_market").hide();
-	//$("#wait_image_profile_market").show();		
+	//$("#wait_image_profile_market").show();
 	
 	var market_cmb_list_cp=localStorage.market_cmb_list_cp;	
 	//---
@@ -1337,7 +1358,7 @@ function addMarketListCp() {
 	profile_market_cmb_id_ob.append(market_cmb_list_cp);
 	profile_market_cmb_id_ob[0].selectedIndex = 0;
 	
-	//-------	
+	//-------
 	var url = "#page_market_clprofile";
 	$.mobile.navigate(url);
 	//location.reload();
@@ -1632,6 +1653,10 @@ function prifileInfoNext(){
 	$("#err_profile_next_cp").html('');
 	$("#errorConfirmProfileUpdate").html('');
 	
+	$("#checkLocation").html('');
+	$("#checkLocationProfileUpdate").html('');
+	
+	
 	clientUpdateStr=''
 	
 	var cp_marketnameid=$("#cp_marketnameid").val();
@@ -1924,8 +1949,10 @@ function lscProfileSubmit(){
 	$("#errorConfirmProfileUpdate").html('');	
 	var lat=$("#lat_p").val();
 	var long=$("#long_p").val();
+	var client_id=$("#cp_id").val();
 	
 	var lscPhotoProfile=$("#lscPhotoProfile").val();
+	var imageName=client_id+'.jpg'
 	
 	if (lat=='' || lat==0 || long=='' || long==0){
 		$("#errorConfirmProfileUpdate").html('Location not Confirmed');		
@@ -1943,7 +1970,7 @@ function lscProfileSubmit(){
 			// ajax-------
 			$.ajax({
 				 type: 'POST',
-				 url: apipath+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+clientUpdateStr+'&lat='+lat+'&long='+long+'&profile_photo='+lscPhotoProfile,
+				 url: apipath+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+clientUpdateStr+'&lat='+lat+'&long='+long+'&profile_photo='+imageName,
 				 success: function(result) {
 						
 						//alert(result);
@@ -1959,8 +1986,7 @@ function lscProfileSubmit(){
 								$("#wait_image_profile_update").hide();		
 								$("#btn_profile_update").show();
 								
-							}else if (resultArray[0]=='SUCCESS'){
-								
+							}else if (resultArray[0]=='SUCCESS'){								
 								//-----------
 								clientUpdateStr=''
 								$("#lat_p").val('');
@@ -1971,7 +1997,11 @@ function lscProfileSubmit(){
 								
 								$("#wait_image_profile_update").hide();		
 								$("#btn_profile_update").show();
-													
+								
+								//image upload function								
+								uploadPhotoProfile(lscPhotoProfile, imageName);
+								//----
+								
 								var url = "#page_profile_update_success";	
 								$.mobile.navigate(url);
 								
@@ -2115,13 +2145,12 @@ function distributorNext() {
 											var productId=deleveryItemArray[0];											
 											jQuery("#delivery_qty"+productId).val("");
 										}
-											
+										
 										//----------------	
 										$("#err_distributor").text("");	
 										$("#wait_image_delivery_dealer").hide();		
 										$("#btn_delivery_dealer").show();
-											
-																			
+														
 										var url = "#page_del_item";	
 										$.mobile.navigate(url);
 										//location.reload();
@@ -2687,7 +2716,7 @@ function onFailProfile(message) {
 
 //------------------------------------------------------------------------------
 //File upload 
-function uploadPhoto(imageURI, imageName) {
+function uploadPhotoV(imageURI, imageName) {
     var options = new FileUploadOptions();
     options.fileKey="upload";
 //    options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -2702,19 +2731,56 @@ function uploadPhoto(imageURI, imageName) {
     options.params = params;
 
     var ft = new FileTransfer();
-     ft.upload(imageURI, encodeURI("http://m.businesssolutionapps.com/welcome/wab_sync/fileUploader/"),win,fail,options);
+     ft.upload(imageURI, encodeURI(apipath+"fileUploaderVisit/"),winV,failV,options);
 	//ft.upload(imageURI, encodeURI("http://127.0.0.1:8000/welcome/wab_sync/fileUploader/"),win,fail,options);
 }
 
-function win(r) {
+function winV(r) {
 //    console.log("Code = " + r.responseCode);
 //    console.log("Response = " + r.response);
 //    console.log("Sent = " + r.bytesSent);
 }
 
-function fail(error) {
-	$(".errorChk").text('Memory Error. Please Save and Go to Review, Then take new picture and Submit');
+function failV(error) {
+	$(".errorChkVSubmit").text('Memory Error. Please take new picture and Submit');
     //alert("An error has occurred: Code = " + error.code);
 //    console.log("upload error source " + error.source);
 //    console.log("upload error target " + error.target);
 }
+
+//------------------------------------------------------------------------------
+//File upload 
+function uploadPhotoProfile(imageURI, imageName) {
+    var options = new FileUploadOptions();
+    options.fileKey="upload";
+//    options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+    options.fileName=imageName;
+//	options.fileName = options.fileName
+    options.mimeType="image/jpeg";
+
+    var params = {};
+    params.value1 = "test";
+    params.value2 = "param";
+
+    options.params = params;
+
+    var ft = new FileTransfer();
+     ft.upload(imageURI, encodeURI(apipath+"fileUploaderProfile/"),winProfile,failProfile,options);
+	//ft.upload(imageURI, encodeURI("http://127.0.0.1:8000/welcome/wab_sync/fileUploader/"),win,fail,options);
+}
+
+function winProfile(r) {
+//    console.log("Code = " + r.responseCode);
+//    console.log("Response = " + r.response);
+//    console.log("Sent = " + r.bytesSent);
+}
+
+function failProfile(error) {
+	$(".errorConfirmProfileUpdate").text('Memory Error. Please take new picture and Submit');
+    //alert("An error has occurred: Code = " + error.code);
+//    console.log("upload error source " + error.source);
+//    console.log("upload error target " + error.target);
+}
+
+
+
