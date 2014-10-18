@@ -1353,7 +1353,7 @@ function lscVisitSubmit(){
 									$("#btn_visit_submit").show();
 									
 									//image upload function									
-									//uploadPhotoV(lscPhoto, imageName);
+									uploadPhotoV(lscPhoto, imageName);
 									//----
 								
 									var url = "#page_confirm_visit_success";	
@@ -2068,7 +2068,7 @@ function lscProfileSubmit(){
 								$("#btn_profile_update").show();
 								
 								//image upload function								
-								//uploadPhotoProfile(lscPhotoProfile, imageName);
+								uploadPhotoProfile(lscPhotoProfile, imageName);
 								//----
 								
 								var url = "#page_profile_update_success";	
