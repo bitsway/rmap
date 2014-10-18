@@ -223,7 +223,7 @@
 		
 	
 	//------------------------------------- Profile Market Combo -----------------------------
-	$.mobile.document.on( "listviewcreate", "#profile_market_cmb_id-menu", function( e ) {
+	/*$.mobile.document.on( "listviewcreate", "#profile_market_cmb_id-menu", function( e ) {
         var input,
             listbox = $( "#profile_market_cmb_id-listbox" ),
             form = listbox.jqmData( "filter-form" ),
@@ -247,10 +247,10 @@
             .textinput( "option", "inset", !placeInDialog )
             .end()
             .prependTo( destination );
-    });
+    });*/
 	
 	//------------------------------------- Profile Market client -----------------------------
-	$.mobile.document.on( "listviewcreate", "#profile_client_id-menu", function( e ) {
+	/*$.mobile.document.on( "listviewcreate", "#profile_client_id-menu", function( e ) {
         var input,
             listbox = $( "#profile_client_id-listbox" ),
             form = listbox.jqmData( "filter-form" ),
@@ -274,7 +274,7 @@
             .textinput( "option", "inset", !placeInDialog )
             .end()
             .prependTo( destination );
-    });
+    });*/
 	
 	//------------------------------------- visit plan market -----------------------------
 	$.mobile.document.on( "listviewcreate", "#visit_market_cmb_id-menu", function( e ) {
@@ -516,12 +516,18 @@
                 
                 <!--<div id="schedule_client_org_id"></div>-->
                 
-				<select name="client_org_id" id="schedule_client_combo_id" data-native-menu="false">
+				<!--<select name="client_org_id" id="schedule_client_combo_id" data-native-menu="false">
                 	<option value=""></option>
-				</select>
+				</select>-->
 				
+                 <!-- List view-------------------->
+                <input id="schedule_client_combo_id" data-type="search" placeholder="Search">	
+                <ul id="schedule_client_combo_id_lv" data-role="listview" data-filter="true" data-input="#schedule_client_combo_id" data-inset="true">
+                </ul>                
+                <!-- List ---->
+                
 				<br/>
-				<a data-role="button" id="btn_schedule_ret" onClick="sheduledRetailerVisitNext();" >Next</a>
+				<!--<a data-role="button" id="btn_schedule_ret" onClick="sheduledRetailerVisitNext();" >Next</a>-->
                 <div align="center"><img id="wait_image_schedule_ret" style="" width="50px;" src="loading.gif" alt=""></div>
                 
                 <br/><br/>
@@ -545,15 +551,20 @@
             <div data-role="content">
 			
 				<div id="err_market_next" style="color:#C00"></div> 
-                
-                <!--<div id="unschedule_market_cmb_id"></div>-->
-				
-                <select name="market" id="unschedule_market_combo_id" data-native-menu="false">							
+                				
+                <!--<select name="market" id="unschedule_market_combo_id" data-native-menu="false">							
                     <option value="0" >Select Market</option>
-                </select>
+                </select>-->
+                
+                <input id="unschedule_market_combo_id" data-type="search"  placeholder="Search">
+				
+                <ul id="unschedule_market_combo_id_lv" data-role="listview" data-filter="true" data-input="#unschedule_market_combo_id" data-inset="true">
+                </ul>
+                
+                
                 
                 <br/><br/>
-                <a data-role="button" id="btn_unschedule_market" onClick="marketNext();">Next</a>
+                <!--<a data-role="button" id="btn_unschedule_market" onClick="marketNext();">Next</a>-->
                 <div align="center"><img id="wait_image_unschedule_market" style="" width="50px;" src="loading.gif" alt=""></div>
                     
                     
@@ -586,11 +597,15 @@
                 
                 <!--<div id="unscheduled_m_client_combo_id"></div>-->
                 
-				<select name="m_client_org_id" id="unscheduled_m_client_combo_id" data-native-menu="false">							
+				<!--<select name="m_client_org_id" id="unscheduled_m_client_combo_id" data-native-menu="false">							
 					<option value="0" > Select Retailer</option>
-				</select>
+				</select>-->
 				
-				<a data-role="button" id="btn_unschedule_market_ret" onClick="marketRetailerNext();">Next</a>
+                <input id="unscheduled_m_client_combo_id" data-type="search" placeholder="Search"> 				
+                <ul id="unscheduled_m_client_combo_id_lv" data-role="listview" data-filter="true" data-input="#unscheduled_m_client_combo_id" data-inset="true">
+                </ul>
+                
+				<!--<a data-role="button" id="btn_unschedule_market_ret" onClick="marketRetailerNext();">Next</a>-->
                 <div align="center"><img id="wait_image_unschedule_market_ret" style="" width="50px;" src="loading.gif" alt=""></div>
                 <br>
 				<br>
@@ -603,7 +618,7 @@
 			
 			
 		 </div><!--/page-->
-
+			
 
 
 <!--=====================client profile: Market Page==================-->
@@ -615,17 +630,25 @@
             </div>
 			
             <div data-role="content">
-			
 				<div id="err_market_next_cp" style="color:#C00"></div>
                 
-                <!--<div id="market_cmb_list_cp"></div>-->
-                 
-                <select name="market_cp" id="profile_market_cmb_id" data-native-menu="false">							
+                <!--<select name="market_cp" id="profile_market_cmb_id" data-native-menu="false">							
                     <option value="0" >Select Market</option>
-                </select>
+                </select>-->
+                
+              <!-- List Test -------------------->
+                <input id="profile_market_cmb_id" data-type="search"  placeholder="Search"> 
+				
+                <ul id="profile_market_cmb_id_lv" data-role="listview" data-filter="true" data-input="#profile_market_cmb_id" data-inset="true">
+                  <!--<li><a onClick="marketNextCProfileLV('Adele');">Adele</a></li>
+                  <li><a onClick="marketNextCProfileLV('Billy Pad-M01');">Billy</a></li>
+                  <li><a onClick="marketNextCProfileLV('Calvin-M02');">Calvin</a></li>-->                  
+                </ul>
+                
+                <!-- List ---->
                 
                 <br/><br/>
-                <a data-role="button" id="btn_profile_market" onClick="marketNextCProfile();">Next</a>
+                <!--<a data-role="button" id="btn_profile_market" onClick="marketNextCProfile();">Next</a>-->
                 <div align="center"><img id="wait_image_profile_market" style="" width="50px;" src="loading.gif" alt=""></div>
 				
                 
@@ -655,13 +678,20 @@
 				<br/>
                 
                 <!--<div id="profile_m_client_org_id"></div>-->
-				<select name="m_retailer" id="profile_client_id" data-native-menu="false">							
+				<!--<select name="m_retailer" id="profile_client_id" data-native-menu="false">							
 					<option value="0" > Select Retailer</option>
-				</select>
+				</select>-->
 				<br>
 				<br>
-
-				<a data-role="button" id="btn_profile_market_ret" onClick="marketRetailerNextCProfile();">Next</a>
+				
+                <!-- List view-------------------->
+                <input id="profile_client_id" data-type="search" placeholder="Search">			
+                <ul id="profile_client_id_lv" data-role="listview" data-filter="true" data-input="#profile_client_id" data-inset="true">
+                </ul>                
+                <!-- List ---->
+                
+				<!--<a data-role="button" id="btn_profile_market_ret" onClick="marketRetailerNextCProfile();">Next</a>-->
+                
                 <div align="center"><img id="wait_image_profile_market_ret" style="" width="50px;" src="loading.gif" alt=""></div>
 				
                 
@@ -714,41 +744,20 @@
      <h3>Profile</h3>
   </div>
   
-  <div data-role="content">
-  	
-    
+  <div data-role="content">  	
+    <div align="right"><img src="" width="100%" height="150px" alt="Shop Photo" id="clientProfileImage"></div>
   	<table width="100%">
-    	<tr><td>Market*</td><td><input type="text" name="" id="cp_marketnameid"  value="" style="background-color:#EAEAEA" readonly><input type="hidden" name="" id="cp_marketid"  value=""></td></tr>
-    	<tr><td>Retailer ID*</td><td><input type="text" name="" id="cp_id"  value="" style="background-color:#EAEAEA" readonly></td></tr>
-        <tr><td>Name*</td><td><input type="text" name="" id="cp_name"  value=""></td></tr>
+    	<tbody bgcolor="#BFDFDF">
+    	<tr style="border-color: #F33"><td style="border-color: #F33" >Market*</td><td><input type="text" name="" id="cp_marketnameid"  value="" style="background-color:#EAEAEA" readonly><input type="hidden" name="" id="cp_marketid"  value=""></td></tr>
+    	<tr style="border-color: #F33"><td style="border-color: #F33">Retailer ID*</td><td><input type="text" name="" id="cp_id"  value="" style="background-color:#EAEAEA" readonly></td></tr>
+        <tr style="border-color: #F33"><td style="border-color: #F33">Name*</td><td><input type="text" name="" id="cp_name"  value=""></td></tr>
         <tr><td>Address</td><td><input type="text" name="" id="cp_address"  value=""></td></tr>        
         <tr><td>Contact 1*</td><td><input type="text" name="" id="cp_contact1"  value=""></td></tr>
-        <tr><td>Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>
-        <tr><td><strong>Personal Info:</strong></td><td>&nbsp;</td></tr>
-        <tr><td>Owner Name*</td><td><input type="text" name="" id="cp_owner_name"  value=""></td></tr>
-        <tr><td>NID</td><td><input type="text" name="" id="cp_nid"  value=""></td></tr>
-        <tr><td>Passport</td><td><input type="text" name="" id="cp_Passport"  value=""></td></tr>
-        <tr><td>DOB</td><td><input type="date" name="" id="cp_dob"  value="" placeholder="YYYY-MM-DD"></td></tr>
-        <tr><td>DOM</td><td><input type="date" name="" id="cp_dom"  value="" placeholder="YYYY-MM-DD"></td></tr>
-        <tr><td>KIDs Info</td><td><input type="text" name="" id="cp_kidsinfo"  value=""></td></tr>
-        <tr><td>Hobby</td><td><input type="text" name="" id="cp_hobby"  value=""></td></tr>
-        <tr><td>Trade License*</td><td>
-        <select name="cp_trade_license" id="cp_trade_license" data-native-menu="false">
-            <option value="" >Select</option>
-            <option value="YES" >YES</option>
-            <option value="NO" >NO</option>
-        </select>
-        </td></tr>
-        <tr><td>Trade Licence No</td><td><input type="text" name="" id="cp_trade_licence_no"  value=""></td></tr>
-        <tr><td>VAT Registration*</td><td>
-        <select name="cp_vat_registration" id="cp_vat_registration" data-native-menu="false">
-            <option value="" >Select</option>
-            <option value="YES" >YES</option>
-            <option value="NO" >NO</option>
-        </select>
-        </td></tr>
-        <tr><td>VAT Reg.No</td><td><input type="text" name="" id="cp_vat_reg_no"  value=""></td></tr>
-        <tr><td><strong>Shop Info:</strong></td><td>&nbsp;</td></tr>
+        <tr><td>Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>        
+        </tbody>
+        
+        <tbody bgcolor="#DAF3F3">
+        <tr style="background-color:#CCC"><td><strong>Shop Info:</strong></td><td>&nbsp;</td></tr>
         <tr><td>Manager Name</td><td><input type="text" name="" id="cp_manager_name"  value=""></td></tr>
         <tr><td>Manager Cont.No</td><td><input type="text" name="" id="cp_manager_cont_no"  value=""></td></tr>
         <tr><td>Starting Year</td><td><input type="text" name="" id="cp_starting_year"  value=""></td></tr>
@@ -784,7 +793,35 @@
             <option value="ACTIVE" >ACTIVE</option>
             <option value="INACTIVE" >INACTIVE</option>
         </select>
+        </td></tr>               
+    	</tbody>
+        
+        <tbody bgcolor="#EAEBCF">        
+        <tr style="background-color:#CCC"><td><strong>Personal Info:</strong></td><td>&nbsp;</td></tr>
+        <tr><td>Owner Name*</td><td><input type="text" name="" id="cp_owner_name"  value=""></td></tr>
+        <tr><td>NID</td><td><input type="text" name="" id="cp_nid"  value=""></td></tr>
+        <tr><td>Passport</td><td><input type="text" name="" id="cp_Passport"  value=""></td></tr>
+        <tr><td>DOB</td><td><input type="date" name="" id="cp_dob"  value="" placeholder="YYYY-MM-DD"></td></tr>
+        <tr><td>DOM</td><td><input type="date" name="" id="cp_dom"  value="" placeholder="YYYY-MM-DD"></td></tr>
+        <tr><td>KIDs Info</td><td><input type="text" name="" id="cp_kidsinfo"  value=""></td></tr>
+        <tr><td>Hobby</td><td><input type="text" name="" id="cp_hobby"  value=""></td></tr>
+        <tr><td>Trade License*</td><td>
+        <select name="cp_trade_license" id="cp_trade_license" data-native-menu="false">
+            <option value="" >Select</option>
+            <option value="YES" >YES</option>
+            <option value="NO" >NO</option>
+        </select>
         </td></tr>
+        <tr><td>Trade Licence No</td><td><input type="text" name="" id="cp_trade_licence_no"  value=""></td></tr>
+        <tr><td>VAT Registration*</td><td>
+        <select name="cp_vat_registration" id="cp_vat_registration" data-native-menu="false">
+            <option value="" >Select</option>
+            <option value="YES" >YES</option>
+            <option value="NO" >NO</option>
+        </select>
+        </td></tr>
+        <tr><td>VAT Reg.No</td><td><input type="text" name="" id="cp_vat_reg_no"  value=""></td></tr>
+   		</tbody>
         
   	</table>
   	<br>
@@ -797,8 +834,6 @@
     <br>
     <br>
 	<br>
-    <br>
-    <br>
     <br>
     <br>
     <br>
@@ -822,8 +857,8 @@
 			<img src="" width="128" height="128" alt="" id="myImageProfile">
 			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden">	
             
-			<input type="hidden" name="lat_p" id="lat_p">
-			<input type="hidden" name="long_p" id="long_p">
+			<input type="text" name="lat_p" id="lat_p">
+			<input type="text" name="long_p" id="long_p">
             
             <!--<input type="text" name="urlpath" id="urlpath">-->
             
@@ -1079,8 +1114,8 @@
 			<img src="" width="128" height="128" alt="" id="myImage">
 			<input name="lscPhoto" id="lscPhoto"   type="hidden">
             
-			<input type="hidden" name="lat" id="lat">
-			<input type="hidden" name="long" id="long">
+			<input type="text" name="lat" id="lat">
+			<input type="text" name="long" id="long">
             
 			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>            
             
@@ -1140,14 +1175,20 @@
 				
                 <!--<div id="visit_plan_marketlist_combo"></div>-->
                 
-                <select name="visit_market" id="visit_market_cmb_id" data-native-menu="false">							
+                <!--<select name="visit_market" id="visit_market_cmb_id" data-native-menu="false">							
 					<option value="0" >Select Market</option>
-				</select>
+				</select>-->
                 
+                <!-- List view-------------------->
+                <input id="visit_market_cmb_id" data-type="search" placeholder="Search">			
+                <ul id="visit_market_cmb_id_lv" data-role="listview" data-filter="true" data-input="#visit_market_cmb_id" data-inset="true">
+                </ul>                
+                <!-- List ---->
                 
 				<br/><br/>	
                     				
-				<a data-role="button" id="btn_visit_plan_market" onClick="visitPlanMarketNext();" >Next</a>
+				<!--<a data-role="button" id="btn_visit_plan_market" onClick="visitPlanMarketNext();" >Next</a>-->
+                
 				<div align="center"><img id="wait_image_visit_plan_market" style="" width="50px;" src="loading.gif" alt=""></div>
             
             </div><!--/cont-->
@@ -1237,7 +1278,7 @@
 		<div data-role="content">
         	<div>Submitted Successfully</div>
         	
-            <a data-role="button" onClick="addVisitPlanMarketList();">Market</a>
+            <a data-role="button" href="#page_market_visit_plan" >Market</a><!--onClick="addVisitPlanMarketList();"-->
 			<br/>
 			<a data-role="button" href="#pageHome" >Home</a>
 			
@@ -1397,16 +1438,23 @@
 				<div id="err_distributor" style="color:#C00"></div>
 				 <input type="date" id="delivery_date" name="delivery_date" value="" placeholder="Select Date">
                  
-                 <!--<div id="delivery_distributor_cmb_list"></div>-->
-                 <select name="distributor" id="delivery_distributor_cmb_id" data-native-menu="false">							
-						<option value="0" >Select distributor</option>
-					</select>
-				     
+                 <!--<select name="distributor" id="delivery_distributor_cmb_id" data-native-menu="false">							
+                    <option value="0" >Select distributor</option>
+                </select>-->
+				  
+                  
+                  <!-- List view-------------------->
+                <input id="delivery_distributor_cmb_id" data-type="search" placeholder="Search">		
+                <ul id="delivery_distributor_cmb_id_lv" data-role="listview" data-filter="true" data-input="#delivery_distributor_cmb_id" data-inset="true">
+                </ul>                
+                <!-- List ---->
+                  
                                
 				<br/>
 				<br/>
 				
-				<a data-role="button" id="btn_delivery_dealer" onClick="distributorNext();" >Next</a>				
+				<!--<a data-role="button" id="btn_delivery_dealer" onClick="distributorNext();" >Next</a>	-->
+                			
                 <div align="center"><img id="wait_image_delivery_dealer" style="" width="50px;" src="loading.gif" alt=""></div>
                 
                 
@@ -1494,7 +1542,7 @@
 			<h3>Success</h3>
 	  </div>
 		<div data-role="content">        	
-			<a data-role="button" onClick="delivery();" >Another Distributor</a>
+			<a data-role="button" href="#page_del_conf" >Another Distributor</a><!--onClick="delivery();" -->
 			<br/>
 			<a data-role="button" href="#pageHome" >Home</a>
 			
@@ -1587,7 +1635,8 @@
 			</div>
 			
 		 </div><!--/page-->
-
+         
+		 <script type="text/javascript" src="phonegap.js"></script>
 
     </body>
 </html>

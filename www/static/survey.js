@@ -192,14 +192,14 @@ function check_user() {
 								var planMarketList = localStorage.marketListStr.split('<rd>');
 								var planMarketListShowLength=planMarketList.length	
 																
-								//var visitPlanMarketComb='<select name="visit_market" id="visit_market_cmb_id" data-native-menu="false">'
-								var visitPlanMarketComb='<option value="0" >Select Market</option>'
+								//var visitPlanMarketComb='<option value="0" >Select Market</option>'
+								var visitPlanMarketComb=''
 								
-								//var profileMarketComb='<select name="market_cp" id="market_cmb_id_cp" data-native-menu="false">'
-								var profileMarketComb='<option value="0" >Select Market</option>'
+								//var profileMarketComb='<option value="0" >Select Market</option>'
+								var profileMarketComb='';
 								
-								//var unscheduleMarketComb='<select name="market" id="market_cmb_id" data-native-menu="false">'
-								var unscheduleMarketComb='<option value="0" >Select Market</option>'
+								//var unscheduleMarketComb='<option value="0" >Select Market</option>'
+								var unscheduleMarketComb='';
 								
 								for (var k=0; k < planMarketListShowLength; k++){
 									var planMarketValueArray = planMarketList[k].split('<fd>');
@@ -207,39 +207,44 @@ function check_user() {
 									planMarketName=planMarketValueArray[1];
 									marketID=planMarketID
 									marketName=planMarketName
+									var marketNameID=planMarketName+'-'+planMarketID;
 									
 									if(planMarketID!=''){
-										visitPlanMarketComb+='<option value="'+planMarketName+'-'+planMarketID+'" >'+planMarketName+'-'+planMarketID+'</option>';
-										profileMarketComb+='<option value="'+marketName+'-'+marketID+'" >'+marketName+'-'+marketID+'</option>';	
-										unscheduleMarketComb+='<option value="'+marketName+'-'+marketID+'" >'+marketName+'-'+marketID+'</option>';									
+										//visitPlanMarketComb+='<option value="'+planMarketName+'-'+planMarketID+'" >'+planMarketName+'-'+planMarketID+'</option>';
+										//profileMarketComb+='<option value="'+marketName+'-'+marketID+'" >'+marketName+'-'+marketID+'</option>';	
+										//unscheduleMarketComb+='<option value="'+marketName+'-'+marketID+'" >'+marketName+'-'+marketID+'</option>';									
+										unscheduleMarketComb+='<li class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location" style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:thin"><a onClick="marketNextLV(\''+marketNameID+'\')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+marketNameID+'</a></li>';
+										visitPlanMarketComb+='<li class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location" style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:thin"><a onClick="visitPlanMarketNextLV(\''+marketNameID+'\')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+marketNameID+'</a></li>';
+										profileMarketComb+='<li class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location" style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:thin"><a onClick="marketNextCProfileLV(\''+marketNameID+'\')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+marketNameID+'</a></li>';
+										
 										}
 								}
-								//visitPlanMarketComb+='</select>'
-								//profileMarketComb+='</select>'
-								//unscheduleMarketComb+='</select>'
-								
-								localStorage.visit_plan_marketlist_combo=visitPlanMarketComb;
-								localStorage.market_cmb_list_cp=profileMarketComb;
+																
+								localStorage.visit_plan_marketlist_combo=visitPlanMarketComb;								
 								localStorage.unschedule_market_cmb_id=unscheduleMarketComb
+								localStorage.market_cmb_list_cp=profileMarketComb;
 								
 								//------------ Delivery Distributor Combo
 								var distributor_string=localStorage.distributorListStr;
 								var distributorList = distributor_string.split('<rd>');
 								var distributorListShowLength=distributorList.length
 								
-								//var deliveryDistributorCombo='<select name="distributor" id="distributor_cmb_id" data-native-menu="false">'
-								var deliveryDistributorCombo='<option value="0" >Select distributor</option>'
+								//var deliveryDistributorCombo='<option value="0" >Select distributor</option>'
+								var deliveryDistributorCombo=''
 								
 								for (var i=0; i < distributorListShowLength; i++){
 									var distributorValueArray = distributorList[i].split('<fd>');
 									distributorID=distributorValueArray[0];
 									distributorName=distributorValueArray[1];
+									var distributorNameID=distributorName+'-'+distributorID;
 									if (distributorID!=''){
-										deliveryDistributorCombo+='<option value="'+distributorName+'-'+distributorID+'" >'+distributorName+'-'+distributorID+'</option>';
+										//deliveryDistributorCombo+='<option value="'+distributorName+'-'+distributorID+'" >'+distributorName+'-'+distributorID+'</option>';
+										deliveryDistributorCombo+='<li class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location" style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:thin"><a onClick="distributorNextLV(\''+distributorNameID+'\')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+distributorNameID+'</a></li>';
 										}		
 								}								
 								//deliveryDistributorCombo+='</select>'								
 								localStorage.delivery_distributor_cmb_list=deliveryDistributorCombo
+								
 								//---------------
 								$("#error_login").html('');
 								$("#wait_image_login").hide();
@@ -314,6 +319,8 @@ function getScheduleDate(){
 
 //------------------------------------------- Schedule Visit: Get retailers
 function getSheduledRetailer(){	
+	$("#schedule_client_combo_id").val('');
+	
 	var search_date=$("#sch_date").val();
 	
 	if (search_date=='' || search_date==undefined){		
@@ -355,21 +362,23 @@ function getSheduledRetailer(){
 								var clientList = client_string.split('<rd>');
 								var clientListShowLength=clientList.length
 								
-								var schedule_client_combo='<option value="0" >Select Retailer</option>'						
+								//var schedule_client_combo='<option value="0" >Select Retailer</option>'
+								var schedule_client_combo=''			
 								for (var i=0; i < clientListShowLength; i++){
 									var clientValueArray = clientList[i].split('<fd>');
 									var clientID=clientValueArray[0];
 									var clientName=clientValueArray[1];
 									if (clientID!=''){
-										schedule_client_combo+='<option value="'+clientName+'-'+clientID+'" >'+clientName+'-'+clientID+'</option>';
+										//schedule_client_combo+='<option value="'+clientName+'-'+clientID+'" >'+clientName+'-'+clientID+'</option>';
+										schedule_client_combo+='<li class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location" style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:thin"><a onClick="sheduledRetailerVisitNextLV(\''+clientName+'-'+clientID+'\')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+clientName+'-'+clientID+'</a></li>';
 									}
 								}
 																
-								var schedule_client_combo_ob=$('#schedule_client_combo_id');
+								var schedule_client_combo_ob=$('#schedule_client_combo_id_lv');
 								schedule_client_combo_ob.empty();	
 								schedule_client_combo_ob.append(schedule_client_combo);			
 																
-								schedule_client_combo_ob[0].selectedIndex = 0;
+								//schedule_client_combo_ob[0].selectedIndex = 0;
 								
 								$(".s_date").html(search_date);
 								
@@ -382,9 +391,8 @@ function getSheduledRetailer(){
 								var url = "#page_scheduled_retailer";
 								$.mobile.navigate(url);	
 								
-								//location.reload();
-								
-								schedule_client_combo_ob.selectmenu("refresh");
+								//schedule_client_combo_ob.selectmenu("refresh");
+								schedule_client_combo_ob.listview("refresh");
 								
 							}else{						
 								$("#err_retailer_date_next").html('Server Error');
@@ -405,6 +413,11 @@ function getSheduledRetailer(){
 }
 
 //------------------------------------------ Schedule Visit: Next button; merchandizing
+function sheduledRetailerVisitNextLV(lvalue) {
+	$("#schedule_client_combo_id").val(lvalue);
+	sheduledRetailerVisitNext();	
+	}
+	
 function sheduledRetailerVisitNext() {
 	var search_date=$("#sch_date").val();
 	var visit_client=$("#schedule_client_combo_id").val();
@@ -491,27 +504,39 @@ function sheduledRetailerVisitNext() {
 function addMarketList() {
 	//$("#btn_unschedule_market").hide();
 	//$("#wait_image_unschedule_market").show();
-	
+	$("#unschedule_market_combo_id").val('');
 	
 	var unschedule_market_combo_list=localStorage.unschedule_market_cmb_id;
 	
 	//---
 	
-	var unschedule_market_combo_ob=$('#unschedule_market_combo_id');
+	/*var unschedule_market_combo_ob=$('#unschedule_market_combo_id');
 	unschedule_market_combo_ob.empty()
 	unschedule_market_combo_ob.append(unschedule_market_combo_list);
-	unschedule_market_combo_ob[0].selectedIndex = 0;
+	unschedule_market_combo_ob[0].selectedIndex = 0;*/
+	
+	var unschedule_market_combo_ob=$('#unschedule_market_combo_id_lv');
+	unschedule_market_combo_ob.empty()
+	unschedule_market_combo_ob.append(unschedule_market_combo_list);
 	
 	//-------	
 	var url = "#page_market";
 	$.mobile.navigate(url);
-	//location.reload();
-	unschedule_market_combo_ob.selectmenu("refresh");
+	//unschedule_market_combo_ob.selectmenu("refresh");
+	unschedule_market_combo_ob.listview("refresh");
 }
 
 //--------------------------------- Unsheduled visit: Client list by market id
 
+function marketNextLV(lvalue) {
+	$("#unschedule_market_combo_id").val(lvalue);
+	//alert(lvalue);
+	marketNext();	
+	}
+
 function marketNext() {
+	$("#unscheduled_m_client_combo_id").val('');
+	
 	market_name=$("#unschedule_market_combo_id").val();
 	
 	if(market_name=='' || market_name==0){
@@ -527,8 +552,6 @@ function marketNext() {
 			var marketNameId=market_name.split('-');
 			var market_Id=marketNameId[1];
 			
-			
-			//alert(apipath+'getMarketClientList?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&market_id='+market_Id);
 			//http://127.0.0.1:8000/lscmreporting/syncmobile/getMarketClientList?cid=LSCRM&rep_id=1001&rep_pass=123&synccode=7048&market_id=M000003
 			// ajax-------
 			$.ajax({
@@ -560,23 +583,28 @@ function marketNext() {
 								var mClientList = m_client_string.split('<rd>');
 								var mClientListShowLength=mClientList.length	
 								
-								var unscheduled_m_client_list='<option value="0" > Select Retailer</option>'
+								//var unscheduled_m_client_list='<option value="0" > Select Retailer</option>'
+								var unscheduled_m_client_list=''
 								for (var i=0; i < mClientListShowLength; i++){
 									var mClientValueArray = mClientList[i].split('<fd>');
 									var mClientID=mClientValueArray[0];
 									var mClientName=mClientValueArray[1];
 									if(mClientID!=''){
-										unscheduled_m_client_list+='<option value="'+mClientName+'-'+mClientID+'" >'+mClientName+'-'+mClientID+'</option>';
+										//unscheduled_m_client_list+='<option value="'+mClientName+'-'+mClientID+'" >'+mClientName+'-'+mClientID+'</option>';
+										unscheduled_m_client_list+='<li class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location" style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:thin"><a onClick="marketRetailerNextLV(\''+mClientName+'-'+mClientID+'\')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+mClientName+'-'+mClientID+'</a></li>';
 										}								
 								}
-								//---
+								//---class="ui-li-count" +'<img src="location.png" alt="" class="ui-li-icon ui-corner-none">'+'<img src="location.png" alt="">' 
 								
-								var unscheduled_m_client_combo_ob=$('#unscheduled_m_client_combo_id');
+								/*var unscheduled_m_client_combo_ob=$('#unscheduled_m_client_combo_id');
 								unscheduled_m_client_combo_ob.empty()
 								unscheduled_m_client_combo_ob.append(unscheduled_m_client_list);
-								unscheduled_m_client_combo_ob[0].selectedIndex = 0;
+								unscheduled_m_client_combo_ob[0].selectedIndex = 0;*/
 								
-								
+								var unscheduled_m_client_combo_ob=$('#unscheduled_m_client_combo_id_lv');
+								unscheduled_m_client_combo_ob.empty()
+								unscheduled_m_client_combo_ob.append(unscheduled_m_client_list);
+																
 								$(".market").html(market_name);
 								$(".visit_type").html(visit_type);								
 								$(".s_date").html(scheduled_date);
@@ -584,7 +612,8 @@ function marketNext() {
 								localStorage.visit_type=visit_type
 								localStorage.scheduled_date=scheduled_date
 								
-								//-----------------------------------								
+								//-----------------------------------		
+										
 								$("#err_market_next").text("");
 								$("#wait_image_unschedule_market").hide();		
 								$("#btn_unschedule_market").show();
@@ -593,9 +622,8 @@ function marketNext() {
 								var url = "#page_market_ret";	
 								$.mobile.navigate(url);
 								
-								//location.reload();
-								unscheduled_m_client_combo_ob.selectmenu("refresh");
-								
+								//unscheduled_m_client_combo_ob.selectmenu("refresh");
+								unscheduled_m_client_combo_ob.listview("refresh");
 								
 							}else{						
 								$("#err_market_next").html('Server Error');	
@@ -614,6 +642,12 @@ function marketNext() {
 }
 
 //--------------------------------- Unsheduled visit: retailer next
+function marketRetailerNextLV(lvalue) {
+	$("#unscheduled_m_client_combo_id").val(lvalue);
+	//alert(lvalue);
+	marketRetailerNext();	
+	}
+
 function marketRetailerNext() {
 	$("#err_m_retailer_next").text("");
 	visit_client=$("#unscheduled_m_client_combo_id").val();		
@@ -1319,7 +1353,7 @@ function lscVisitSubmit(){
 									$("#btn_visit_submit").show();
 									
 									//image upload function									
-									uploadPhotoV(lscPhoto, imageName);
+									//uploadPhotoV(lscPhoto, imageName);
 									//----
 								
 									var url = "#page_confirm_visit_success";	
@@ -1347,28 +1381,45 @@ function lscVisitSubmit(){
 
 //------------------- Client Profile: Page from home
 function addMarketListCp() {
+	$("#profile_market_cmb_id").val('');
+	
 	//$("#btn_profile_market").hide();
 	//$("#wait_image_profile_market").show();
 	
 	var market_cmb_list_cp=localStorage.market_cmb_list_cp;	
 	//---
-	
-	var profile_market_cmb_id_ob=$('#profile_market_cmb_id');
+	/*var profile_market_cmb_id_ob=$('#profile_market_cmb_id');
 	profile_market_cmb_id_ob.empty()
 	profile_market_cmb_id_ob.append(market_cmb_list_cp);
-	profile_market_cmb_id_ob[0].selectedIndex = 0;
+	profile_market_cmb_id_ob[0].selectedIndex = 0;*/
+	
+	//var market_cmb_list_cplv=localStorage.market_cmb_list_cplv;
+	var profile_market_cmb_id_oblv=$('#profile_market_cmb_id_lv');
+	profile_market_cmb_id_oblv.empty();
+	profile_market_cmb_id_oblv.append(market_cmb_list_cp);
 	
 	//-------
 	var url = "#page_market_clprofile";
 	$.mobile.navigate(url);
 	//location.reload();
-	profile_market_cmb_id_ob.selectmenu("refresh");
+	//profile_market_cmb_id_ob.selectmenu("refresh");
+	profile_market_cmb_id_oblv.listview("refresh");
 }
 
 
 //--------------------------------- Client Profile: Client list by market id
+
+function marketNextCProfileLV(lvalue) {
+	$("#profile_market_cmb_id").val(lvalue);
+	//alert(lvalue);
+	marketNextCProfile();
+	
+	}
+
+
 function marketNextCProfile() {
 	$("#err_market_next_cp").html('');
+	$("#profile_client_id").val('');
 	
 	var market_name=$("#profile_market_cmb_id").val();
 	
@@ -1412,34 +1463,42 @@ function marketNextCProfile() {
 								var mClientList = m_client_string.split('<rd>');
 								var mClientListShowLength=mClientList.length	
 								
-								//var profile_m_client_combo='<select name="m_retailer" id="m_client_org_id_cp" data-native-menu="false">'
-								var profile_m_client_combo='<option value="0" > Select Retailer</option>'
-								
+								//var profile_m_client_combo='<option value="0" > Select Retailer</option>'
+								var profile_m_client_combo=''
 								for (var i=0; i < mClientListShowLength; i++){
 									var mClientValueArray = mClientList[i].split('<fd>');
 									var mClientID=mClientValueArray[0];
 									var mClientName=mClientValueArray[1];
 									if(mClientID!=''){
-										profile_m_client_combo+='<option value="'+mClientName+'-'+mClientID+'" >'+mClientName+'-'+mClientID+'</option>';
+										//profile_m_client_combo+='<option value="'+mClientName+'-'+mClientID+'" >'+mClientName+'-'+mClientID+'</option>';
+										profile_m_client_combo+='<li class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location" style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:thin"><a onClick="marketRetailerNextCProfileLV(\''+mClientName+'-'+mClientID+'\')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+mClientName+'-'+mClientID+'</a></li>';
+										
 										}								
 								}								
 								//---
-								var profile_client_id_ob=$('#profile_client_id');
+								/*var profile_client_id_ob=$('#profile_client_id');
 								profile_client_id_ob.empty()
 								profile_client_id_ob.append(profile_m_client_combo);
-								profile_client_id_ob[0].selectedIndex = 0;
-																
+								profile_client_id_ob[0].selectedIndex = 0;*/
+								
+								var profile_client_id_ob=$('#profile_client_id_lv');
+								profile_client_id_ob.empty()
+								profile_client_id_ob.append(profile_m_client_combo);
+								
 								$(".market").html(market_name);								
 								
 								//---------	
 								$("#err_market_next_cp").html('');
 								$("#wait_image_profile_market").hide();		
 								$("#btn_profile_market").show();
-							
+								
+								//-----
 								var url = "#page_market_ret_cprofile";	
 								$.mobile.navigate(url);
-								//location.reload();
-								profile_client_id_ob.selectmenu("refresh");
+								//----
+								
+								//profile_client_id_ob.selectmenu("refresh");
+								profile_client_id_ob.listview("refresh");
 								
 							}else{						
 								$("#err_market_next_cp").html('Server Error');
@@ -1460,6 +1519,13 @@ function marketNextCProfile() {
 }
 
 //--------------------------------- Client Profile: retailer next
+
+function marketRetailerNextCProfileLV(lvalue) {
+	$("#profile_client_id").val(lvalue);
+	//alert(lvalue);
+	marketRetailerNextCProfile();	
+	}
+	
 function marketRetailerNextCProfile() {
 	$("#err_m_retailer_next_cp").text("");
 	$("#err_profile_next_cp").html('');
@@ -1570,6 +1636,11 @@ function marketRetailerNextCProfile() {
 								$("#cp_barge_number").val(clientProfileList[29]);
 								//$("#cp_status").val(clientProfileList[30]);
 								var cp_status=clientProfileList[30];
+								var client_photo_str=clientProfileList[31];
+								
+								var client_photo_strimage = document.getElementById('clientProfileImage');
+    							client_photo_strimage.src = client_photo_str;
+								//$("#clientProfileImage").src = client_photo_str;
 								
 								//------------------------------------------
 								var cp_trade_license_ob=$("#cp_trade_license");
@@ -1964,13 +2035,11 @@ function lscProfileSubmit(){
 			$("#btn_profile_update").hide();
 			$("#wait_image_profile_update").show();		
 			
-			//$("#urlpath").val(apipath+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+clientUpdateStr+'&lat='+lat+'&long='+long+'&profile_photo='+lscPhotoProfile);
-			
 			//alert(apipath+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+clientUpdateStr+'&lat='+lat+'&long='+long+'&profile_photo='+lscPhotoProfile)
 			// ajax-------
 			$.ajax({
 				 type: 'POST',
-				 url: apipath+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+clientUpdateStr+'&lat='+lat+'&long='+long+'&profile_photo='+imageName,
+				 url: apipath+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+clientUpdateStr+'&lat='+lat+'&long='+long+'&profile_photo='+imageName+'&profile_photo_str='+lscPhotoProfile,
 				 success: function(result) {
 						
 						//alert(result);
@@ -1999,7 +2068,7 @@ function lscProfileSubmit(){
 								$("#btn_profile_update").show();
 								
 								//image upload function								
-								uploadPhotoProfile(lscPhotoProfile, imageName);
+								//uploadPhotoProfile(lscPhotoProfile, imageName);
 								//----
 								
 								var url = "#page_profile_update_success";	
@@ -2025,30 +2094,38 @@ function lscProfileSubmit(){
 
 
 //----------------------------------Delivery:  Home page Delevery button
-function delivery() {
-	
+function delivery() {	
 	//$("#wait_image_delivery_dealer").show();		
 	//$("#btn_delivery_dealer").hide();
+	$("#delivery_distributor_cmb_id").val('');	
 	
 	var delivery_distributor_cmb_list=localStorage.delivery_distributor_cmb_list;
 	
-	//---
-	
-	var delivery_distributor_cmb_ob=$('#delivery_distributor_cmb_id');
+	//---	
+	/*var delivery_distributor_cmb_ob=$('#delivery_distributor_cmb_id');
 	delivery_distributor_cmb_ob.empty()
 	delivery_distributor_cmb_ob.append(delivery_distributor_cmb_list);
-	delivery_distributor_cmb_ob[0].selectedIndex = 0;
+	delivery_distributor_cmb_ob[0].selectedIndex = 0;*/
 	
+	var delivery_distributor_cmb_ob=$('#delivery_distributor_cmb_id_lv');
+	delivery_distributor_cmb_ob.empty()
+	delivery_distributor_cmb_ob.append(delivery_distributor_cmb_list);
+		
 	//-------	
 	var url = "#page_del_conf";
 	$.mobile.navigate(url);
-	//location.reload();
-	delivery_distributor_cmb_ob.selectmenu("refresh");
-	
+	//delivery_distributor_cmb_ob.selectmenu("refresh");
+	delivery_distributor_cmb_ob.listview("refresh");
 }
 
 
 //----------------------------------- delivery: Distributor Next button
+function distributorNextLV(lvalue) {
+	$("#delivery_distributor_cmb_id").val(lvalue);	
+	distributorNext();	
+	}
+
+
 function distributorNext() {	
 	$("#err_distributor").text("");
 	
@@ -2420,24 +2497,37 @@ var planRetailerArray=[]
 function addVisitPlanMarketList() {	
 	//$("#btn_visit_plan_market").hide();
 	//$("#wait_image_visit_plan_market").show();	
+	$("#plan_date").val('');
+	$("#visit_market_cmb_id").val('');
 	
 	var visit_market_cmb_list=localStorage.visit_plan_marketlist_combo;
 	
 	//---
-	var visit_market_cmb_id_ob=$('#visit_market_cmb_id');
+	/*var visit_market_cmb_id_ob=$('#visit_market_cmb_id');
 	visit_market_cmb_id_ob.empty()
 	visit_market_cmb_id_ob.append(visit_market_cmb_list);
-	visit_market_cmb_id_ob[0].selectedIndex = 0;
+	visit_market_cmb_id_ob[0].selectedIndex = 0;*/
+	
+	var visit_market_cmb_id_ob=$('#visit_market_cmb_id_lv');
+	visit_market_cmb_id_ob.empty()
+	visit_market_cmb_id_ob.append(visit_market_cmb_list);
 	
 	//-------	
 	var url = "#page_market_visit_plan";
 	$.mobile.navigate(url);
 	//location.reload();
-	visit_market_cmb_id_ob.selectmenu("refresh");
-		
+	//visit_market_cmb_id_ob.selectmenu("refresh");
+	visit_market_cmb_id_ob.listview("refresh");
+	
 }
 
 //----------------------------------Visit Plan: get client by market
+function visitPlanMarketNextLV(lvalue) {
+	$("#visit_market_cmb_id").val(lvalue);
+	//alert(lvalue);
+	visitPlanMarketNext();	
+	}
+
 function visitPlanMarketNext() {
 	$("#err_p_market").text("");
 	
@@ -2763,7 +2853,7 @@ function uploadPhotoProfile(imageURI, imageName) {
     params.value2 = "param";
 
     options.params = params;
-
+	
     var ft = new FileTransfer();
      ft.upload(imageURI, encodeURI(apipath+"fileUploaderProfile/"),winProfile,failProfile,options);
 	//ft.upload(imageURI, encodeURI("http://127.0.0.1:8000/welcome/wab_sync/fileUploader/"),win,fail,options);
