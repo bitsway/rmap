@@ -55,6 +55,7 @@
 		$("#wait_image_visit_plan_submit").hide();		
 		$("#btn_visit_plan_submit").show();
 		
+		$("#wait_image_visit_report").hide();
 		
 		first_page();
 		
@@ -62,7 +63,6 @@
 		$("#del_product_list_tbl").html(localStorage.product_tbl_del_str);
 		
 		$("#sch_date").val(localStorage.search_date);
-				
 		
 		// delivery qty refresh during client change
 		jQuery("#delivery_retailer_cmb_id").change(function(){	
@@ -78,6 +78,26 @@
 		
 		//------
 		
+		//===============Map=============
+		$("#desc").val(localStorage.map_desc);
+		$("#c_point").val(localStorage.c_point);		
+		//==============Map end===========
+		
+		
+		
+		//================== Redirect to visit page
+		if(localStorage.visit_page=="YES"){
+			$("#sch_date").val(localStorage.scheduled_date);
+			
+			$(".market").html(localStorage.visitMarketStr);
+			$(".visit_type").html(localStorage.visit_type);								
+			$(".s_date").html(localStorage.scheduled_date);
+			$(".visit_client").html(localStorage.visit_client);
+			mobile_off_flag=1;
+			
+			var url = "#page_visit";
+			$.mobile.navigate(url);		
+		}
 		
 	});
 	
@@ -420,7 +440,7 @@
 							<a onClick="delivery();" ><img src="d_confirmation.png"></a>
 						</div>
 						<div class="ui-block-b" style="text-align:center;">
-						 	 <a href="#page_rpt" ><img src="reports.png"></a>						
+						 	 <a href="#" ><img src="reports.png"></a>						
 						</div>					
 					</div>
 					<div class="ui-grid-a">
@@ -428,7 +448,7 @@
 							<a  onClick="addMarketListCp();"><img src="profile.png"></a>
 						</div>
 						<div class="ui-block-b" style="text-align:center;">
-						 	 <a href="#page_tsk" ><img src="task.png"></a>						
+						 	 <a href="#" ><img src="task.png"></a>						
 						</div>					
 					</div> 
 					<div class="ui-grid-a">
@@ -436,7 +456,7 @@
 							<a onClick="addVisitPlanMarketList();" ><img src="visit_plan.png"></a>
 						</div>
 						<div class="ui-block-b" style="text-align:center;">
-						 	 <a  href="#page_compl" ><img src="complain.png"></a>						
+						 	 <a  href="#" ><img src="complain.png"></a>						
 						</div>					
 					</div>                                 
                 </div>
@@ -668,24 +688,34 @@
             </div>
 			
             <div data-role="content">
-				
+				<!--<div id="map_path" style="color:#C00; visibility:hidden"></div>-->
+                
 				<div id="err_m_retailer_next_cp" style="color:#C00"></div>
-				<ul data-role="listview" data-inset="true">					
+				                
+                <table width="100%" style="background-color:#F2F2F2;">
+                	<tr>
+                    <td style="text-align:left"><div align="left">Market :<span class="market"></span></div></td>
+                    <td style="text-align:right"><div ><a  href="#"   onClick="marketNextCProfile_map();"><img id="wait_image_profile_market"  src="map_button.png" alt=""></a></div></td>
+                    </tr>
+                </table>
+                
+                <!--<ul data-role="listview" data-inset="true">					
 					<li style="background-color:#F2F2F2;">										
-						<div>Market :<span class="market"></span></div>
+						<div style="width:auto">Market :<span class="market"></span></div>
+                        <div style="width:auto" align="right"><a style="width:50px; height:70px" href="#page_market_ret_cprofile_map" onClick="marketNextCProfile_map();"><img id="wait_image_profile_market"  src="map_button.png" alt=""></a></div>
 					</li>
-				</ul>
+                    
+				</ul>-->
+                	
 				<br/>
                 
                 <!--<div id="profile_m_client_org_id"></div>-->
 				<!--<select name="m_retailer" id="profile_client_id" data-native-menu="false">							
 					<option value="0" > Select Retailer</option>
 				</select>-->
-				<br>
-				<br>
-				
+								
                 <!-- List view-------------------->
-                <input id="profile_client_id" data-type="search" placeholder="Search">			
+                <input  id="profile_client_id" data-type="search" placeholder="Search">		
                 <ul id="profile_client_id_lv" data-role="listview" data-filter="true" data-input="#profile_client_id" data-inset="true">
                 </ul>                
                 <!-- List ---->
@@ -694,7 +724,7 @@
                 
                 <div align="center"><img id="wait_image_profile_market_ret" style="" width="50px;" src="loading.gif" alt=""></div>
 				
-                
+                 
             </div><!--/cont-->
 			
 			<div data-theme="c" data-role="footer" data-position="fixed">
@@ -704,6 +734,36 @@
 			
 		 </div><!--/page-->
          
+<!--=====================market retailer Page Map View==================-->
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDu--SRHoHCMbwyIhDv29b_uTHkTa6sh3o&sensor=true&region=BD"></script>
+
+        
+        <div data-theme="c" data-role="page" id="page_market_ret_cprofile_map">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Market Retailer Map</h3>
+            </div>
+			
+            <div data-role="content">
+			
+				<input name="desc" id="desc" placesholder="" value="" type="hidden">
+                <input name="c_point" id="c_point" placesholder="" value="" type="hidden">
+                <!--<input name="desc" id="desc" placesholder="" value="MS Janata Traders,23.9079139,90.4002706,0rdrdMs Jenifer Nur Enterprise,23.9079139,90.4002706,1rdrdMsSunilTraders,23.8918234,90.4152323,4rdrdMs N.Islam,23.8917894,90.4152618,5rdrd" type="text">-->
+                <div id="map-canvas" style="height:400px; width:500px"></div></td>
+
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+			
+		 </div><!--/page-->
+         
+<!--         ===================map page end===================-->
 
 <!--=====================market visit Page==================-->
 		<div data-theme="c" data-role="page" id="page_visit">
@@ -716,31 +776,41 @@
             <div data-role="content">
 				<div id="myerror" style="color:#C00"></div>
 				<ul data-inset="true"  data-role="listview">
-					<li>
+					<li >
 						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;,&nbsp;<span class="s_date"></span></div>						
 						<div><b>Market :</b><span class="market"></span></div>
                         <div><b>Retailer :</b><span class="visit_client"></span></div>
 					</li>
 				</ul>
-				<a data-role="button" href="#market_info" >Market Info</a>
-				<a data-role="button" onClick="getOrder();" >Order</a>
-				<a data-role="button" onClick="getMarchandizing();">Marchandizing</a>
+                <ul data-inset="true"  data-role="listview" class="ui-nodisc-icon ui-alt-icon">
+					<li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium"><a data-role="button" class="ui-btn" style="text-align:center" onClick="getMarketInfo();" >Market Info</a></li>
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium"><a data-role="button" class="ui-btn" style="text-align:center" onClick="getOrder();" >Order</a></li>
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium"><a data-role="button" class="ui-btn" style="text-align:center" onClick="getMarchandizing();" >Marchandizing</a></li>
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium" ><a data-role="button" class="ui-btn" style="text-align:center" onClick="getVisitCampaign();" >Campaign</a></li>
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium" ><a data-role="button" class="ui-btn" style="text-align:center" href="#page_visit_rpt">Reports</a></li>
+                </ul>
+                
 				<br/>
-				<a data-role="button" href="#page_confirm" >Next</a>
+				<a data-role="button" href="#page_confirm" data-icon="arrow-r" data-iconpos="right" >Next</a>
+                
+                <br/><br/><br/><br/><br/><br/>
+                <button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-right ui-icon-delete" onClick="cancelVisitPage();" >Cancel</button>
+				
+                <br/>
+                
             </div><!--/cont-->
 			
 			<div data-theme="c" data-role="footer" data-position="fixed"></div>
 			
 			<!--panel-->	
 			
-			
 		 </div><!--/page-->
 
-<!--===========================dialog market info start=============-->
+<!--=========================== Profile =============-->
        
 <div data-theme="c" data-role="page" id="profile_update">
   <div data-theme="c" data-role="header" data-position="fixed">
-    <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+    <a data-role="button" data-rel="back" data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
      <h3>Profile</h3>
   </div>
   
@@ -847,7 +917,7 @@
 	<div data-theme="c" data-role="page" id="page_confirm_profile_update" >
 		<div data-theme="c" data-role="header" data-position="fixed" >
 		<a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " ><img src="menu.png"></a>
-			<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right" data-transition="slide">Back</a>
+			<a data-role="button" data-rel="back" data-icon="arrow-l" data-iconpos="left" class="ui-btn-right" data-transition="slide">Back</a>
 			<h3>Confirm Update</h3>
 	  </div>
 		<div data-role="content">
@@ -902,22 +972,20 @@
             </div>
 			
             <div data-role="content">
-			
 				<div id="myerror" style="color:#C00"></div>               
                  <ul data-inset="true"  data-role="listview">
 					<li>
 						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
 						<div><b>Market :</b><span class="market"></span></div>
-                        <div><b>Retailer :</b><span class="visit_client"></span></div>	                        					
-						
+                        <div><b>Retailer :</b><span class="visit_client"></span></div>
 					</li>					
 				</ul>
-				<input type="button" value="LSC" onClick="marketInfo('LSC');" data-transition="pop"/> 
-				<input type="button" value="Akij" onClick="marketInfo('Akij');" data-transition="pop"/>
-				<input type="button" value="7 Ring" onClick="marketInfo('7 Ring');" data-transition="pop"/>
-				<input type="button" value="Shah" onClick="marketInfo('Shah');" data-transition="pop"/>
-				<input type="button" value="Scan" onClick="marketInfo('Scan');" data-transition="pop"/>
-				
+                
+                 <!-- List view-------------------->		
+                <ul id="market_info_lv" data-role="listview" data-inset="true">
+                </ul>                
+                <!-- List ---->
+                
 				<br/>				
 				<a data-role="button" onClick="setMarketInfo();" >Done</a>
             </div><!--/cont-->
@@ -933,12 +1001,14 @@
     <h1>Market Info</h1>
   </div>
   <div data-role="main" class="ui-content">
+  
+  <div id="error_marketinfo_dialog" style="color:#C00"></div>    
   	<table>
     	<tr><td>Brand Name</td><td><input type="text" name="brand_name" id="brand_name"  value=""  style="background-color:#E1E1E1; font-weight:bold" readonly></td></tr>
+        <tr><td>Stock</td><td><input type="number" name="m_stock" id="m_stock"  style="background-color:#FFE6E6; font-weight:bold"  value=""></td></tr>
+        <tr><td>Price</td><td><input type="number" name="m_price" id="m_price"  style="background-color:#FFE6E6; font-weight:bold" value=""></td></tr>
         <tr><td>Monthly Sales</td><td><input type="number" name="m_sales" id="m_sales" value=""></td></tr>
-        <tr><td>Stock</td><td><input type="number" name="m_stock" id="m_stock"  value=""></td></tr>
         <tr><td>Credit Amount</td><td><input type="number" name="m_credit" id="m_credit"  value=""></td></tr>
-        <tr><td>Price</td><td><input type="number" name="m_price" id="m_price"  value=""></td></tr>
         <tr><td>Free Bag</td><td><input type="number" name="m_free_bag" id="m_free_bag"  value=""></td></tr>
         <tr><td>Retailer Commission</td><td><input type="number" name="m_ret_com" id="m_ret_com"  value=""></td></tr>
         <tr><td>Trade Promotion</td><td>
@@ -947,12 +1017,14 @@
             <option value="Yes" >Yes</option>
             <option value="No" >No</option>
         </select>
-                
+        
     	</td></tr>
         <tr><td>Remarks</td><td><input type="text" name="m_remarks" id="m_remarks"  value="" maxlength="100"></td></tr>
+               
     </table>
   	
-	<a  data-role="button" onClick="marketInfoAdd();">Add</a>
+	<a  data-role="button" onClick="marketInfoAdd();">Save</a><br/>
+    <a  data-role="button" onClick="marketInfoCancel();">Cancel</a>
   
     <br/><br/><br/><br/><br/><br/>
   </div>
@@ -1097,9 +1169,52 @@
 
   </div>
 
-
 </div> 
-		 
+		
+     <!--=====================Campaign Page==================-->
+		<div data-theme="c" data-role="page" id="page_campaign">
+            <div data-theme="c" data-role="header" data-position="fixed">			
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Campaign</h3>
+            </div>
+			
+            <div data-role="content">
+				<div id="error_visit_campaign" style="color:#C00"></div>
+				
+                <ul data-inset="true"  data-role="listview">
+					<li>
+						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
+						<div><b>Market :</b><span class="market"></span></div>
+                        <div><b>Retailer :</b><span class="visit_client"></span></div>                        
+					</li>					
+				</ul>
+                
+                <select name="visit_campaign_cmb_id" id="visit_campaign_cmb_id" data-native-menu="false">							
+                    <option value="0" >Select Offer</option>
+                </select>
+                <a data-role="button" onClick="addVisitCampaign();" >Add</a>                    
+				
+				<br/>
+				<table width="100%" cellpadding="2px" cellspacing="0" id="tbl_visit_campaign" class="tbl_preview">	
+					
+			    </table>
+				
+                <br>
+                <br>
+                  <a data-role="button" onClick="getVisitCampaignData();" >Done</a>
+                <br>
+             	
+                <br>
+                <br>
+                
+                <br>
+			
+            </div><!--/cont-->
+        
+        <div data-theme="c" data-role="footer" data-position="fixed"></div>			
+     </div><!--/page-->   
+     
+         
 	<!-- ------------- Visit Confirm  page -------------------- -->
 	<div data-theme="c" data-role="page" id="page_confirm" >
 		<div data-theme="c" data-role="header" data-position="fixed" >
@@ -1173,12 +1288,6 @@
 				<br/>
 				<input type="date" name="plan_date" id="plan_date" value="" placeholder="Date">
 				
-                <!--<div id="visit_plan_marketlist_combo"></div>-->
-                
-                <!--<select name="visit_market" id="visit_market_cmb_id" data-native-menu="false">							
-					<option value="0" >Select Market</option>
-				</select>-->
-                
                 <!-- List view-------------------->
                 <input id="visit_market_cmb_id" data-type="search" placeholder="Search">			
                 <ul id="visit_market_cmb_id_lv" data-role="listview" data-filter="true" data-input="#visit_market_cmb_id" data-inset="true">
@@ -1287,7 +1396,291 @@
 		<div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
 	</div>
 
-<!-- ===================== report Page================== -->
+
+
+
+<!--=====================delivery dealer==================-->
+		<div data-theme="c" data-role="page" id="page_del_conf">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Distributor</h3>
+            </div>
+			
+            <div data-role="content">				
+				<div id="err_distributor" style="color:#C00"></div>
+				 <input type="date" id="delivery_date" name="delivery_date" value="" placeholder="Select Date">
+                 
+                  <!-- List view-------------------->
+                <input id="delivery_distributor_cmb_id" data-type="search" placeholder="Search">		
+                <ul id="delivery_distributor_cmb_id_lv" data-role="listview" data-filter="true" data-input="#delivery_distributor_cmb_id" data-inset="true">
+                </ul>                
+                <!-- List ---->
+                
+				<br/>
+				<br/>
+				
+				<!--<a data-role="button" id="btn_delivery_dealer" onClick="distributorNext();" >Next</a>	-->
+                
+                <div align="center"><img id="wait_image_delivery_dealer" style="" width="50px;" src="loading.gif" alt=""></div>
+                
+            </div><!--/cont-->
+		
+		 </div><!--/page-->
+
+<!--=====================delivery confirm Page==================-->
+		<div data-theme="c" data-role="page" id="page_del_item">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Delivery</h3>
+            </div>
+			
+            <div data-role="content">
+				<div id="err_d_retailer" style="color:#C00"></div>
+				<ul data-role="listview" data-inset="true">					
+					<li style="background-color:#F2F2F2;">
+						<div><b>Delivery Date:</b><span class="delivery_dt"></span></div>
+						<div><b>Distributor :</b><span class="distributor"></span></div>
+					</li>
+				</ul>
+                               	
+                <select name="distributor_client" id="delivery_retailer_cmb_id" data-native-menu="false">							
+					<option value="0" >Select Retailer</option>
+			    </select>
+                
+				<div id="del_product_list_tbl"></div>
+				
+				<div id="#msg_add_delivery_item"></div>
+				<a data-role="button" onClick="addDeliveryItem();" >Add</a>
+				<br/>								
+				<a data-role="button" href="" onClick="previewDelivery();">Preview</a>
+				<br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                
+            </div><!--/cont-->
+		 </div><!--/page-->
+
+
+<!-- ===================== delivery preview Page================== -->
+		<div data-theme="c" data-role="page" id="page_del_preview">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Delivery Preview</h3>
+            </div>
+			
+            <div data-role="content">			
+				<div id="error_del_submit" style="color:#C00"></div>  
+				<div><b>Delivery Date:</b><span class="delivery_dt"></span></div>
+				<div><b>Distributor :</b><span class="distributor"></span></div>
+				
+				<table width="100%" cellpadding="2px" cellspacing="0" class="tbl_preview" id="tbl_delivery_item_prev">	
+					
+			    </table>
+				
+				<br>
+				<br>
+
+				<a data-role="button" id="btn_delivery_submit" onClick="deliverySubmit();" >Submit</a>
+                
+                <div align="center"><img id="wait_image_delivery_submit" width="50px;" src="loading.gif" alt=""></div>
+				
+                
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+		 
+		 <!-- ------------- Deliver Success -------------------- -->
+	<div data-theme="c" data-role="page" id="page_delivery_success" >
+		<div data-theme="c" data-role="header" data-position="fixed" >
+		<a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " ><img src="menu.png"></a>
+			<h3>Success</h3>
+	  </div>
+		<div data-role="content">        	
+			<a data-role="button" href="#page_del_conf" >Another Distributor</a><!--onClick="delivery();" -->
+			<br/>
+			<a data-role="button" href="#pageHome" >Home</a>
+			
+		</div>
+		
+		<div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
+	</div>
+
+
+<!-- ===================== Complain Page================== -->
+		<div data-theme="c" data-role="page" id="page_compl">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Complain</h3>
+            </div>
+			
+            <div data-role="content">			
+				<div id="myerror" style="color:#C00"></div>               
+				<br/>
+				<ul data-inset="true" data-role="listview">
+					<li>
+						<p>Date:2014-08-20 Ref:23456</p>
+						<p>Product: Supercrit</p>
+						<p style="font-weight:bold;">Sub: Les Weight for 10 bag</p>
+						<p>Status: Open</p>					
+					</li>
+					<li>
+						<p>Date:2014-08-20 Ref:23456</p>
+						<p>Product: Supercrit</p>
+						<p style="font-weight:bold;">Sub: Les Weight for 10 bag</p>
+						<p>Status: Open</p>	
+					</li>					
+				</ul>
+                
+				<a data-role="button" href="#" >Show</a>
+				<a data-role="button" href="#page_compl_new" >New</a>
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+		 
+<!-- ===================== Complain New Page================== -->
+		<div data-theme="c" data-role="page" id="page_compl_new">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Complain</h3>
+            </div>
+			
+            <div data-role="content">			
+				<div id="myerror" style="color:#C00"></div>
+				<textarea cols="50" rows="5" id="comp_new" name="comp_new" placeholder="Complain"></textarea>
+				<a data-role="button" href="#" >Submit</a>
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+
+<!-- ===================== Task Page================== -->
+		<div data-theme="c" data-role="page" id="page_tsk">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Task</h3>
+            </div>
+			
+            <div data-role="content">			
+				<div id="myerror" style="color:#C00"></div>               
+				
+				<ul data-inset="true" data-role="listview">
+					<li>
+						<p>Task</p>							
+					</li>
+					<li>
+						<p>Task</p>						
+					</li>					
+				</ul>
+				<a data-role="button" href="#" >Confirm</a>				
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+
+ <!-- ===================== Visit Repot ================== -->    	
+        <div data-theme="c" data-role="page" id="page_visit_rpt">
+            <div data-theme="c" data-role="header" data-position="fixed">			
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Visit-Report</h3>
+            </div>
+			
+            <div data-role="content">				
+				<div id="err_visit_rpt" style="color:#C00"></div>
+				 
+                 <ul data-inset="true"  data-role="listview">
+					<li>
+						<div><b>Market :</b><span class="market"></span></div>
+                        <div><b>Retailer :</b><span class="visit_client"></span></div>
+					</li>					
+				</ul>
+                
+                <br/>
+				<a data-role="button" onClick="visitCampaignRepot();">Campaign</a>
+				<a data-role="button" onClick="">Retailer Stock</a>
+                <a data-role="button" onClick="">Comparative Sales (3 Months)</a>
+                
+                <br>
+                <div align="center"><img id="wait_image_visit_report" width="50px;" src="loading.gif" alt=""></div>
+				
+                <!--<table style="width:100%" border="1" bordercolor="#DDF0E3" cellpadding="1px" cellspacing="1" id="tbl_visit_rpt_show" ></table>-->
+                <table id="tbl_visit_rpt_show"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999">
+                
+            </div><!--/cont-->		
+		 </div><!--/page-->
+<!-- =====================end Visit Repot ================== -->
+	
+    <!-- ===================== Report- Region================== -->
+    	
+        <div data-theme="c" data-role="page" id="page_region_rpt">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Region-Report</h3>
+            </div>
+			
+            <div data-role="content">				
+				<div id="err_region_rpt" style="color:#C00"></div>
+				 
+                 <select name="rpt_region_cmb_id" id="rpt_region_cmb_id" data-native-menu="false">							
+                    <option value="0" >Select Region</option>
+                </select>
+				                
+                <select name="rpt_region_month_cmb_id" id="rpt_region_month_cmb_id" data-native-menu="false">
+					 <option value="">Month</option>
+					 <option value="01">01</option>
+					 <option value="02">02</option>
+					 <option value="03">03</option>
+					 <option value="04">04</option>
+					 <option value="05">05</option>
+					 <option value="06">06</option>
+					 <option value="07">07</option>
+					 <option value="08">08</option>
+					 <option value="09">09</option>
+					 <option value="10">10</option>
+					 <option value="11">11</option>
+					 <option value="12">12</option>
+				</select>
+                
+                <br/>
+				<a data-role="button" href="#page_tar_ach" >Target & Achievement</a>
+				<a data-role="button" href="#page_today_st" >Status Today</a>
+                
+				<br/>
+				
+				<!--<a data-role="button" id="btn_delivery_dealer" onClick="distributorNext();" >Next</a>	-->
+                
+                <!--<div align="center"><img id="wait_image_region_rpt" style="" width="50px;" src="loading.gif" alt=""></div>-->
+                
+            </div><!--/cont-->
+		
+		 </div><!--/page-->
+    
+    
+    
+    
+    
 		<div data-theme="c" data-role="page" id="page_rpt">
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
@@ -1337,7 +1730,6 @@
 					 <option value="11">11</option>
 					 <option value="12">12</option>
 				</select>
-				
 				
 				<br/>
 				<a data-role="button" href="#page_tar_ach" >Target & Achievement</a>
@@ -1424,219 +1816,8 @@
 			
 		 </div><!--/page-->
 
-
-
-<!--=====================delivery dealer==================-->
-		<div data-theme="c" data-role="page" id="page_del_conf">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Distributor</h3>
-            </div>
-			
-            <div data-role="content">				
-				<div id="err_distributor" style="color:#C00"></div>
-				 <input type="date" id="delivery_date" name="delivery_date" value="" placeholder="Select Date">
-                 
-                 <!--<select name="distributor" id="delivery_distributor_cmb_id" data-native-menu="false">							
-                    <option value="0" >Select distributor</option>
-                </select>-->
-				  
-                  
-                  <!-- List view-------------------->
-                <input id="delivery_distributor_cmb_id" data-type="search" placeholder="Search">		
-                <ul id="delivery_distributor_cmb_id_lv" data-role="listview" data-filter="true" data-input="#delivery_distributor_cmb_id" data-inset="true">
-                </ul>                
-                <!-- List ---->
-                  
-                               
-				<br/>
-				<br/>
-				
-				<!--<a data-role="button" id="btn_delivery_dealer" onClick="distributorNext();" >Next</a>	-->
-                			
-                <div align="center"><img id="wait_image_delivery_dealer" style="" width="50px;" src="loading.gif" alt=""></div>
-                
-                
-                
-            </div><!--/cont-->
-		
-		 </div><!--/page-->
-
-<!--=====================delivery confirm Page==================-->
-		<div data-theme="c" data-role="page" id="page_del_item">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Delivery</h3>
-            </div>
-			
-            <div data-role="content">
-				<div id="err_d_retailer" style="color:#C00"></div>
-				<ul data-role="listview" data-inset="true">					
-					<li style="background-color:#F2F2F2;">
-						<div><b>Delivery Date:</b><span class="delivery_dt"></span></div>
-						<div><b>Distributor :</b><span class="distributor"></span></div>
-					</li>
-				</ul>
-                 
-              
-              	<!--<div id="delivery_retailer_cmb_list"></div>-->
-              	
-                <select name="distributor_client" id="delivery_retailer_cmb_id" data-native-menu="false">							
-						<option value="0" >Select Retailer</option>
-			    </select>
-                
-				<div id="del_product_list_tbl"></div>
-				
-                
-				<div id="#msg_add_delivery_item"></div>
-				<a data-role="button" onClick="addDeliveryItem();" >Add</a>
-				<br/>
-				<br/>
-				
-				<a data-role="button" href="" onClick="previewDelivery();">Preview</a>
-				
-            </div><!--/cont-->
-		
-		 </div><!--/page-->
-
-
-<!-- ===================== delivery preview Page================== -->
-		<div data-theme="c" data-role="page" id="page_del_preview">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Delivery Preview</h3>
-            </div>
-			
-            <div data-role="content">			
-				<div id="error_del_submit" style="color:#C00"></div>  
-				<div><b>Delivery Date:</b><span class="delivery_dt"></span></div>
-				<div><b>Distributor :</b><span class="distributor"></span></div>
-				
-				<table width="100%" cellpadding="2px" cellspacing="0" class="tbl_preview" id="tbl_delivery_item_prev">	
-					
-			    </table>
-				
-				<br>
-				<br>
-
-				<a data-role="button" id="btn_delivery_submit" onClick="deliverySubmit();" >Submit</a>
-                
-                <div align="center"><img id="wait_image_delivery_submit" width="50px;" src="loading.gif" alt=""></div>
-				
-                
-            </div><!--/cont-->
-			
-			<div data-theme="c" data-role="footer" data-position="fixed">
-			
-			</div>
-			
-		 </div><!--/page-->
-		 
-		 <!-- ------------- Deliver Success -------------------- -->
-	<div data-theme="c" data-role="page" id="page_delivery_success" >
-		<div data-theme="c" data-role="header" data-position="fixed" >
-		<a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " ><img src="menu.png"></a>
-			<h3>Success</h3>
-	  </div>
-		<div data-role="content">        	
-			<a data-role="button" href="#page_del_conf" >Another Distributor</a><!--onClick="delivery();" -->
-			<br/>
-			<a data-role="button" href="#pageHome" >Home</a>
-			
-		</div>
-		
-		<div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
-	</div>
-
-
-<!-- ===================== Complain Page================== -->
-		<div data-theme="c" data-role="page" id="page_compl">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Complain</h3>
-            </div>
-			
-            <div data-role="content">			
-				<div id="myerror" style="color:#C00"></div>               
-				<br/>
-				<ul data-inset="true" data-role="listview">
-					<li>
-						<p>Date:2014-08-20 Ref:23456</p>
-						<p>Product: Supercrit</p>
-						<p style="font-weight:bold;">Sub: Les Weight for 10 bag</p>
-						<p>Status: Open</p>					
-					</li>
-					<li>
-						<p>Date:2014-08-20 Ref:23456</p>
-						<p>Product: Supercrit</p>
-						<p style="font-weight:bold;">Sub: Les Weight for 10 bag</p>
-						<p>Status: Open</p>	
-					</li>
-					
-				</ul>
-				<a data-role="button" href="#" >Show</a>
-				<a data-role="button" href="#page_compl_new" >New</a>
-            </div><!--/cont-->
-			
-			<div data-theme="c" data-role="footer" data-position="fixed">
-			
-			</div>
-			
-		 </div><!--/page-->
-		 
-<!-- ===================== Complain New Page================== -->
-		<div data-theme="c" data-role="page" id="page_compl_new">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Complain</h3>
-            </div>
-			
-            <div data-role="content">			
-				<div id="myerror" style="color:#C00"></div>
-				<textarea cols="50" rows="5" id="comp_new" name="comp_new" placeholder="Complain"></textarea>
-				<a data-role="button" href="#" >Submit</a>
-            </div><!--/cont-->
-			
-			<div data-theme="c" data-role="footer" data-position="fixed">
-			
-			</div>
-			
-		 </div><!--/page-->
-
-<!-- ===================== Task Page================== -->
-		<div data-theme="c" data-role="page" id="page_tsk">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Task</h3>
-            </div>
-			
-            <div data-role="content">			
-				<div id="myerror" style="color:#C00"></div>               
-				
-				<ul data-inset="true" data-role="listview">
-					<li>
-						<p>Task</p>							
-					</li>
-					<li>
-						<p>Task</p>						
-					</li>					
-				</ul>
-				<a data-role="button" href="#" >Confirm</a>				
-            </div><!--/cont-->
-			
-			<div data-theme="c" data-role="footer" data-position="fixed">
-			
-			</div>
-			
-		 </div><!--/page-->
-         
-		 <script type="text/javascript" src="phonegap.js"></script>
-
+    
+    
+    
     </body>
 </html>
