@@ -1551,7 +1551,8 @@ function lscVisitSubmit(){
 	if (photoRequired=='Yes' && lscPhoto==''){
 		$("#errorChkVSubmit").html('Picture required, Because of Bad marchandizing');
 	}else{
-		var imageName=localStorage.user_id+'_'+now.toString()+'.jpg'
+		var imageName=localStorage.user_id+'_'+now.toString()+'.jpg';
+		
 		
 		if (lat=='' || lat==0 || long=='' || long==0){
 			$("#errorChkVSubmit").html('Location not Confirmed');		
@@ -1640,7 +1641,7 @@ function lscVisitSubmit(){
 										$("#btn_visit_submit").show();
 										
 										//image upload function									
-										//uploadPhotoV(lscPhoto, imageName);
+										uploadPhotoV(lscPhoto, imageName);
 										//----
 									
 										var url = "#page_confirm_visit_success";	
@@ -1927,7 +1928,8 @@ function marketRetailerNextCProfile() {
 								var client_photo_str=clientProfileList[31];
 								
 								var client_photo_strimage = document.getElementById('clientProfileImage');
-    							client_photo_strimage.src = client_photo_str;
+    							//http://e.businesssolutionapps.com/lscmreporting/static/client_pic/RS000017.jpg
+								client_photo_strimage.src = 'http://e.businesssolutionapps.com/lscmreporting/static/client_pic/'+client_photo_str;
 								//$("#clientProfileImage").src = client_photo_str;
 								
 								//------------------------------------------
@@ -2311,6 +2313,7 @@ function lscProfileSubmit(){
 	var client_id=$("#cp_id").val();
 	
 	var lscPhotoProfile=$("#lscPhotoProfile").val();
+	
 	var imageName=client_id+'.jpg'
 	
 	if (lat=='' || lat==0 || long=='' || long==0){
@@ -2327,7 +2330,7 @@ function lscProfileSubmit(){
 			// ajax-------
 			$.ajax({
 				 type: 'POST',
-				 url: apipath+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+clientUpdateStr+'&lat='+lat+'&long='+long+'&profile_photo='+imageName+'&profile_photo_str='+lscPhotoProfile,
+				 url: apipath+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+clientUpdateStr+'&lat='+lat+'&long='+long+'&profile_photo='+imageName+'&profile_photo_str=abc',
 				 success: function(result) {
 						
 						//alert(result);
@@ -2360,7 +2363,7 @@ function lscProfileSubmit(){
 								$("#btn_profile_update").show();
 								
 								//image upload function								
-								//uploadPhotoProfile(lscPhotoProfile, imageName);
+								uploadPhotoProfile(lscPhotoProfile, imageName);
 								//----
 								
 								var url = "#page_profile_update_success";	

@@ -829,8 +829,8 @@
         <tbody bgcolor="#DAF3F3">
         <tr style="background-color:#CCC"><td><strong>Shop Info:</strong></td><td>&nbsp;</td></tr>
         <tr><td>Manager Name</td><td><input type="text" name="" id="cp_manager_name"  value=""></td></tr>
-        <tr><td>Manager Cont.No</td><td><input type="text" name="" id="cp_manager_cont_no"  value=""></td></tr>
-        <tr><td>Starting Year</td><td><input type="text" name="" id="cp_starting_year"  value=""></td></tr>
+        <tr><td>Manager Cont.No</td><td><input type="number" name="" id="cp_manager_cont_no"  value=""></td></tr>
+        <tr><td>Starting Year</td><td><input type="number" name="" id="cp_starting_year"  value=""></td></tr>
         <tr><td>Category*</td><td>
         <select name="cp_Category" id="cp_Category" data-native-menu="false">
             <option value="" >Select</option>            
@@ -843,8 +843,8 @@
             <option value="NO" >NO</option>
         </select>
         </td></tr>
-        <tr><td>Monthly Sales Capacity</td><td><input type="text" name="" id="cp_monthly_sales_capacity"  value=""></td></tr>
-        <tr><td>Monthly Sales</td><td><input type="text" name="" id="cp_monthly_sales"  value=""></td></tr>
+        <tr><td>Monthly Sales Capacity</td><td><input type="number" name="" id="cp_monthly_sales_capacity"  value=""></td></tr>
+        <tr><td>Monthly Sales</td><td><input type="number" name="" id="cp_monthly_sales"  value=""></td></tr>
         <tr><td>Shop (Rented/Own)*</td><td>
         <select name="cp_shop_rent_own" id="cp_shop_rent_own" data-native-menu="false">
             <option value="" >Select</option>
@@ -852,11 +852,11 @@
             <option value="Own" >Own</option>
         </select>
         </td></tr>
-        <tr><td>Warehouse Capacity</td><td><input type="text" name="" id="cp_warehouse_capacity"  value=""></td></tr>
-        <tr><td>Shop Size (sqft)</td><td><input type="text" name="" id="cp_shop_size"  value=""></td></tr>
-        <tr><td>Shop Front Size (ft)</td><td><input type="text" name="" id="cp_shop_front_size"  value=""></td></tr>
-        <tr><td>Truck (Number)</td><td><input type="text" name="" id="cp_truck_number"  value=""></td></tr>
-        <tr><td>Barge (Number)</td><td><input type="text" name="" id="cp_barge_number"  value=""></td></tr>
+        <tr><td>Warehouse Capacity</td><td><input type="number" name="" id="cp_warehouse_capacity"  value=""></td></tr>
+        <tr><td>Shop Size (sqft)</td><td><input type="number" name="" id="cp_shop_size"  value=""></td></tr>
+        <tr><td>Shop Front Size (ft)</td><td><input type="number" name="" id="cp_shop_front_size"  value=""></td></tr>
+        <tr><td>Truck (Number)</td><td><input type="number" name="" id="cp_truck_number"  value=""></td></tr>
+        <tr><td>Barge (Number)</td><td><input type="number" name="" id="cp_barge_number"  value=""></td></tr>
         <tr><td>Status*</td><td>
         <select name="cp_status" id="cp_status" data-native-menu="false">
             <option value="" >Select</option>
@@ -869,7 +869,7 @@
         <tbody bgcolor="#EAEBCF">        
         <tr style="background-color:#CCC"><td><strong>Personal Info:</strong></td><td>&nbsp;</td></tr>
         <tr><td>Owner Name*</td><td><input type="text" name="" id="cp_owner_name"  value=""></td></tr>
-        <tr><td>NID</td><td><input type="text" name="" id="cp_nid"  value=""></td></tr>
+        <tr><td>NID</td><td><input type="number" name="" id="cp_nid"  value=""></td></tr>
         <tr><td>Passport</td><td><input type="text" name="" id="cp_Passport"  value=""></td></tr>
         <tr><td>DOB</td><td><input type="date" name="" id="cp_dob"  value="" placeholder="YYYY-MM-DD"></td></tr>
         <tr><td>DOM</td><td><input type="date" name="" id="cp_dom"  value="" placeholder="YYYY-MM-DD"></td></tr>
@@ -907,6 +907,12 @@
     <br>
     <br>
     <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     
   </div>
 
@@ -927,8 +933,8 @@
 			<img src="" width="128" height="128" alt="" id="myImageProfile">
 			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden">	
             
-			<input type="text" name="lat_p" id="lat_p">
-			<input type="text" name="long_p" id="long_p">
+			<input type="text" name="lat_p" id="lat_p" readonly>
+			<input type="text" name="long_p" id="long_p" readonly>
             
             <!--<input type="text" name="urlpath" id="urlpath">-->
             
