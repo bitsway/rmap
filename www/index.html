@@ -13,8 +13,78 @@
         <script src="static/jquery/1.10.2/jquery-1.10.2.min.js">   </script>
         <script src="static/jquery.mobile-1.4.0/jquery.mobile-1.4.0.min.js">   </script>
 		<script src="static/survey.js"></script>		
-	<script>
+		
+        <!--chart-->
+		<link rel="stylesheet" href="static/jchart/styles/jchartfx.css" type="text/css" />
+		<script src="static/jchart/js/jchartfx.system.js"></script>
+        <script src="static/jchart/js/jchartfx.coreVector.js"></script>
+        <script src="static/jchart/js/jchartfx.advanced.js"></script>
+        <script src="static/jchart/js/jchartfx.animation.js"></script>
+		
+        <style type="text/css">
+			.jchartfx .Title {
+				 font-size:12pt;
+				 font-weight: bold;
+				 color:#000000;
+				 /*color:#D8EBEB*/
+			}
+		</style>
+		<!--end chart-->
+    
+    <script type="text/javascript" language="javascript">   
+	var chart1;
+	var chart2;
+    function loadChart()
+      {
+		//------------------------Brand wise		
+		chart1 = new cfx.Chart();
+		chart1.getData().setSeries(1);
+		var series1 = chart1.getSeries().getItem(0);		
+		chart1.setGallery(cfx.Gallery.Pie);
+		
+		var title1 = new cfx.TitleDockable();
+		title1.setText("Retailer Stock");
+		title1.setAlignment(cfx.StringAlignment.Center);		
+		chart1.getTitles().add(title1);
+		
+		//chart1.getDataGrid().setVisible(true);
+		//chart1.getPoints().getItem(0, 2).setColor("#FC7474");
+		
+		var gb;
+		gb = new cfx.GradientBackground();
+		gb.setType(cfx.GradientType.BackwardDiagonal);
+		gb.setColorFrom("#DEEFEF");
+		gb.setColorTo("#D6EBEB");
+		gb.getPosition().add(0);
+		gb.getPosition().add(1);
+		gb.getPosition().add(2);		
+		chart1.setBackground(gb);
+		
+		//chart1.getBorder().setColor("#D8EBEB");
+		
+		/*var border1 = new cfx.VectorBorder();
+		border1.setTemplate("BorderRoundShadow");
+		chart1.setBorder(border1);*/
+		
+		//chart1.setBorder(null);
+		
+		var dataPtype= new Array();
+		dataPtype=eval($('#retailerStock').val());
+		
+		chart1.setDataSource(dataPtype);
+		chart1.getAllSeries().getPointLabels().setVisible(true);
+		chart1.getLegendBox().setVisible(false);
+		
+		var divHolder1 = document.getElementById('ChartDivRetStock');
+		chart1.create(divHolder1); 
+		
+		//---------------------------------------------------------
+				
+	}
+</script>
 	
+    
+	<script>	
 	$(document).ready(function(){
 		$("#wait_image_login").hide();
 		$("#loginButton").show();
@@ -57,6 +127,12 @@
 		
 		$("#wait_image_visit_report").hide();
 		
+		$("#wait_image_complain_submit").hide();
+		$("#btn_complain_submit").show();	
+		
+		$("#wait_image_region_report").hide();
+		
+		
 		first_page();
 		
 		$("#product_list_tbl").html(localStorage.product_tbl_str);
@@ -90,6 +166,7 @@
 			$("#sch_date").val(localStorage.scheduled_date);
 			
 			$(".market").html(localStorage.visitMarketStr);
+			$(".visit_distributor").html(localStorage.visit_distributor_nameid);
 			$(".visit_type").html(localStorage.visit_type);								
 			$(".s_date").html(localStorage.scheduled_date);
 			$(".visit_client").html(localStorage.visit_client);
@@ -242,60 +319,6 @@
     });
 		
 	
-	//------------------------------------- Profile Market Combo -----------------------------
-	/*$.mobile.document.on( "listviewcreate", "#profile_market_cmb_id-menu", function( e ) {
-        var input,
-            listbox = $( "#profile_market_cmb_id-listbox" ),
-            form = listbox.jqmData( "filter-form" ),
-            listview = $( e.target );
-        if ( !form ) {
-            input = $( "<input id='clientSearch' data-type='search'></input>" );
-            form = $( "<form></form>" ).append( input );
-            input.textinput();
-            $( "#profile_market_cmb_id-listbox" )
-                .prepend( form )
-                .jqmData( "filter-form", form );
-        }
-        listview.filterable({ input: input });
-    })
-    .on( "pagebeforeshow pagehide", "#profile_market_cmb_id-dialog", function( e ) {
-        var form = $( "#profile_market_cmb_id-listbox" ).jqmData( "filter-form" ),
-            placeInDialog = ( e.type === "pagebeforeshow" ),
-            destination = placeInDialog ? $( e.target ).find( ".ui-content" ) : $( "#profile_market_cmb_id-listbox" );
-        form
-            .find( "input" )
-            .textinput( "option", "inset", !placeInDialog )
-            .end()
-            .prependTo( destination );
-    });*/
-	
-	//------------------------------------- Profile Market client -----------------------------
-	/*$.mobile.document.on( "listviewcreate", "#profile_client_id-menu", function( e ) {
-        var input,
-            listbox = $( "#profile_client_id-listbox" ),
-            form = listbox.jqmData( "filter-form" ),
-            listview = $( e.target );
-        if ( !form ) {
-            input = $( "<input id='clientSearch' data-type='search'></input>" );
-            form = $( "<form></form>" ).append( input );
-            input.textinput();
-            $( "#profile_client_id-listbox" )
-                .prepend( form )
-                .jqmData( "filter-form", form );
-        }
-        listview.filterable({ input: input });
-    })
-    .on( "pagebeforeshow pagehide", "#profile_client_id-dialog", function( e ) {
-        var form = $( "#profile_client_id-listbox" ).jqmData( "filter-form" ),
-            placeInDialog = ( e.type === "pagebeforeshow" ),
-            destination = placeInDialog ? $( e.target ).find( ".ui-content" ) : $( "#profile_client_id-listbox" );
-        form
-            .find( "input" )
-            .textinput( "option", "inset", !placeInDialog )
-            .end()
-            .prependTo( destination );
-    });*/
-	
 	//------------------------------------- visit plan market -----------------------------
 	$.mobile.document.on( "listviewcreate", "#visit_market_cmb_id-menu", function( e ) {
         var input,
@@ -388,7 +411,6 @@
 	
     <body>
 	
-
 		<!-- =====================Home page=============== -->
 		<div data-theme="c" data-role="page" id="pageHome">
 			<div data-role="panel" id="routePanel" data-display="overlay" style="width:60%; background-color:#FFF">
@@ -421,12 +443,12 @@
             
 			<img style="width:100%; height:100px"  src="images_2.jpg">
             <div data-role="content">
-			
+				
 				<div id="myerror" style="color:#C00;">				
 				</div>
                 
                 <div data-role="fieldcontain"> 
-                
+                	
                 	<div class="ui-grid-a">
 						<div class="ui-block-a" style="text-align:center;" >
 							<a onClick="getScheduleDate();" ><img src="schedule_visit.png"></a> <!--onClick="getSheduledRetailer();"-->
@@ -435,28 +457,31 @@
 						 	 <a onClick="addMarketList();" ><img src="unschedule_visit.png"> </a>						
 						</div>
 					</div>
+                    
 					<div class="ui-grid-a">
 						<div class="ui-block-a" style="text-align:center;" >
 							<a onClick="delivery();" ><img src="d_confirmation.png"></a>
 						</div>
 						<div class="ui-block-b" style="text-align:center;">
-						 	 <a href="#" ><img src="reports.png"></a>						
-						</div>					
+						 	 <a  href="#page_complain" ><img src="complain.png"></a>
+						</div>
 					</div>
+                    
 					<div class="ui-grid-a">
 						<div class="ui-block-a" style="text-align:center;" >
 							<a  onClick="addMarketListCp();"><img src="profile.png"></a>
 						</div>
 						<div class="ui-block-b" style="text-align:center;">
-						 	 <a href="#" ><img src="task.png"></a>						
+						 	 <a href="#page_task" ><img src="task.png"></a>						
 						</div>					
-					</div> 
+					</div>
+                    
 					<div class="ui-grid-a">
 						<div class="ui-block-a" style="text-align:center;" >
 							<a onClick="addVisitPlanMarketList();" ><img src="visit_plan.png"></a>
 						</div>
 						<div class="ui-block-b" style="text-align:center;">
-						 	 <a  href="#" ><img src="complain.png"></a>						
+                             <a onClick="getRegionReport();"><img src="reports.png"></a>						
 						</div>					
 					</div>                                 
                 </div>
@@ -484,6 +509,10 @@
 				<div align="center"><img id="wait_image_login" style="" width="50px;" src="loading.gif" alt=""></div>
                                 
                 <br><br><br><br><br><br><br><br><br><br>
+                
+                <input name="clear_auth_check" id="clear_auth_check" data-mini="true" type="checkbox" value="Yes">
+                <label for="clear_auth_check">Confirm Clear Authorization</label>
+                
                 <a data-role="button" onClick="clear_autho();" >Clear Authorization</a>
                 <!--<a onClick="clear_autho()" href="#login">Clear Authorization</a>    -->          
                 <br><br><br><br><br><br>
@@ -503,7 +532,10 @@
                 <h3>Scheduled Date</h3>
             </div>
 			
-            <div data-role="content">
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Sch.Visit > Date</font></div><br>
+				
+            	
 				<div id="err_retailer_date_next" style="color:#C00"></div>
 				<input type="date" id="sch_date" name="sch_date" placeholder="Select Date" >
                 
@@ -527,10 +559,12 @@
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Scheduled Retailer</h3>
+                <h3>Retailer</h3>
             </div>
 			
-            <div data-role="content">
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Sch.Visit > Scheduled Retailer</font></div><br>
+				
 				
 				<div id="err_retailer_next" style="color:#C00"></div>               
                 
@@ -568,7 +602,9 @@
                 <h3>Market</h3>
             </div>
 			
-            <div data-role="content">
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Unsch.Visit > Market</font></div><br>
+				
 			
 				<div id="err_market_next" style="color:#C00"></div> 
                 				
@@ -602,10 +638,12 @@
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Market Retailer</h3>
+                <h3>Retailer</h3>
             </div>
 			
-            <div data-role="content">
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Unsch.Visit > Market > Retailer</font></div><br>
+				
 			
 				<div id="err_m_retailer_next" style="color:#C00"></div>
 				<ul data-role="listview" data-inset="true">					
@@ -649,7 +687,9 @@
                 <h3>Market</h3>
             </div>
 			
-            <div data-role="content">
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Profile > Market</font></div><br>
+				
 				<div id="err_market_next_cp" style="color:#C00"></div>
                 
                 <!--<select name="market_cp" id="profile_market_cmb_id" data-native-menu="false">							
@@ -660,9 +700,6 @@
                 <input id="profile_market_cmb_id" data-type="search"  placeholder="Search"> 
 				
                 <ul id="profile_market_cmb_id_lv" data-role="listview" data-filter="true" data-input="#profile_market_cmb_id" data-inset="true">
-                  <!--<li><a onClick="marketNextCProfileLV('Adele');">Adele</a></li>
-                  <li><a onClick="marketNextCProfileLV('Billy Pad-M01');">Billy</a></li>
-                  <li><a onClick="marketNextCProfileLV('Calvin-M02');">Calvin</a></li>-->                  
                 </ul>
                 
                 <!-- List ---->
@@ -684,11 +721,12 @@
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Market Retailer</h3>
+                <h3>Retailer</h3>
             </div>
 			
-            <div data-role="content">
-				<!--<div id="map_path" style="color:#C00; visibility:hidden"></div>-->
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Profile > Market > Retailer</font></div><br>
+				
                 
 				<div id="err_m_retailer_next_cp" style="color:#C00"></div>
 				                
@@ -779,7 +817,8 @@
 					<li >
 						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;,&nbsp;<span class="s_date"></span></div>						
 						<div><b>Market :</b><span class="market"></span></div>
-                        <div><b>Retailer :</b><span class="visit_client"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Retailer :</b><span class="visit_client" style="font-weight:bold"></span></div>
 					</li>
 				</ul>
                 <ul data-inset="true"  data-role="listview" class="ui-nodisc-icon ui-alt-icon">
@@ -787,7 +826,7 @@
                     <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium"><a data-role="button" class="ui-btn" style="text-align:center" onClick="getOrder();" >Order</a></li>
                     <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium"><a data-role="button" class="ui-btn" style="text-align:center" onClick="getMarchandizing();" >Marchandizing</a></li>
                     <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium" ><a data-role="button" class="ui-btn" style="text-align:center" onClick="getVisitCampaign();" >Campaign</a></li>
-                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium" ><a data-role="button" class="ui-btn" style="text-align:center" href="#page_visit_rpt">Reports</a></li>
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium" ><a data-role="button" class="ui-btn" style="text-align:center" onClick="getVisitReportPage();">Reports</a></li>
                 </ul>
                 
 				<br/>
@@ -807,57 +846,72 @@
 		 </div><!--/page-->
 
 <!--=========================== Profile =============-->
-       
+<style>
+.prof_label{	
+	font-size:13px
+	}
+</style>
 <div data-theme="c" data-role="page" id="profile_update">
   <div data-theme="c" data-role="header" data-position="fixed">
     <a data-role="button" data-rel="back" data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
      <h3>Profile</h3>
   </div>
   
-  <div data-role="content">  	
+  <div data-role="content"> 
+  	
     <div align="right"><img src="" width="100%" height="150px" alt="Shop Photo" id="clientProfileImage"></div>
-  	<table width="100%">
+    
+  	<ul data-inset="true"  data-role="listview">
+        <li>
+            <div><b>Market :</b> <span class="prof_market_class"></span></div>
+            <div><b>Distributor :</b> <span class="prof_distributor_class"></span></div>
+            <div><b>Retailer ID :</b> <span class="prof_retailer_class" style="font-weight:bold"></span></div>
+        </li>					
+    </ul>
+    
+    <table width="100%">
     	<tbody bgcolor="#BFDFDF">
-    	<tr style="border-color: #F33"><td style="border-color: #F33" >Market*</td><td><input type="text" name="" id="cp_marketnameid"  value="" style="background-color:#EAEAEA" readonly><input type="hidden" name="" id="cp_marketid"  value=""></td></tr>
-    	<tr style="border-color: #F33"><td style="border-color: #F33">Retailer ID*</td><td><input type="text" name="" id="cp_id"  value="" style="background-color:#EAEAEA" readonly></td></tr>
-        <tr style="border-color: #F33"><td style="border-color: #F33">Name*</td><td><input type="text" name="" id="cp_name"  value=""></td></tr>
-        <tr><td>Address</td><td><input type="text" name="" id="cp_address"  value=""></td></tr>        
-        <tr><td>Contact 1*</td><td><input type="text" name="" id="cp_contact1"  value=""></td></tr>
-        <tr><td>Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>        
-        </tbody>
+        <input type="hidden" name="" id="cp_marketid"  value="">
+        <input type="hidden" name="" id="cp_id"  value="" style="background-color:#EAEAEA" readonly>
+        
+    	<tr style="border-color: #F33"><td width="30%" class="prof_label" style="border-color: #F33">Name*</td><td><input type="text" name="" id="cp_name"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Address</td><td><input type="text" name="" id="cp_address"  value=""></td></tr>        
+        <tr><td width="30%" class="prof_label">Contact 1*</td><td><input type="text" name="" id="cp_contact1"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>        
+        <td width="30%" class="prof_label"></tbody>
         
         <tbody bgcolor="#DAF3F3">
-        <tr style="background-color:#CCC"><td><strong>Shop Info:</strong></td><td>&nbsp;</td></tr>
-        <tr><td>Manager Name</td><td><input type="text" name="" id="cp_manager_name"  value=""></td></tr>
-        <tr><td>Manager Cont.No</td><td><input type="number" name="" id="cp_manager_cont_no"  value=""></td></tr>
-        <tr><td>Starting Year</td><td><input type="number" name="" id="cp_starting_year"  value=""></td></tr>
-        <tr><td>Category*</td><td>
+        <tr style="background-color:#CCC"><td colspan="2"><strong>Shop Info:</strong></td></tr>
+        <tr><td width="30%" class="prof_label">Manager Name</td><td><input type="text" name="" id="cp_manager_name"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Manager Cont.No</td><td><input type="number" name="" id="cp_manager_cont_no"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Starting Year</td><td><input type="number" name="" id="cp_starting_year"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Category*</td><td>
         <select name="cp_Category" id="cp_Category" data-native-menu="false">
             <option value="" >Select</option>            
         </select>
         </td></tr>
-        <tr><td>LSC Covered ?*</td><td>
+        <tr><td width="30%" class="prof_label">LSC Covered ?*</td><td>
         <select name="cp_lsc_covered" id="cp_lsc_covered" data-native-menu="false">
             <option value="" >Select</option>
             <option value="YES" >YES</option>
             <option value="NO" >NO</option>
         </select>
         </td></tr>
-        <tr><td>Monthly Sales Capacity</td><td><input type="number" name="" id="cp_monthly_sales_capacity"  value=""></td></tr>
-        <tr><td>Monthly Sales</td><td><input type="number" name="" id="cp_monthly_sales"  value=""></td></tr>
-        <tr><td>Shop (Rented/Own)*</td><td>
+        <tr><td width="30%" class="prof_label">Monthly Sales Capacity</td><td><input type="number" name="" id="cp_monthly_sales_capacity"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Monthly Sales</td><td><input type="number" name="" id="cp_monthly_sales"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Shop (Rented/Own)*</td><td>
         <select name="cp_shop_rent_own" id="cp_shop_rent_own" data-native-menu="false">
             <option value="" >Select</option>
             <option value="Rented" >Rented</option>
             <option value="Own" >Own</option>
         </select>
         </td></tr>
-        <tr><td>Warehouse Capacity</td><td><input type="number" name="" id="cp_warehouse_capacity"  value=""></td></tr>
-        <tr><td>Shop Size (sqft)</td><td><input type="number" name="" id="cp_shop_size"  value=""></td></tr>
-        <tr><td>Shop Front Size (ft)</td><td><input type="number" name="" id="cp_shop_front_size"  value=""></td></tr>
-        <tr><td>Truck (Number)</td><td><input type="number" name="" id="cp_truck_number"  value=""></td></tr>
-        <tr><td>Barge (Number)</td><td><input type="number" name="" id="cp_barge_number"  value=""></td></tr>
-        <tr><td>Status*</td><td>
+        <tr><td width="30%" class="prof_label">Warehouse Capacity</td><td><input type="number" name="" id="cp_warehouse_capacity"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Shop Size (sqft)</td><td><input type="number" name="" id="cp_shop_size"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Shop Front Size (ft)</td><td><input type="number" name="" id="cp_shop_front_size"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Truck (Number)</td><td><input type="number" name="" id="cp_truck_number"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Barge (Number)</td><td><input type="number" name="" id="cp_barge_number"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Status*</td><td>
         <select name="cp_status" id="cp_status" data-native-menu="false">
             <option value="" >Select</option>
             <option value="ACTIVE" >ACTIVE</option>
@@ -867,30 +921,30 @@
     	</tbody>
         
         <tbody bgcolor="#EAEBCF">        
-        <tr style="background-color:#CCC"><td><strong>Personal Info:</strong></td><td>&nbsp;</td></tr>
-        <tr><td>Owner Name*</td><td><input type="text" name="" id="cp_owner_name"  value=""></td></tr>
-        <tr><td>NID</td><td><input type="number" name="" id="cp_nid"  value=""></td></tr>
-        <tr><td>Passport</td><td><input type="text" name="" id="cp_Passport"  value=""></td></tr>
-        <tr><td>DOB</td><td><input type="date" name="" id="cp_dob"  value="" placeholder="YYYY-MM-DD"></td></tr>
-        <tr><td>DOM</td><td><input type="date" name="" id="cp_dom"  value="" placeholder="YYYY-MM-DD"></td></tr>
-        <tr><td>KIDs Info</td><td><input type="text" name="" id="cp_kidsinfo"  value=""></td></tr>
-        <tr><td>Hobby</td><td><input type="text" name="" id="cp_hobby"  value=""></td></tr>
-        <tr><td>Trade License*</td><td>
+        <tr style="background-color:#CCC"><td colspan="2"><strong>Personal Info:</strong></td></tr>
+        <tr><td width="30%" class="prof_label">Owner Name*</td><td><input type="text" name="" id="cp_owner_name"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">NID</td><td><input type="number" name="" id="cp_nid"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Passport</td><td><input type="text" name="" id="cp_Passport"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">DOB</td><td><input type="date" name="" id="cp_dob"  value="" placeholder="YYYY-MM-DD"></td></tr>
+        <tr><td width="30%" class="prof_label">DOM</td><td><input type="date" name="" id="cp_dom"  value="" placeholder="YYYY-MM-DD"></td></tr>
+        <tr><td width="30%" class="prof_label">KIDs Info</td><td><input type="text" name="" id="cp_kidsinfo"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Hobby</td><td><input type="text" name="" id="cp_hobby"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Trade License*</td><td>
         <select name="cp_trade_license" id="cp_trade_license" data-native-menu="false">
             <option value="" >Select</option>
             <option value="YES" >YES</option>
             <option value="NO" >NO</option>
         </select>
         </td></tr>
-        <tr><td>Trade Licence No</td><td><input type="text" name="" id="cp_trade_licence_no"  value=""></td></tr>
-        <tr><td>VAT Registration*</td><td>
+        <tr><td width="30%" class="prof_label">Trade Licence No</td><td><input type="text" name="" id="cp_trade_licence_no"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">VAT Registration*</td><td>
         <select name="cp_vat_registration" id="cp_vat_registration" data-native-menu="false">
             <option value="" >Select</option>
             <option value="YES" >YES</option>
             <option value="NO" >NO</option>
         </select>
         </td></tr>
-        <tr><td>VAT Reg.No</td><td><input type="text" name="" id="cp_vat_reg_no"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">VAT Reg.No</td><td><input type="text" name="" id="cp_vat_reg_no"  value=""></td></tr>
    		</tbody>
         
   	</table>
@@ -904,6 +958,8 @@
     <br>
     <br>
 	<br>
+    <br>
+    <br>
     <br>
     <br>
     <br>
@@ -933,8 +989,8 @@
 			<img src="" width="128" height="128" alt="" id="myImageProfile">
 			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden">	
             
-			<input type="text" name="lat_p" id="lat_p" readonly>
-			<input type="text" name="long_p" id="long_p" readonly>
+			<input type="text" name="lat_p" id="lat_p" >
+			<input type="text" name="long_p" id="long_p" ><!--readonly-->
             
             <!--<input type="text" name="urlpath" id="urlpath">-->
             
@@ -983,7 +1039,8 @@
 					<li>
 						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
 						<div><b>Market :</b><span class="market"></span></div>
-                        <div><b>Retailer :</b><span class="visit_client"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Retailer :</b><span class="visit_client" style="font-weight:bold"></span></div>
 					</li>					
 				</ul>
                 
@@ -1052,7 +1109,8 @@
 					<li>
 						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
 						<div><b>Market :</b><span class="market"></span></div>
-                        <div><b>Retailer :</b><span class="visit_client"></span></div>                        
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Retailer :</b><span class="visit_client" style="font-weight:bold"></span></div>                        
 					</li>					
 				</ul>
 				<div id="product_list_tbl"></div>
@@ -1060,14 +1118,22 @@
                 <br>
                 <br>
 			  <a data-role="button" onClick="getOrderData();" >Done</a>
-			  <br>
-             
-			<!--<div id="order_data_show"></div>-->
-            
+			
+            <br>                        
             <br>
+            <br>            
+			<br>
+            <br>                        
             <br>
-            
-			 <!--<a data-role="button" href="#page_visit" >Done</a>-->
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
 			<br>
 			
             </div><!--/cont-->
@@ -1094,7 +1160,8 @@
 						<div style="float:left; width:80%" class="m_client"></div>
 						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
 						<div><b>Market :</b><span class="market"></span></div>
-                        <div><b>Retailer :</b><span class="visit_client"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Retailer :</b><span class="visit_client" style="font-weight:bold"></span></div>
 					</li>					
 				</ul>
                 
@@ -1191,7 +1258,8 @@
 					<li>
 						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
 						<div><b>Market :</b><span class="market"></span></div>
-                        <div><b>Retailer :</b><span class="visit_client"></span></div>                        
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Retailer :</b><span class="visit_client" style="font-weight:bold"></span></div>                        
 					</li>					
 				</ul>
                 
@@ -1235,8 +1303,8 @@
 			<img src="" width="128" height="128" alt="" id="myImage">
 			<input name="lscPhoto" id="lscPhoto"   type="hidden">
             
-			<input type="text" name="lat" id="lat">
-			<input type="text" name="long" id="long">
+			<input type="text" name="lat" id="lat" >
+			<input type="text" name="long" id="long" ><!--readonly-->
             
 			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>            
             
@@ -1288,7 +1356,9 @@
                 <h3>Market</h3>
             </div>
 			
-            <div data-role="content">				
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Visit Plan > Market</font></div><br>
+				
 				<div id="err_p_market" style="color:#C00"></div>
 				
 				<br/>
@@ -1321,10 +1391,12 @@
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Market Retailer</h3>
+                <h3>Visit Plan</h3>
             </div>
 			
-            <div data-role="content">
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Visit Plan > Market > Retailer Visit Plan</font></div><br>
+				
 				<div id="err_plan_visit" style="color:#C00"></div>	
 				<ul data-role="listview" data-inset="true">					
 					<li style="background-color:#F2F2F2;">
@@ -1410,10 +1482,12 @@
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Distributor</h3>
+                <h3>Distributor</h3>               
             </div>
-			
-            <div data-role="content">				
+            
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Sales > Distributor</font></div><br>
+				
 				<div id="err_distributor" style="color:#C00"></div>
 				 <input type="date" id="delivery_date" name="delivery_date" value="" placeholder="Select Date">
                  
@@ -1462,6 +1536,15 @@
 				<br/>								
 				<a data-role="button" href="" onClick="previewDelivery();">Preview</a>
 				<br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 <br/>
                 <br/>
                 <br/>
@@ -1522,7 +1605,28 @@
 
 
 <!-- ===================== Complain Page================== -->
-		<div data-theme="c" data-role="page" id="page_compl">
+		<div data-theme="c" data-role="page" id="page_complain">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Complain</h3>
+            </div>
+			
+            <div data-role="content">	
+            	<div id="error_complain_page" style="color:#C00"></div>	
+                	
+				<a data-role="button" onClick="getComplain()" >New</a>
+				<a data-role="button" onClick="showComplain()" >Show</a>
+				
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed"></div>
+			
+		 </div><!--/page-->
+         
+         
+         <!-- ===================== Complain Page================== -->
+		<div data-theme="c" data-role="page" id="page_complain_show">
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
@@ -1530,73 +1634,89 @@
             </div>
 			
             <div data-role="content">			
-				<div id="myerror" style="color:#C00"></div>               
-				<br/>
-				<ul data-inset="true" data-role="listview">
-					<li>
-						<p>Date:2014-08-20 Ref:23456</p>
-						<p>Product: Supercrit</p>
-						<p style="font-weight:bold;">Sub: Les Weight for 10 bag</p>
-						<p>Status: Open</p>					
-					</li>
-					<li>
-						<p>Date:2014-08-20 Ref:23456</p>
-						<p>Product: Supercrit</p>
-						<p style="font-weight:bold;">Sub: Les Weight for 10 bag</p>
-						<p>Status: Open</p>	
-					</li>					
-				</ul>
+				
+                <b>Complain</b>
                 
-				<a data-role="button" href="#" >Show</a>
-				<a data-role="button" href="#page_compl_new" >New</a>
+                <table id="tbl_show_complain"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                
+                
             </div><!--/cont-->
 			
-			<div data-theme="c" data-role="footer" data-position="fixed">
+			<div data-theme="c" data-role="footer" data-position="fixed"></div>			
+		 </div><!--/page-->
+         
+         
+<!-- ===================== Complain New Page================== -->
+		<div data-theme="c" data-role="page" id="page_complain_new">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Complain</h3>
+            </div>
 			
-			</div>
+            <div data-role="content">
+                <div id="error_complain" style="color:#C00"></div>    
+                <table width="100%">
+                    <tr><td>Complain Type</td><td>
+                    <select name="complain_type_id" id="complain_type_id" data-native-menu="false">                        
+                    </select>                    
+                    </td></tr>
+                    
+                    <tr><td>Complain From</td><td>
+                    <select name="complain_from_id" id="complain_from_id" data-native-menu="false">                        
+                    </select>
+                    </td></tr>
+                    
+                    <tr><td>Reference</td><td><input type="text" name="complain_ref" id="complain_ref"  value=""></td></tr>
+                    
+                    <tr><td>Details</td><td><textarea name="complain_details" id="complain_details" value=""></textarea></td></tr>
+                    
+                </table>
+                
+                <a data-role="button" id="btn_complain_submit" onClick="complainSubmit();" >Submit</a>            
+            	<div align="center"><img id="wait_image_complain_submit" style="" width="50px;" src="loading.gif" alt=""></div>
+				
+                <br/>
+                <br/><br/><br/><br/><br/><br/>
+                
+            </div><!--/cont-->
 			
+			<div data-theme="c" data-role="footer" data-position="fixed"></div>			
 		 </div><!--/page-->
 		 
-<!-- ===================== Complain New Page================== -->
-		<div data-theme="c" data-role="page" id="page_compl_new">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Complain</h3>
+         
+<!-- ------------- Complain Success -------------------- -->
+        <div data-theme="c" data-role="page" id="page_complain_success" >
+            <div data-theme="c" data-role="header" data-position="fixed" >
+            <a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " ><img src="menu.png"></a>
+                <h3>Success</h3>
+          </div>
+            <div data-role="content">
+                <div>Submitted Successfully</div>
+                
+                <a data-role="button" href="#page_complain" >Complain</a>
+                <br/>
+                <a data-role="button" href="#pageHome" >Home</a>
+                
             </div>
-			
-            <div data-role="content">			
-				<div id="myerror" style="color:#C00"></div>
-				<textarea cols="50" rows="5" id="comp_new" name="comp_new" placeholder="Complain"></textarea>
-				<a data-role="button" href="#" >Submit</a>
-            </div><!--/cont-->
-			
-			<div data-theme="c" data-role="footer" data-position="fixed">
-			
-			</div>
-			
-		 </div><!--/page-->
-
+            
+            <div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
+        </div>
+        
 <!-- ===================== Task Page================== -->
-		<div data-theme="c" data-role="page" id="page_tsk">
+		<div data-theme="c" data-role="page" id="page_task">
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
                 <h3>Task</h3>
             </div>
 			
-            <div data-role="content">			
-				<div id="myerror" style="color:#C00"></div>               
-				
-				<ul data-inset="true" data-role="listview">
-					<li>
-						<p>Task</p>							
-					</li>
-					<li>
-						<p>Task</p>						
-					</li>					
-				</ul>
-				<a data-role="button" href="#" >Confirm</a>				
+            <div data-role="content">		
+				<div id="error_task_page" style="color:#C00"></div>	
+                
+				<a data-role="button" onClick="showTask()" >Show Task List</a>
+                
+                
             </div><!--/cont-->
 			
 			<div data-theme="c" data-role="footer" data-position="fixed">
@@ -1604,7 +1724,30 @@
 			</div>
 			
 		 </div><!--/page-->
-
+		
+        <!-- ===================== show Task Page================== -->
+		<div data-theme="c" data-role="page" id="page_task_show">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Task</h3>
+            </div>
+			
+            <div data-role="content">
+            	<div id="error_task_list" style="color:#C00"></div>	
+                
+				<b>Task</b>
+                
+                <table id="tbl_show_task"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                <br>
+				<div align="center"><img id="wait_image_task_submit" style="" width="50px;" src="loading.gif" alt=""></div>
+                
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed"></div>			
+		 </div><!--/page-->
+         
+         
  <!-- ===================== Visit Repot ================== -->    	
         <div data-theme="c" data-role="page" id="page_visit_rpt">
             <div data-theme="c" data-role="header" data-position="fixed">			
@@ -1614,32 +1757,50 @@
 			
             <div data-role="content">				
 				<div id="err_visit_rpt" style="color:#C00"></div>
-				 
+				 <input type="hidden" value="" id="retailerSales"/>
+        		 <input type="hidden" value="" id="retailerStock"/>
+        		
                  <ul data-inset="true"  data-role="listview">
 					<li>
 						<div><b>Market :</b><span class="market"></span></div>
-                        <div><b>Retailer :</b><span class="visit_client"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Retailer :</b><span class="visit_client" style="font-weight:bold"></span></div>
 					</li>					
 				</ul>
                 
                 <br/>
-				<a data-role="button" onClick="visitCampaignRepot();">Campaign</a>
-				<a data-role="button" onClick="">Retailer Stock</a>
-                <a data-role="button" onClick="">Comparative Sales (3 Months)</a>
+				<a data-role="button" onClick="visitReport();">Show</a>				
                 
                 <br>
                 <div align="center"><img id="wait_image_visit_report" width="50px;" src="loading.gif" alt=""></div>
 				
                 <!--<table style="width:100%" border="1" bordercolor="#DDF0E3" cellpadding="1px" cellspacing="1" id="tbl_visit_rpt_show" ></table>-->
-                <table id="tbl_visit_rpt_show"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999">
                 
+                <table id="tbl_visit_rpt_show_campaign"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                
+                <br>                
+                <table id="tbl_visit_rpt_show_stock"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                
+                <div id="ChartDivRetStock" style="width:100%;height:300px"></div>
+               	
+                <br>                
+                <table id="tbl_visit_rpt_show_sales"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                 
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+                 <br>          
             </div><!--/cont-->		
+            
 		 </div><!--/page-->
 <!-- =====================end Visit Repot ================== -->
 	
     <!-- ===================== Report- Region================== -->
     	
-        <div data-theme="c" data-role="page" id="page_region_rpt">
+        <div data-theme="c" data-role="page" id="page_report">
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
@@ -1648,45 +1809,54 @@
 			
             <div data-role="content">				
 				<div id="err_region_rpt" style="color:#C00"></div>
-				 
-                 <select name="rpt_region_cmb_id" id="rpt_region_cmb_id" data-native-menu="false">							
+				
+                <select name="rpt_region_cmb_id" id="rpt_region_cmb_id" data-native-menu="false">							
                     <option value="0" >Select Region</option>
                 </select>
-				                
+				
                 <select name="rpt_region_month_cmb_id" id="rpt_region_month_cmb_id" data-native-menu="false">
 					 <option value="">Month</option>
-					 <option value="01">01</option>
-					 <option value="02">02</option>
-					 <option value="03">03</option>
-					 <option value="04">04</option>
-					 <option value="05">05</option>
-					 <option value="06">06</option>
-					 <option value="07">07</option>
-					 <option value="08">08</option>
-					 <option value="09">09</option>
-					 <option value="10">10</option>
-					 <option value="11">11</option>
-					 <option value="12">12</option>
+					 <option value="01">Jan</option>
+					 <option value="02">Feb</option>
+					 <option value="03">Mar</option>
+					 <option value="04">Apr</option>
+					 <option value="05">May</option>
+					 <option value="06">Jun</option>
+					 <option value="07">Jul</option>
+					 <option value="08">Aug</option>
+					 <option value="09">Sep</option>
+					 <option value="10">Oct</option>
+					 <option value="11">Nov</option>
+					 <option value="12">Dec</option>
 				</select>
                 
-                <br/>
-				<a data-role="button" href="#page_tar_ach" >Target & Achievement</a>
-				<a data-role="button" href="#page_today_st" >Status Today</a>
+                <br/><br/>
+                <a data-role="button" onClick="regionOrderReport();">Order</a>
+                <a data-role="button" onClick="regionSalesConfReport();">Sales Confirmed</a>
+                <a data-role="button" onClick="regionVisitSummaryReport();">Visit Summary</a>
+				<a data-role="button" onClick="regionTarVsAchReport();" >Target Vs Achievement</a>
+				<a data-role="button" onClick="regionTodaySummReport();">Today Summary</a>
                 
 				<br/>
 				
-				<!--<a data-role="button" id="btn_delivery_dealer" onClick="distributorNext();" >Next</a>	-->
+				<br>
+                <div align="center"><img id="wait_image_region_report" width="50px;" src="loading.gif" alt=""></div>
                 
-                <!--<div align="center"><img id="wait_image_region_rpt" style="" width="50px;" src="loading.gif" alt=""></div>-->
-                
+                <br>                
+                <table id="tbl_region_show_report"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                 
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+                 
+                 
+                 
             </div><!--/cont-->
 		
-		 </div><!--/page-->
-    
-    
-    
-    
-    
+		</div><!--/page-->
+		
+        
 		<div data-theme="c" data-role="page" id="page_rpt">
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
