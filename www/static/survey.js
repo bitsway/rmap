@@ -3932,7 +3932,7 @@ function exit() {
 
 //Image
 function getImage() {
-	navigator.camera.getPicture(onSuccessV, onFailV, { quality: 10,
+	navigator.camera.getPicture(onSuccessV, onFailV, { quality: 5,
 		destinationType: Camera.DestinationType.FILE_URI });
 }
 function onSuccessV(imageURI) {
@@ -3948,7 +3948,7 @@ function onFailV(message) {
 
 //image Profile
 function getImageProfile() {	
-	navigator.camera.getPicture(onSuccessProfile, onFailProfile, { quality: 10,
+	navigator.camera.getPicture(onSuccessProfile, onFailProfile, { quality: 5,
 		destinationType: Camera.DestinationType.FILE_URI });
 }
 function onSuccessProfile(imageURI) {
