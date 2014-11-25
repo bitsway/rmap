@@ -5,7 +5,7 @@
 //var apipath_base_photo_dm='http://localhost/dmpath/index.php?CID=LSCRM&HTTPPASS=e99business321cba'
 
 //var apipath_base_photo_dm='http://e.businesssolutionapps.com/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
-var apipath_base_photo_dm='http://e.businesssolutionapps.com/lscrmap/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
+var apipath_base_photo_dm='http://e.businesssolutionapps.com/lscrmap/syncmobile_new/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
 //var apipath_base_photo_dm='http://127.0.0.1:8000/lscmreporting/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
 
 
@@ -200,7 +200,7 @@ function check_user() {
 						base_url=resultArray[0]
 						photo_url=resultArray[1]
 						photo_submit_url=resultArray[2]
-						
+						alert (photo_submit_url)
 						//-------------
 						if(base_url=='' || photo_url==''){	
 							$("#wait_image_login").hide();
@@ -240,7 +240,7 @@ function check_user() {
 													$("#wait_image_login").hide();
 													$("#loginButton").show();								
 													$("#error_login").html(resultArray[1]);
-													
+													// $("#error_login").html(apipath_base_photo_dm);	
 												}else if (resultArray[0]=='SUCCESS'){
 													
 													localStorage.synccode=resultArray[1];
@@ -389,6 +389,7 @@ function check_user() {
 				  $("#loginButton").show();
 				  $("#error_login").html('Invalid Request to get Base URL');				  	
 			  }
+			  
 		});//end ajax
 		
 		//alert(base_url+','+photo_url+'2');
@@ -2464,6 +2465,7 @@ function lscProfileSubmit(){
 	}else{
 		
 		if (clientUpdateStr==''){
+			//alert (localStorage.photo_submit_url+"fileUploaderProfile/");
 			$("#errorConfirmProfileUpdate").html('Data not available');		
 		}else{
 			$("#btn_profile_update").hide();
@@ -2484,7 +2486,8 @@ function lscProfileSubmit(){
 							
 						}else{					
 							var resultArray = result.split('<SYNCDATA>');			
-							if (resultArray[0]=='FAILED'){						
+							if (resultArray[0]=='FAILED'){	
+								
 								$("#errorConfirmProfileUpdate").html(resultArray[1]);
 								$("#wait_image_profile_update").hide();		
 								$("#btn_profile_update").show();
@@ -2509,7 +2512,8 @@ function lscProfileSubmit(){
 								$("#wait_image_profile_update").hide();		
 								$("#btn_profile_update").show();
 								
-								//image upload function								
+								//image upload function			
+								
 								uploadPhotoProfile(lscPhotoProfile, imageName);
 								
 								//----
@@ -3932,7 +3936,7 @@ function exit() {
 
 //Image
 function getImage() {
-	navigator.camera.getPicture(onSuccessV, onFailV, { quality: 5,
+	navigator.camera.getPicture(onSuccessV, onFailV, { quality: 10,
 		destinationType: Camera.DestinationType.FILE_URI });
 }
 function onSuccessV(imageURI) {
@@ -3948,7 +3952,7 @@ function onFailV(message) {
 
 //image Profile
 function getImageProfile() {	
-	navigator.camera.getPicture(onSuccessProfile, onFailProfile, { quality: 5,
+	navigator.camera.getPicture(onSuccessProfile, onFailProfile, { quality: 10,
 		destinationType: Camera.DestinationType.FILE_URI });
 }
 function onSuccessProfile(imageURI) {
@@ -4011,6 +4015,7 @@ function uploadPhotoProfile(imageURI, imageName) {
     options.params = params;
 	
     var ft = new FileTransfer();
+	
      ft.upload(imageURI, encodeURI(localStorage.photo_submit_url+"fileUploaderProfile/"),winProfile,failProfile,options);
 }
 
@@ -4234,3 +4239,25 @@ function initialize() {
   
 }
 //=====================MAP End=====================
+
+function test_server() {
+	 $("#checkLocationProfileUpdate_test").html(localStorage.photo_submit_url+"fileUploaderProfile");
+//	=======================================================		
+			// ajax-------
+			$.ajax({
+				 type: 'POST',
+				 url: localStorage.photo_submit_url+"fileUploaderProfile",
+				 success: function(result) {
+						alert (result);
+						
+					  },
+				  error: function(result) {		
+				     alert ('ajax error')
+					//  $("#checkLocationProfileUpdate").html('Invalid Request');
+					 
+					  
+				  }
+			 });//end ajax
+
+//	=======================================================
+}
