@@ -5,9 +5,8 @@
 //var apipath_base_photo_dm='http://localhost/dmpath/index.php?CID=LSCRM&HTTPPASS=e99business321cba'
 
 //var apipath_base_photo_dm='http://e.businesssolutionapps.com/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
-var apipath_base_photo_dm='http://e.businesssolutionapps.com/lscrmap/syncmobile_new/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
-//var apipath_base_photo_dm='http://127.0.0.1:8000/lscmreporting/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
-
+var apipath_base_photo_dm='http://e.businesssolutionapps.com/lscrmap/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
+// var apipath_base_photo_dm='http://127.0.0.1:8000/lscmreporting/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
 
 var mobile_off_flag=0;
 
@@ -63,7 +62,7 @@ function cancelVisitPage(){
 }
 
 //================= Clear authorization
-function clear_autho(){	
+function clear_autho(){
 	var check_clear=$("input[name='clear_auth_check']:checked").val();
 	
 	if(check_clear!='Yes'){
@@ -93,7 +92,6 @@ function clear_autho(){
 		localStorage.marchandizingStr=''
 		localStorage.clientProfileStr=''
 		
-			
 		localStorage.product_tbl_str=''
 		
 		localStorage.product_tbl_del_str=''
@@ -167,7 +165,6 @@ function check_user() {
 	
 	
 	//-----
-	
 	if (user_id=="" || user_id==undefined || user_pass=="" || user_pass==undefined){
 		var url = "#login";      
 		$.mobile.navigate(url);
@@ -200,7 +197,7 @@ function check_user() {
 						base_url=resultArray[0]
 						photo_url=resultArray[1]
 						photo_submit_url=resultArray[2]
-						alert (photo_submit_url)
+						
 						//-------------
 						if(base_url=='' || photo_url==''){	
 							$("#wait_image_login").hide();
@@ -222,7 +219,6 @@ function check_user() {
 							localStorage.synced='NO'
 							
 							//alert(localStorage.base_url+'check_user?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode);
-							//http://127.0.0.1:8000/lscmreporting/syncmobile/check_user?cid=LSCRM&rep_id=1001&rep_pass=123&synccode=
 							
 							$.ajax({
 									 type: 'POST',
@@ -240,7 +236,7 @@ function check_user() {
 													$("#wait_image_login").hide();
 													$("#loginButton").show();								
 													$("#error_login").html(resultArray[1]);
-													// $("#error_login").html(apipath_base_photo_dm);	
+													
 												}else if (resultArray[0]=='SUCCESS'){
 													
 													localStorage.synccode=resultArray[1];
@@ -329,7 +325,6 @@ function check_user() {
 													localStorage.delivery_distributor_cmb_list=deliveryDistributorCombo
 													
 													//-------------
-													
 													var region_stringList = region_string.split('<rd>');
 													var region_stringListLength=region_stringList.length
 													
@@ -389,7 +384,6 @@ function check_user() {
 				  $("#loginButton").show();
 				  $("#error_login").html('Invalid Request to get Base URL');				  	
 			  }
-			  
 		});//end ajax
 		
 		//alert(base_url+','+photo_url+'2');
@@ -1749,8 +1743,7 @@ function lscVisitSubmit(){
 											if(brandName!=""){
 												var brandCharStr=brandName.replace(' ','').replace('-','').replace('.','');
 												localStorage[brandCharStr]='';	
-											}
-																														
+											}																														
 										}
 										
 										//-------------
@@ -1989,6 +1982,7 @@ function marketRetailerNextCProfile() {
 								var clientCatStr=resultArray[2];								
 								var clientProfileStr=resultArray[3];
 								var clientProfileDistributorStr=resultArray[4];
+								var clientThanaStr=resultArray[5];
 								
 								//------------------ Client Category
 								var clientCatStrList=clientCatStr.split('<fd>')								
@@ -2002,6 +1996,17 @@ function marketRetailerNextCProfile() {
 										}								
 								}
 								
+								//------------------ Client Thana
+								var clientThanaStrList=clientThanaStr.split('<fd>')								
+								var clientThanaStrListLength=clientThanaStrList.length									
+								//var ob2 = $("#cp_Category");
+								var cp_thanaOptions='';							
+								for (var m=0; m < clientThanaStrListLength; m++){
+									var clientDistThana = clientThanaStrList[m]									
+									if(clientDistThana!=''){
+										cp_thanaOptions+='<option value="'+clientDistThana+'" >'+clientDistThana+'</option>';
+										}								
+								}
 								
 								//--------
 								$(".prof_market_class").html(visitMarketStr);
@@ -2063,15 +2068,28 @@ function marketRetailerNextCProfile() {
 								var cp_status=clientProfileList[30];
 								var client_photo_str=clientProfileList[31];
 								
+								var thana=clientProfileList[32];
+								var district=clientProfileList[33];
+										
 								//--------------
-								var client_photo_strimage = document.getElementById('clientProfileImage');
-    							
 								//client_photo_strimage.src = 'http://e.businesssolutionapps.com/lscmreporting/static/client_pic/'+client_photo_str;
-								client_photo_strimage.src = localStorage.photo_url+'client_pic/'+client_photo_str;
 								
-								//$("#clientProfileImage").src = client_photo_str;
+								//var client_photo_strimage = document.getElementById('clientProfileImage');
+    							//client_photo_strimage.src = localStorage.photo_url+'client_pic/'+client_photo_str;
+								
+								
+								var clientShowImgName=localStorage.photo_url+'client_pic/'+client_photo_str+'?'+new Date().getTime();
+								$("#clientProfileImage").attr("src",clientShowImgName);
 								
 								//------------------------------------------
+								var distThana=district+'-'+thana;
+								
+								var districtThana_ob=$("#districtThana");
+								districtThana_ob.empty();								
+								districtThana_ob.append(cp_thanaOptions);	
+								districtThana_ob.val(distThana);
+								
+								//--------------------------------
 								var cp_trade_license_ob=$("#cp_trade_license");
 								cp_trade_license_ob.empty();
 								var cp_trade_licenseOption='<option value="" >Select</option><option value="YES" >YES</option><option value="NO" >NO</option>';
@@ -2116,7 +2134,8 @@ function marketRetailerNextCProfile() {
 								var url = "#profile_update";
 								$.mobile.navigate(url);
 								
-								//-----------------------								
+								//-----------------------	
+								districtThana_ob.selectmenu("refresh");					
 								cp_trade_license_ob.selectmenu("refresh");
 								cp_vat_registration_ob.selectmenu("refresh");
 								cp_Category_ob.selectmenu("refresh");
@@ -2199,10 +2218,15 @@ function prifileInfoNext(){
 	var cp_truck_number=$("#cp_truck_number").val();
 	var cp_barge_number=$("#cp_barge_number").val();
 	var cp_status=$("#cp_status").val();
+	var districtThana=$("#districtThana").val();
 	
-	if(cp_id=='' || cp_name=='' || cp_marketid==''|| cp_contact1=='' || cp_owner_name=='' || cp_trade_license=='' || cp_vat_registration=='' || cp_Category=='' || cp_lsc_covered=='' || cp_shop_rent_own=='' || cp_status==''){
+	if(cp_id=='' || cp_name=='' || cp_marketid==''|| cp_contact1=='' || districtThana=='' || districtThana==undefined || cp_owner_name=='' || cp_trade_license=='' || cp_vat_registration=='' || cp_Category=='' || cp_lsc_covered=='' || cp_shop_rent_own=='' || cp_status==''){
 		$("#err_profile_next_cp").html('Important Value Required');
 	}else{
+		var distThanaList=districtThana.split('-');		
+		var district=distThanaList[0];
+		var thana=distThanaList[1];
+		
 		
 		//------------------------ Contact 1 check
 		var contact1Flag=true;
@@ -2423,7 +2447,7 @@ function prifileInfoNext(){
 																	
 																	clientUpdateStr=cp_id+'<fd>'+cp_name+'<fd>'+cp_address+'<fd>'+cp_marketid+'<fd>'+cp_contact1+'<fd>'+cp_contact2+'<fd>'+
 																	cp_owner_name+'<fd>'+cp_nid+'<fd>'+cp_Passport+'<fd>'+cp_dob+'<fd>'+cp_dom+'<fd>'+cp_kidsinfo+'<fd>'+cp_hobby+'<fd>'+cp_trade_license+'<fd>'+cp_trade_licence_no+'<fd>'+cp_vat_registration+'<fd>'+cp_vat_reg_no+'<fd>'+
-																	cp_manager_name+'<fd>'+cp_manager_cont_no+'<fd>'+cp_starting_year+'<fd>'+cp_Category+'<fd>'+cp_lsc_covered+'<fd>'+cp_monthly_sales_capacity+'<fd>'+cp_monthly_sales+'<fd>'+cp_shop_rent_own+'<fd>'+cp_warehouse_capacity+'<fd>'+cp_shop_size+'<fd>'+cp_shop_front_size+'<fd>'+cp_truck_number+'<fd>'+cp_barge_number+'<fd>'+cp_status
+																	cp_manager_name+'<fd>'+cp_manager_cont_no+'<fd>'+cp_starting_year+'<fd>'+cp_Category+'<fd>'+cp_lsc_covered+'<fd>'+cp_monthly_sales_capacity+'<fd>'+cp_monthly_sales+'<fd>'+cp_shop_rent_own+'<fd>'+cp_warehouse_capacity+'<fd>'+cp_shop_size+'<fd>'+cp_shop_front_size+'<fd>'+cp_truck_number+'<fd>'+cp_barge_number+'<fd>'+cp_status+'<fd>'+thana+'<fd>'+district
 																	
 																	var url = "#page_confirm_profile_update";
 																	$.mobile.navigate(url);
@@ -2465,7 +2489,6 @@ function lscProfileSubmit(){
 	}else{
 		
 		if (clientUpdateStr==''){
-			//alert (localStorage.photo_submit_url+"fileUploaderProfile/");
 			$("#errorConfirmProfileUpdate").html('Data not available');		
 		}else{
 			$("#btn_profile_update").hide();
@@ -2486,8 +2509,7 @@ function lscProfileSubmit(){
 							
 						}else{					
 							var resultArray = result.split('<SYNCDATA>');			
-							if (resultArray[0]=='FAILED'){	
-								
+							if (resultArray[0]=='FAILED'){						
 								$("#errorConfirmProfileUpdate").html(resultArray[1]);
 								$("#wait_image_profile_update").hide();		
 								$("#btn_profile_update").show();
@@ -2512,8 +2534,7 @@ function lscProfileSubmit(){
 								$("#wait_image_profile_update").hide();		
 								$("#btn_profile_update").show();
 								
-								//image upload function			
-								
+								//image upload function								
 								uploadPhotoProfile(lscPhotoProfile, imageName);
 								
 								//----
@@ -4015,7 +4036,6 @@ function uploadPhotoProfile(imageURI, imageName) {
     options.params = params;
 	
     var ft = new FileTransfer();
-	
      ft.upload(imageURI, encodeURI(localStorage.photo_submit_url+"fileUploaderProfile/"),winProfile,failProfile,options);
 }
 
@@ -4239,25 +4259,3 @@ function initialize() {
   
 }
 //=====================MAP End=====================
-
-function test_server() {
-	 $("#checkLocationProfileUpdate_test").html(localStorage.photo_submit_url+"fileUploaderProfile");
-//	=======================================================		
-			// ajax-------
-			$.ajax({
-				 type: 'POST',
-				 url: localStorage.photo_submit_url+"fileUploaderProfile",
-				 success: function(result) {
-						alert (result);
-						
-					  },
-				  error: function(result) {		
-				     alert ('ajax error')
-					//  $("#checkLocationProfileUpdate").html('Invalid Request');
-					 
-					  
-				  }
-			 });//end ajax
-
-//	=======================================================
-}

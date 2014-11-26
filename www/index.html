@@ -859,7 +859,7 @@
   
   <div data-role="content"> 
   	
-    <div align="right"><img src="" width="100%" height="150px" alt="Shop Photo" id="clientProfileImage"></div>
+    <div align="right" width="100%" height="150px" ><img src="" width="100%" height="150px" alt="Shop Photo" id="clientProfileImage"></div>
     
   	<ul data-inset="true"  data-role="listview">
         <li>
@@ -877,8 +877,15 @@
     	<tr style="border-color: #F33"><td width="30%" class="prof_label" style="border-color: #F33">Name*</td><td><input type="text" name="" id="cp_name"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Address</td><td><input type="text" name="" id="cp_address"  value=""></td></tr>        
         <tr><td width="30%" class="prof_label">Contact 1*</td><td><input type="text" name="" id="cp_contact1"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>        
-        <td width="30%" class="prof_label"></tbody>
+        <tr><td width="30%" class="prof_label">Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">District-Thana*</td><td>        
+        <select name="districtThana" id="districtThana" data-native-menu="false">
+            <option value="" >Select</option>            
+        </select>
+        </td></tr>
+        
+        
+        </tbody>
         
         <tbody bgcolor="#DAF3F3">
         <tr style="background-color:#CCC"><td colspan="2"><strong>Shop Info:</strong></td></tr>
@@ -994,9 +1001,8 @@
             
             <!--<input type="text" name="urlpath" id="urlpath">-->
             
-			<a data-role="button" onClick="getLocationInfo();test_server();" >Confirm Location</a>
+			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>
 			<div id="checkLocationProfileUpdate" style="color:#FF0000;"></div>
-			<div id="checkLocationProfileUpdate_test" style="color:#FF0000;"></div>
 			<br/><br/>		
             	
 			<a data-role="button" id="btn_profile_update" onClick="lscProfileSubmit();" >Submit</a>            
