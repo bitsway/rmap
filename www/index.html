@@ -206,8 +206,7 @@
     });
 	
 	
-	//------------------------------------- Unschedule market combo -----------------------------
-	
+	//------------------------------------- Unschedule market combo -----------------------------	
 	$.mobile.document.on( "listviewcreate", "#unschedule_market_combo_id-menu", function( e ) {
         var input,
             listbox = $( "#unschedule_market_combo_id-listbox" ),
@@ -298,7 +297,7 @@
             form = listbox.jqmData( "filter-form" ),
             listview = $( e.target );
         if ( !form ) {
-            input = $( "<input id='clientSearch' data-type='search'></input>" );
+            input = $( "<input id='clientSearch' data-type='search'></input><br>" );
             form = $( "<form></form>" ).append( input );
             input.textinput();
             $( "#delivery_retailer_cmb_id-listbox" )
@@ -317,7 +316,34 @@
             .end()
             .prependTo( destination );
     });
-		
+	
+	//-------------------------------------District Thana -----------------------------
+	
+	$.mobile.document.on( "listviewcreate", "#districtThana-menu", function( e ) {
+        var input,
+            listbox = $( "#districtThana-listbox" ),
+            form = listbox.jqmData( "filter-form" ),
+            listview = $( e.target );
+        if ( !form ) {
+            input = $( "<input id='clientSearch' data-type='search'></input><br>" );
+            form = $( "<form></form>" ).append( input );
+            input.textinput();
+            $( "#districtThana-listbox" )
+                .prepend( form )
+                .jqmData( "filter-form", form );
+        }
+        listview.filterable({ input: input });
+    })
+    .on( "pagebeforeshow pagehide", "#districtThana-dialog", function( e ) {
+        var form = $( "#districtThana-listbox" ).jqmData( "filter-form" ),
+            placeInDialog = ( e.type === "pagebeforeshow" ),
+            destination = placeInDialog ? $( e.target ).find( ".ui-content" ) : $( "#districtThana-listbox" );
+        form
+            .find( "input" )
+            .textinput( "option", "inset", !placeInDialog )
+            .end()
+            .prependTo( destination );
+    });
 	
 	//------------------------------------- visit plan market -----------------------------
 	$.mobile.document.on( "listviewcreate", "#visit_market_cmb_id-menu", function( e ) {
@@ -373,7 +399,8 @@
             .end()
             .prependTo( destination );
     });
-		
+	
+	
 	
 	//------------------------------------- marchandizing Item  -----------------------------
 	
@@ -866,7 +893,7 @@
             <div><b>Market :</b> <span class="prof_market_class"></span></div>
             <div><b>Distributor :</b> <span class="prof_distributor_class"></span></div>
             <div><b>Retailer ID :</b> <span class="prof_retailer_class" style="font-weight:bold"></span></div>
-        </li>					
+        </li>
     </ul>
     
     <table width="100%">
@@ -878,7 +905,8 @@
         <tr><td width="30%" class="prof_label">Address</td><td><input type="text" name="" id="cp_address"  value=""></td></tr>        
         <tr><td width="30%" class="prof_label">Contact 1*</td><td><input type="text" name="" id="cp_contact1"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">District-Thana*</td><td>        
+        <tr><td width="30%" class="prof_label">District-Thana*</td><td> 
+               
         <select name="districtThana" id="districtThana" data-native-menu="false">
             <option value="" >Select</option>            
         </select>
@@ -994,10 +1022,10 @@
 			
 			<a data-role="button" onClick="getImageProfile();" >Take Picture</a>       
 			<img src="" width="128" height="128" alt="" id="myImageProfile">
-			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden">	
+			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden" value="">	
             
-			<input type="text" name="lat_p" id="lat_p" >
-			<input type="text" name="long_p" id="long_p" ><!--readonly-->
+			<input type="text" name="lat_p" id="lat_p" readonly>
+			<input type="text" name="long_p" id="long_p" readonly><!--readonly-->
             
             <!--<input type="text" name="urlpath" id="urlpath">-->
             
@@ -1308,10 +1336,10 @@
 			
 			<a data-role="button" onClick="getImage();" >Take Picture</a>       
 			<img src="" width="128" height="128" alt="" id="myImage">
-			<input name="lscPhoto" id="lscPhoto"   type="hidden">
+			<input name="lscPhoto" id="lscPhoto"   type="hidden" value="">
             
-			<input type="text" name="lat" id="lat" >
-			<input type="text" name="long" id="long" ><!--readonly-->
+			<input type="text" name="lat" id="lat" readonly>
+			<input type="text" name="long" id="long" readonly><!--readonly-->
             
 			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>            
             
@@ -1531,7 +1559,7 @@
 						<div><b>Distributor :</b><span class="distributor"></span></div>
 					</li>
 				</ul>
-                               	
+                
                 <select name="distributor_client" id="delivery_retailer_cmb_id" data-native-menu="false">							
 					<option value="0" >Select Retailer</option>
 			    </select>

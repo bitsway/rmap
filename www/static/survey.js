@@ -6,7 +6,7 @@
 
 //var apipath_base_photo_dm='http://e.businesssolutionapps.com/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
 var apipath_base_photo_dm='http://e.businesssolutionapps.com/lscrmap/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
-// var apipath_base_photo_dm='http://127.0.0.1:8000/lscmreporting/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
+//var apipath_base_photo_dm='http://127.0.0.1:8000/lscmreporting/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
 
 var mobile_off_flag=0;
 
@@ -2480,11 +2480,25 @@ function lscProfileSubmit(){
 	var long=$("#long_p").val();
 	var client_id=$("#cp_id").val();
 	
-	var lscPhotoProfile=$("#lscPhotoProfile").val();
-	
+	var lscPhotoProfile=$("#lscPhotoProfile").val();	
 	var imageName=client_id+'.jpg'
 	
-	if (lat=='' || lat==0 || long=='' || long==0){
+	//Check Photo
+	var imageUploadFlag=0;
+	if (lscPhotoProfile!=''){
+		imageUploadFlag=1;
+	}
+	
+	//Check Latlong
+	var latLongFlag=1;
+	if (imageUploadFlag==1){
+		if (lat=='' || lat==0 || long=='' || long==0){			
+			latLongFlag=0;
+		}
+	}
+	
+	
+	if (latLongFlag==0){
 		$("#errorConfirmProfileUpdate").html('Location not Confirmed');		
 	}else{
 		
@@ -2494,11 +2508,12 @@ function lscProfileSubmit(){
 			$("#btn_profile_update").hide();
 			$("#wait_image_profile_update").show();		
 			
+			
 			//alert(localStorage.base_url+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+encodeURI(clientUpdateStr)+'&lat='+lat+'&long='+long+'&profile_photo='+imageName+'&profile_photo_str=abc')
 			// ajax-------
 			$.ajax({
 				 type: 'POST',
-				 url: localStorage.base_url+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+encodeURI(clientUpdateStr)+'&lat='+lat+'&long='+long+'&profile_photo='+imageName+'&profile_photo_str=abc',
+				 url: localStorage.base_url+'updateClientProfile?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&client_data='+encodeURI(clientUpdateStr)+'&lat='+lat+'&long='+long+'&profile_photo_name='+imageName+'&profile_photo_str=abc&imageUploadFlag='+imageUploadFlag,
 				 success: function(result) {
 						
 						//alert(result);
@@ -2534,8 +2549,10 @@ function lscProfileSubmit(){
 								$("#wait_image_profile_update").hide();		
 								$("#btn_profile_update").show();
 								
-								//image upload function								
-								uploadPhotoProfile(lscPhotoProfile, imageName);
+								//image upload function		
+								if(imageUploadFlag==1){
+									uploadPhotoProfile(lscPhotoProfile, imageName);								
+								}						
 								
 								//----
 								var url = "#page_profile_update_success";	
