@@ -1,12 +1,9 @@
 
-//var apipath='http://e.businesssolutionapps.com/lscmreporting/syncmobile/';
-//var apipath='http://127.0.0.1:8000/lscmreporting/syncmobile/';
 
-//var apipath_base_photo_dm='http://localhost/dmpath/index.php?CID=LSCRM&HTTPPASS=e99business321cba'
 
-//var apipath_base_photo_dm='http://e.businesssolutionapps.com/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
-var apipath_base_photo_dm='http://e.businesssolutionapps.com/lscrmap/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
-//var apipath_base_photo_dm='http://127.0.0.1:8000/lscmreporting/syncmobile/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
+var apipath_base_photo_dm='http://e.businesssolutionapps.com/lscrmap/syncmobile2/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
+//var apipath_base_photo_dm='http://127.0.0.1:8000/lscmreporting/syncmobile2/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
+
 
 var mobile_off_flag=0;
 
@@ -23,8 +20,12 @@ function onSuccess(position) {
 	$("#lat_p").val(position.coords.latitude);
 	$("#long_p").val(position.coords.longitude);
 	
+	$("#lat_complain").val(position.coords.latitude);
+	$("#long_complain").val(position.coords.longitude);
+	
 	$("#checkLocation").html('Location Confirmed');
-	$("#checkLocationProfileUpdate").html('Location Confirmed');	
+	$("#checkLocationProfileUpdate").html('Location Confirmed');
+	$("#checkLocationComplain").html('Location Confirmed');	
 }
 
 function onError(error) {
@@ -34,8 +35,13 @@ function onError(error) {
 	$("#lat_p").val(0);
 	$("#long_p").val(0);
 	
+	$("#lat_complain").val(0);
+	$("#long_complain").val(0);
+	
 	$("#checkLocation").html('Location not found');
 	$("#checkLocationProfileUpdate").html('Location not found');
+	$("#checkLocationComplain").html('Location not found');
+	
 	}
 
 // -------------- If Not synced, Show login
@@ -157,7 +163,7 @@ function get_login() {
 							
 //========================= Longin: Check user
 function check_user() {
-	var user_id=$("#user_id").val();
+	var user_id=$("#user_id").val().toUpperCase();
 	var user_pass=$("#user_pass").val();
 	
 	var base_url='';
@@ -1768,7 +1774,7 @@ function lscVisitSubmit(){
 										//--
 										var url = "#page_confirm_visit_success";	
 										$.mobile.navigate(url);
-																				
+																		
 									}else{						
 										$("#errorChkVSubmit").html('Server Error');
 										$("#wait_image_visit_submit").hide();
@@ -2647,7 +2653,7 @@ function distributorNext() {
 					var distributorNameId=distributor_name.split('-');
 					var dealer_id=distributorNameId[1];
 					
-					//alert(localStorage.base_url+'getDistributorClientList?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&market_id='+market_Id);
+					//alert(localStorage.base_url+'getDistributorClientList?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&dealer_id='+dealer_id);
 					// ajax-------
 					$.ajax({
 						 type: 'POST',
@@ -3195,7 +3201,7 @@ function visitPlanSubmit(){
 		var market_Id=marketNameId[1];
 		planDate=localStorage.plan_date;
 		
-		//alert(localStorage.base_url+'setScheduleClientList?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&market_id='+market_Id);
+		//alert(localStorage.base_url+'setScheduleClientList?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&market_id='+market_Id+'&plan_date='+planDate+'&client_list='+plan_ret_list_str);
 		// ajax-------
 		$.ajax({
 			 type: 'POST',
@@ -3323,7 +3329,7 @@ function visitReport(){
 												
 						$("#tbl_visit_rpt_show_campaign").append(campaignData).trigger('create');						
 						$("#tbl_visit_rpt_show_stock").append(stockData).trigger('create');
-						$("#retailerStock").val(marketInfoStockList);
+						//$("#retailerStock").val(marketInfoStockList);
 						
 						$("#tbl_visit_rpt_show_sales").append(salesStrData).trigger('create');
 						
@@ -3347,7 +3353,8 @@ function visitReport(){
 //-------------------------------------
 
 function getComplain() {	
-	$("#error_complain").text("");
+	$("#error_complain").html('');
+	$("#checkLocationComplain").html('');
 	
 	var complain_type_string=localStorage.complain_type_string
 	var complain_from_string=localStorage.complain_from_string
@@ -3400,72 +3407,105 @@ function getComplain() {
 //=====
 function complainSubmit(){
 	$("#error_complain").html('');
+	$("#checkLocationComplain").html('');
 	
 	var complain_from=$("#complain_from_id").val();
 	var complain_ref=$("#complain_ref").val();
 	var complain_type=$("#complain_type_id").val();
 	var complain_details=$("#complain_details").val();
 	
-	if(complain_from=='' || complain_from==0){
-		$("#error_complain").html('Complain From Required');
-	}else{
-		if(complain_ref=='' || complain_ref==0){
-			$("#error_complain").html('Reference Required');	
-		}else{
-			if(complain_type=='' || complain_type==0){
-				$("#error_complain").html('Complain Type Required');	
-			}else{
-				
-				$("#btn_complain_submit").hide();
-				$("#wait_image_complain_submit").show();	
-				
-				//alert(localStorage.base_url+'complainSubmit?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&complain_from='+complain_from+'&complain_ref='+complain_ref+'&complain_type='+complain_type+'&complain_details='+complain_details)
-				
-				// ajax-------
-				$.ajax({
-					 type: 'POST',
-					 url: localStorage.base_url+'complainSubmit?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&complain_from='+complain_from+'&complain_ref='+complain_ref+'&complain_type='+complain_type+'&complain_details='+complain_details,
-					 success: function(result) {
-							
-							if (result==''){					
-								$("#err_visit_rpt").html('Sorry Network not available');
-								$("#wait_image_complain_submit").hide();
-								$("#btn_complain_submit").show();
-								
-							}else{					
-								var resultArray = result.split('<SYNCDATA>');			
-								if (resultArray[0]=='FAILED'){						
-									$("#error_complain").html(resultArray[1]);
-									$("#wait_image_complain_submit").hide();
-									$("#btn_complain_submit").show();
-									
-								}else if (resultArray[0]=='SUCCESS'){								
-									//-----------
-									$("#wait_image_complain_submit").hide();
-									$("#btn_complain_submit").show();
-									
-									var sl=resultArray[1]
-									
-									var url = "#page_complain_success";	
-									$.mobile.navigate(url);
-									
-									//----
-												
-								}else{						
-									$("#error_complain").html('Server Error');
-									$("#wait_image_complain_submit").hide();
-									$("#btn_complain_submit").show();
-									}
-							}
-						  },
-					  error: function(result) {			  
-						  $("#error_complain").html('Invalid Request');
-						  $("#wait_image_complain_submit").hide();
-						  $("#btn_complain_submit").show();
-					  }
-				 });//end ajax	
-			}
+	//------------------------
+	var lat=$("#lat_complain").val();
+	var long=$("#long_complain").val();
+		
+	var lscPhotoComplain=$("#lscPhotoComplain").val();	
+	var imageName=localStorage.user_id+'_'+new Date().getTime()+'.jpg';
+		
+	//Check Photo
+	var imageUploadFlag=0;
+	if (lscPhotoComplain!=''){
+		imageUploadFlag=1;
+	}
+	
+	//Check Latlong
+	var latLongFlag=1;
+	if (imageUploadFlag==1){
+		if (lat=='' || lat==0 || long=='' || long==0){			
+			latLongFlag=0;
 		}
+	}
+	
+	if (latLongFlag==0){
+		$("#error_complain").html('Location not Confirmed');		
+	}else{
+		
+		//----
+		if(complain_from=='' || complain_from==0){
+			$("#error_complain").html('Complain From Required');
+		}else{
+			if(complain_ref=='' || complain_ref==0){
+				$("#error_complain").html('Reference Required');	
+			}else{
+				if(complain_type=='' || complain_type==0){
+					$("#error_complain").html('Complain Type Required');	
+					}else{					
+						$("#btn_complain_submit").hide();
+						$("#wait_image_complain_submit").show();	
+						
+						//alert(localStorage.base_url+'complainSubmit?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&complain_from='+complain_from+'&complain_ref='+complain_ref+'&complain_type='+complain_type+'&complain_details='+complain_details+'&lat='+lat+'&long='+long+'&photo_name='+imageName)
+						
+						// ajax-------
+						$.ajax({
+							 type: 'POST',
+							 url: localStorage.base_url+'complainSubmit?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&complain_from='+complain_from+'&complain_ref='+complain_ref+'&complain_type='+complain_type+'&complain_details='+complain_details+'&lat='+lat+'&long='+long+'&photo_name='+imageName,
+							 success: function(result) {
+									
+									if (result==''){					
+										$("#err_visit_rpt").html('Sorry Network not available');
+										$("#wait_image_complain_submit").hide();
+										$("#btn_complain_submit").show();
+										
+									}else{					
+										var resultArray = result.split('<SYNCDATA>');			
+										if (resultArray[0]=='FAILED'){						
+											$("#error_complain").html(resultArray[1]);
+											$("#wait_image_complain_submit").hide();
+											$("#btn_complain_submit").show();
+											
+										}else if (resultArray[0]=='SUCCESS'){								
+											//-----------
+											$("#wait_image_complain_submit").hide();
+											$("#btn_complain_submit").show();
+											
+											var sl=resultArray[1]
+											
+											//image upload function		
+											if(imageUploadFlag==1){
+												uploadPhotoComplain(lscPhotoComplain, imageName);								
+											}
+											//----
+											
+											var url = "#page_complain_success";	
+											$.mobile.navigate(url);
+											
+											//----
+														
+										}else{						
+											$("#error_complain").html('Server Error');
+											$("#wait_image_complain_submit").hide();
+											$("#btn_complain_submit").show();
+											}
+									}
+								  },
+							  error: function(result) {			  
+								  $("#error_complain").html('Invalid Request');
+								  $("#wait_image_complain_submit").hide();
+								  $("#btn_complain_submit").show();
+							  }
+						 });//end ajax	
+					}
+		}
+	 }
 	}
   }
 
@@ -3500,6 +3540,11 @@ function showComplain(){
 						
 						
 						$("#tbl_show_complain").append(resData).trigger('create');
+						
+						
+						
+						//var clientShowImgName=localStorage.photo_url+'client_pic/'+client_photo_str+'?'+new Date().getTime();
+						//$("#clientProfileImage").attr("src",clientShowImgName);
 						
 						
 						var url = "#page_complain_show";	
@@ -4004,6 +4049,22 @@ function onFailProfile(message) {
     alert('Failed because: ' + message);
 }
 
+//image Complain
+function getImageComplain() {	
+	navigator.camera.getPicture(onSuccessComplain, onFailComplain, { quality: 10,
+		destinationType: Camera.DestinationType.FILE_URI });
+}
+function onSuccessComplain(imageURI) {
+    var image = document.getElementById('myImageComplain');
+    image.src = imageURI;
+	imagePath = imageURI;
+	$("#lscPhotoComplain").val(imagePath);
+}
+function onFailComplain(message) {
+	imagePath="";
+    alert('Failed because: ' + message);
+}
+
 //------------------------------------------------------------------------------
 //File upload 
 function uploadPhotoV(imageURI, imageName) {
@@ -4069,210 +4130,38 @@ function failProfile(error) {
 //    console.log("upload error target " + error.target);
 }
 
+//----------------------------------------------------- 
+//File upload
+function uploadPhotoComplain(imageURI, imageName){
+    var options = new FileUploadOptions();
+    options.fileKey="upload";
+    options.fileName=imageName;
+    options.mimeType="image/jpeg";
+	
+    var params = {};
+    params.value1 = "test";
+    params.value2 = "param";
+	
+    options.params = params;
+	
+    var ft = new FileTransfer();
+    ft.upload(imageURI, encodeURI(localStorage.photo_submit_url+"fileUploaderComplain/"),winComplain,failComplain,options);
+}
+
+function winComplain(r){
+//    console.log("Code = " + r.responseCode);
+//    console.log("Response = " + r.response);
+//    console.log("Sent = " + r.bytesSent);
+}
+
+function failComplain(error){
+	$(".error_complain").text('Memory Error. Please take new picture and Submit');
+//    console.log("upload error source " + error.source);
+//    console.log("upload error target " + error.target);
+}
 
 
 //=====================MAP Start=====================
-function marketNextCProfile_map() {
-	
-	$("#err_m_retailer_next_cp").html('');
-	
-	var market_name=$("#profile_market_cmb_id").val();
-	
-	if(market_name=='' || market_name==0){
-			$("#err_m_retailer_next_cp").text("Market required");
-		}else{
-			$("#wait_image_profile_market_ret").show();	
-			
-			
-			//visitMarketStr
-			var marketNameId=market_name.split('-');
-			var market_Id=marketNameId[1];
-			
-			//alert(localStorage.base_url+'getMarketClientListMap?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&market_id='+market_Id);
-			//$("#map_path").text(localStorage.base_url+'getMarketClientListMap?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&market_id='+market_Id);
-			
-			// ajax-------
-			$.ajax({
-				 type: 'POST',
-				 url: localStorage.base_url+'getMarketClientListMap?cid='+localStorage.cid+'&rep_id='+localStorage.user_id+'&rep_pass='+localStorage.user_pass+'&synccode='+localStorage.synccode+'&market_id='+market_Id,
-				 success: function(result) {
-						
-						//alert(result);
-						if (result==''){					
-							$("#err_m_retailer_next_cp").html('Sorry Network not available');
-							$("#wait_image_profile_market_ret").hide();
-						}else{
-							var resultArray = result.split('<SYNCDATA>');			
-							if (resultArray[0]=='FAILED'){						
-								$("#err_m_retailer_next_cp").html(resultArray[1]);
-								$("#wait_image_profile_market_ret").hide();
-							}else if (resultArray[0]=='SUCCESS'){
-														
-								var m_client_string=resultArray[1];
-								var result_show_Array = m_client_string.split('<fdfd>');	
-								
-								localStorage.map_desc=result_show_Array[0];
-								localStorage.c_point=result_show_Array[1]
-								
-								$("#desc").val(localStorage.map_desc);
-								$("#c_point").val(localStorage.c_point);
-								
-								initialize();
-								google.maps.event.addDomListener(window, 'load', initialize);
-								
-								//-----
-								$("#err_m_retailer_next_cp").html('');
-								$("#wait_image_profile_market_ret").hide();	
-								
-								//---------	
-								
-								var url = "#page_market_ret_cprofile_map";
-								$.mobile.navigate(url);
-								
-								}								
-						}
-					  },
-				  error: function(result) {			  
-					  $("#err_m_retailer_next_cp").html('Invalid Request');
-					  $("#wait_image_profile_market_ret").hide();
-					  
-				  }
-			 });//end ajax	
-			
-		}	
-	
-}
-function initialize() {
-  var center_point=$("#c_point").val();
-  var center_point_Array = center_point.split(',');	
- // alert (center_point);
-  var myLatlng = new google.maps.LatLng(parseFloat(center_point_Array[0]),parseFloat(center_point_Array[1]));
- // var myLatlng_1 = new google.maps.LatLng(60, 105);
-  var mapOptions = {
-    zoom: 12,
-    center: myLatlng
-	
 
-  }
 
- var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  var marker, i;
-  var icons="lafarge_g.png";
-  var marker = new google.maps.Marker({
-      position: myLatlng,
-      map: map,
-      title: 'Outlet',
-	  icon: icons
-	  
-  });
- //alert ('nadira');
- var p_station=$("#desc").val();
- 
-
-  
-  
-  var fields = p_station.split('rdrd');
-  var total_fields=p_station.split("rdrd").length
-  //alert (total_fields);
-  
-  
- var locations = [];
- var field=[];
- var j=0;
- 
- for (j = 0; j < total_fields; j++){
-	 var s=0;
-	 var fields_single = fields[j].split(',');
-  	 var total_fields_single=fields[j].split(",").length
-	 var arr=[];
-	 for (s = 0; s < total_fields_single; s++){
-		 arr.push(fields_single[s]);
-  		}
-	locations.push(arr);
- }
- 
- 
- var infowindow = new google.maps.InfoWindow();
- var marker, i;
- var icons="lafarge_g.png";
- 
- 
- 
- for (i = 0; i < locations.length; i++) {  
- 	
-   //check double shop==============
-	  var searchS=locations[i][1]+','+locations[i][2];
-	  var mOutlet = p_station.split('rdrd');
-	  var total_mOutlet=p_station.split("rdrd").length
-	  show_info='';
-	  //alert (total_mOutlet);
-	  for (var m = 0; m < total_mOutlet; m++){
-		
-		 if ( (mOutlet[m].search(searchS))!= -1 ){
-			 var mOutlet_single=mOutlet[m].split(',');
-			 if (show_info==''){
-				 show_info='<div  style="height:300px; width:700px">'+mOutlet_single[m][0]+'</div>';
-				 icons="lafarge_g.png";
-			 }
-			 else{
-				//alert (locations[i][0]); 
-				show_info=show_info+'<div style="background-color:#408080; height:2px"></div>'+'<div  style="height:300px; width:700px">'+mOutlet_single[m][0]+'</div>';	 
-				icons="lafarge_g.png";
-			 }
-			 
-		 }
-		
-		 //alert ('start: '+locations[i][0])
-	   }// double check for loop
-	  
-   //======check double shop end========
-   		
-		
-	  marker = new google.maps.Marker({
-		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-		map: map,
-		icon: icons
-	   
-	  });
-		  
-		  
-
-      		google.maps.event.addListener(marker, 'click', (function(marker, i) {
-				return function() {
-					
-				  //check double shop==============
-				  var searchS=locations[i][1]+','+locations[i][2];
-				  var mOutlet = p_station.split('rdrd');
-				  var total_mOutlet=p_station.split("rdrd").length
-				  show_info='';
-				  
-				  for (var m = 0; m < total_mOutlet; m++){
-					 if ( (mOutlet[m].search(searchS))!= -1 ){
-						 var mOutlet_single=mOutlet[m].split(',');
-						 if (show_info==''){
-							 show_info='<div  style="height:auto; width:auto">'+locations[i][0]+'</div>';
-							
-						 }
-						 else{
-							show_info=show_info+'<div style="background-color:#408080; height:2px"></div>'+'<div  style="height:300px; width:700px">'+locations[i][0]+'</div>';	 
-							
-						 }
-						
-					 }
-					 
-				   }// double check for loop
-			   //======check double shop end========	
-					
-				  infowindow.setContent(show_info);
-				  infowindow.open(map, marker);
-				}
-      		})(marker, i));
-	  
-  
-  		//alert (i)
-  
- }  //main for
-  
-  
-}
 //=====================MAP End=====================
