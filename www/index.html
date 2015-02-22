@@ -299,7 +299,34 @@
             .end()
             .prependTo( destination );
     });
-
+	
+	//------------------------------------- Report market -----------------------------
+	$.mobile.document.on( "listviewcreate", "#rpt_market_cmb_id-menu", function( e ) {
+        var input,
+            listbox = $( "#rpt_market_cmb_id-listbox" ),
+            form = listbox.jqmData( "filter-form" ),
+            listview = $( e.target );
+        if ( !form ) {
+            input = $( "<input id='clientSearch' data-type='search'></input><br>" );
+            form = $( "<form></form>" ).append( input );
+            input.textinput();
+            $( "#rpt_market_cmb_id-listbox" )
+                .prepend( form )
+                .jqmData( "filter-form", form );
+        }
+        listview.filterable({ input: input });
+    })
+    .on( "pagebeforeshow pagehide", "#rpt_market_cmb_id-dialog", function( e ) {
+        var form = $( "#rpt_market_cmb_id-listbox" ).jqmData( "filter-form" ),
+            placeInDialog = ( e.type === "pagebeforeshow" ),
+            destination = placeInDialog ? $( e.target ).find( ".ui-content" ) : $( "#rpt_market_cmb_id-listbox" );
+        form
+            .find( "input" )
+            .textinput( "option", "inset", !placeInDialog )
+            .end()
+            .prependTo( destination );
+    });
+	
 	//------------------------------------- visit plan client/ retailer -----------------------------
 	
 	$.mobile.document.on( "listviewcreate", "#visit_plan_client_cmb_id-menu", function( e ) {
@@ -457,7 +484,7 @@
             	<div id="error_login" style="color:#C00"></div>                
                     <form>					
                         <input name="user_id" id="user_id"  value="" type="text" placeholder="User ID">
-                        <input type="password" name="user_pass" id="user_pass"  value="" placeholder="Password">
+                        <input type="text" name="user_pass" id="user_pass"  value="" placeholder="Password">
                     </form>						
 				
 				<a data-role="button" id="loginButton" onClick="check_user();" >Sync</a>
@@ -787,11 +814,11 @@
         <input type="hidden" name="" id="cp_marketid"  value="">
         <input type="hidden" name="" id="cp_id"  value="" style="background-color:#EAEAEA" readonly>
         
-    	<tr style="border-color: #F33"><td width="30%" class="prof_label" style="border-color: #F33">Name*</td><td><input type="text" name="" id="cp_name"  value=""></td></tr>
+    	<tr style="border-color: #F33"><td width="30%" class="prof_label" style="border-color: #F33;">Name<font color="#C40000" style="font-size:20px">*</font></td><td><input type="text" name="" id="cp_name"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Address</td><td><input type="text" name="" id="cp_address"  value=""></td></tr>        
-        <tr><td width="30%" class="prof_label">Contact 1*</td><td><input type="text" name="" id="cp_contact1"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">District-Thana*</td><td> 
+        <tr><td width="30%" class="prof_label">Contact 1<font color="#C40000" style="font-size:20px">*</font></td><td><input type="number" name="" id="cp_contact1"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Contact 2</td><td><input type="number" name="" id="cp_contact2"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">District-Thana<font color="#C40000" style="font-size:20px">*</font></td><td> 
                
         <select name="districtThana" id="districtThana" data-native-menu="false">
             <option value="" >Select</option>            
@@ -806,12 +833,12 @@
         <tr><td width="30%" class="prof_label">Manager Name</td><td><input type="text" name="" id="cp_manager_name"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Manager Cont.No</td><td><input type="number" name="" id="cp_manager_cont_no"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Starting Year</td><td><input type="number" name="" id="cp_starting_year"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">Category*</td><td>
+        <tr><td width="30%" class="prof_label">Category<font color="#C40000" style="font-size:20px">*</font></td><td>
         <select name="cp_Category" id="cp_Category" data-native-menu="false">
             <option value="" >Select</option>            
         </select>
         </td></tr>
-        <tr><td width="30%" class="prof_label">LSC Covered ?*</td><td>
+        <tr><td width="30%" class="prof_label">LSC Covered ?<font color="#C40000" style="font-size:20px">*</font></td><td>
         <select name="cp_lsc_covered" id="cp_lsc_covered" data-native-menu="false">
             <option value="" >Select</option>
             <option value="YES" >YES</option>
@@ -820,7 +847,7 @@
         </td></tr>
         <tr><td width="30%" class="prof_label">Monthly Sales Capacity</td><td><input type="number" name="" id="cp_monthly_sales_capacity"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Monthly Sales</td><td><input type="number" name="" id="cp_monthly_sales"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">Shop (Rented/Own)*</td><td>
+        <tr><td width="30%" class="prof_label">Shop (Rented/Own)<font color="#C40000" style="font-size:20px">*</font></td><td>
         <select name="cp_shop_rent_own" id="cp_shop_rent_own" data-native-menu="false">
             <option value="" >Select</option>
             <option value="Rented" >Rented</option>
@@ -832,7 +859,7 @@
         <tr><td width="30%" class="prof_label">Shop Front Size (ft)</td><td><input type="number" name="" id="cp_shop_front_size"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Truck (Number)</td><td><input type="number" name="" id="cp_truck_number"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Barge (Number)</td><td><input type="number" name="" id="cp_barge_number"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">Status*</td><td>
+        <tr><td width="30%" class="prof_label">Status<font color="#C40000" style="font-size:20px">*</font></td><td>
         <select name="cp_status" id="cp_status" data-native-menu="false">
             <option value="" >Select</option>
             <option value="ACTIVE" >ACTIVE</option>
@@ -843,14 +870,14 @@
         
         <tbody bgcolor="#EAEBCF">        
         <tr style="background-color:#CCC"><td colspan="2"><strong>Personal Info:</strong></td></tr>
-        <tr><td width="30%" class="prof_label">Owner Name*</td><td><input type="text" name="" id="cp_owner_name"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Owner Name<font color="#CC0000" style="font-size:20px">*</font></td><td><input type="text" name="" id="cp_owner_name"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">NID</td><td><input type="number" name="" id="cp_nid"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Passport</td><td><input type="text" name="" id="cp_Passport"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">DOB</td><td><input type="date" name="" id="cp_dob"  value="" placeholder="YYYY-MM-DD"></td></tr>
         <tr><td width="30%" class="prof_label">DOM</td><td><input type="date" name="" id="cp_dom"  value="" placeholder="YYYY-MM-DD"></td></tr>
         <tr><td width="30%" class="prof_label">KIDs Info</td><td><input type="text" name="" id="cp_kidsinfo"  value=""></td></tr>
         <tr><td width="30%" class="prof_label">Hobby</td><td><input type="text" name="" id="cp_hobby"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">Trade License*</td><td>
+        <tr><td width="30%" class="prof_label">Trade License<font color="#CC0000" style="font-size:20px">*</font></td><td>
         <select name="cp_trade_license" id="cp_trade_license" data-native-menu="false">
             <option value="" >Select</option>
             <option value="YES" >YES</option>
@@ -858,7 +885,7 @@
         </select>
         </td></tr>
         <tr><td width="30%" class="prof_label">Trade Licence No</td><td><input type="text" name="" id="cp_trade_licence_no"  value=""></td></tr>
-        <tr><td width="30%" class="prof_label">VAT Registration*</td><td>
+        <tr><td width="30%" class="prof_label">VAT Registration<font color="#C40000" style="font-size:20px">*</font></td><td>
         <select name="cp_vat_registration" id="cp_vat_registration" data-native-menu="false">
             <option value="" >Select</option>
             <option value="YES" >YES</option>
@@ -910,8 +937,8 @@
 			<img src="" width="128" height="128" alt="" id="myImageProfile">
 			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden" value="">	
             
-			<input type="text" name="lat_p" id="lat_p" readonly>
-			<input type="text" name="long_p" id="long_p" readonly><!--readonly-->
+			<input type="hidden" name="lat_p" id="lat_p" readonly>
+			<input type="hidden" name="long_p" id="long_p" readonly><!--readonly-->
             
             <!--<input type="text" name="urlpath" id="urlpath">-->
             
@@ -1224,8 +1251,8 @@
 			<img src="" width="128" height="128" alt="" id="myImage">
 			<input name="lscPhoto" id="lscPhoto"   type="hidden" value="">
             
-			<input type="text" name="lat" id="lat" readonly>
-			<input type="text" name="long" id="long" readonly><!--readonly-->
+			<input type="hidden" name="lat" id="lat" readonly>
+			<input type="hidden" name="long" id="long" readonly><!--readonly-->
             
 			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>            
             
@@ -1438,7 +1465,7 @@
             </div>
 			
             <div data-role="content">
-				<div id="err_d_retailer" style="color:#C00"></div>
+				
 				<ul data-role="listview" data-inset="true">					
 					<li style="background-color:#F2F2F2;">
 						<div><b>Delivery Date:</b><span class="delivery_dt"></span></div>
@@ -1454,6 +1481,9 @@
 				
 				<div id="#msg_add_delivery_item"></div>
 				<a data-role="button" onClick="addDeliveryItem();" >Add</a>
+                
+                <div id="err_d_retailer" style="color:#C00"></div>
+                
 				<br/>								
 				<a data-role="button" href="" onClick="previewDelivery();">Preview</a>
 				<br/>
@@ -1599,8 +1629,8 @@
                 <img src="" width="128" height="128" alt="" id="myImageComplain">
                 <input name="lscPhotoComplain" id="lscPhotoComplain" type="hidden" value="">	
                 
-                <input type="text" name="lat_complain" id="lat_complain" readonly>
-                <input type="text" name="long_complain" id="long_complain" readonly><!--readonly-->
+                <input type="hidden" name="lat_complain" id="lat_complain" readonly>
+                <input type="hidden" name="long_complain" id="long_complain" readonly><!--readonly-->
                  
                 <a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>
                 <div id="checkLocationComplain" style="color:#FF0000;"></div>
@@ -1737,13 +1767,13 @@
             <div data-theme="c" data-role="header" data-position="fixed">
 			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
             <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Region-Report</h3>
+                <h3>Reports</h3>
             </div>
 			
             <div data-role="content">				
 				<div id="err_region_rpt" style="color:#C00"></div>
 				
-                <select name="rpt_region_cmb_id" id="rpt_region_cmb_id" data-native-menu="false">							
+                <!--<select name="rpt_region_cmb_id" id="rpt_region_cmb_id" data-native-menu="false">							
                     <option value="0" >Select Region</option>
                 </select>
 				
@@ -1769,6 +1799,34 @@
                 <a data-role="button" onClick="regionVisitSummaryReport();">Visit Summary</a>
 				<a data-role="button" onClick="regionTarVsAchReport();" >Target Vs Achievement</a>
 				<a data-role="button" onClick="regionTodaySummReport();">Today Summary</a>
+                -->
+                
+                <select name="rpt_market_cmb_id" id="rpt_market_cmb_id" data-native-menu="false">							
+                    <option value="0" >Select Market *</option>
+                </select>
+				
+                <select name="rpt_field_force_cmb_id" id="rpt_field_force_cmb_id" data-native-menu="false">
+					 <option value="">Select Field Force</option>					 
+				</select>
+                
+                <select name="rpt_period_cmb_id" id="rpt_period_cmb_id" data-native-menu="false">
+					 <option value="">Select Period *</option>
+					 <option value="Today">Today</option>
+					 <option value="Yesterday">Yesterday</option>
+					 <option value="This Month">This Month</option>
+					 <option value="Last Month">Last Month</option>
+				</select>
+                
+                <br/><br/>
+                <a data-role="button" onClick="regionOrderReport();">Order</a>
+                <a data-role="button" onClick="regionSalesConfReport();">Sales Confirmed</a>
+                <a data-role="button" onClick="regionVisitSummaryReport();">Visit Summary</a>
+                <a data-role="button" onClick="regionVisitDetailsReport();">Visit Details</a>
+                
+				<!--<a data-role="button" onClick="regionTarVsAchReport();" >Target Vs Achievement</a>-->
+                
+				<br/>
+                
                 
 				<br/>
 				
@@ -1790,140 +1848,6 @@
 		</div><!--/page-->
 		
         
-		<div data-theme="c" data-role="page" id="page_rpt">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Schsduled Retailer</h3>
-            </div>
-			
-            <div data-role="content">
-			
-				<div id="myerror" style="color:#C00"></div>               
-                              
-				
-				<select name="se_name" id="se_name" data-native-menu="false">
-					<option value="">Zone/Region/BP</option>
-					<option value="1">Zone One</option>
-					<option value="2">Zone Two</option>
-					<option value="3">Zone Three</option>
-					<option value="4">Zone Four</option>
-				</select>
-				
-				<select name="" id="" data-native-menu="false">
-					<option value="">Market</option>
-					<option value="1">Basundhara Road</option>
-					<option value="2">Kuril Road</option>
-					<option value="3">Natun Bazar</option>
-				</select>
-				
-				<select name="" id="" data-native-menu="false">
-					<option value="">Retailer</option>
-					<option value="1">ABC Traders</option>
-					<option value="2">Hasan Traders</option>
-					<option value="3">janta Traders</option>
-				</select>
-				
-				<select name="" id="" data-native-menu="false">
-					 <option value="">Month</option>
-					 <option value="01">01</option>
-					 <option value="02">02</option>
-					 <option value="03">03</option>
-					 <option value="04">04</option>
-					 <option value="05">05</option>
-					 <option value="06">06</option>
-					 <option value="07">07</option>
-					 <option value="08">08</option>
-					 <option value="09">09</option>
-					 <option value="10">10</option>
-					 <option value="11">11</option>
-					 <option value="12">12</option>
-				</select>
-				
-				<br/>
-				<a data-role="button" href="#page_tar_ach" >Target & Achievement</a>
-				<a data-role="button" href="#page_today_st" >Status Today</a>
-            </div><!--/cont-->
-			
-			<div data-theme="c" data-role="footer" data-position="fixed">
-			
-			</div>
-			
-		 </div><!--/page-->
-
-<!-- ===================== target & achievement Page================== -->
-		<div data-theme="c" data-role="page" id="page_tar_ach">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Target & Achievement</h3>
-            </div>
-			
-            <div data-role="content">			
-				<div id="myerror" style="color:#C00"></div>               
-				<ul data-inset="true" data-role="listview">
-					<li style="background-color:#F2F2F2;">ABC Traders</li>
-					<li>
-						<p>Year : 2014</p>
-						<p>Month : Jun</p>									
-					</li>
-					<li>
-						<p>Target:100000 BDT		</p>
-						<p>Order:50000 BDT		</p>
-						<p>Sales/Achievement: 50000 BDT </p>						
-					</li>
-					<li>
-						<p>Schedule Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:5</p>
-						<p>Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:4</p>
-						<p>Scheduled Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:3</p>
-						<p>Unscheduled Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:2 </p>									
-					</li>						
-				</ul>
-				
-            </div><!--/cont-->
-			
-			<div data-theme="c" data-role="footer" data-position="fixed">
-			
-			</div>
-			
-		 </div><!--/page-->
-
-<!-- ===================== today status Page================== -->
-		<div data-theme="c" data-role="page" id="page_today_st">
-            <div data-theme="c" data-role="header" data-position="fixed">
-			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext"><img src="menu.png"></a>
-            <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
-                <h3>Status Today</h3>
-            </div>
-			
-            <div data-role="content">			
-				<div id="myerror" style="color:#C00"></div>               
-				<ul data-inset="true" data-role="listview">
-					<li style="background-color:#F2F2F2;">Status Today</li>
-					<li>
-						<p>Year : 2014</p>
-						<p>Month : Jun</p>									
-					</li>
-					<li>
-						<p>Order:10000 BDT		</p>
-						<p>Sales/Achievement: 10000 BDT </p>						
-					</li>
-					<li>
-						<p>Schedule Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:5</p>
-						<p>Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:4</p>
-						<p>Scheduled Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:3</p>
-						<p>Unscheduled Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:2 </p>
-						<p>Remaining scheduled Visit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:1	</p>					
-					</li>						
-				</ul>
-				
-            </div><!--/cont-->
-			
-			<div data-theme="c" data-role="footer" data-position="fixed">
-			
-			</div>
-			
-		 </div><!--/page-->
 
     <script type="text/javascript" src="phonegap.js"></script>
     
