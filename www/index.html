@@ -96,10 +96,6 @@
 		
 		//------
 		
-		//===============Map=============
-			
-		//==============Map end===========
-				
 		
 		//================== Redirect to visit page
 		if(localStorage.visit_page=="YES"){
@@ -1122,13 +1118,10 @@
     <br>
     <br>
     <br>
-    <br>
-    
+    <br>    
   </div>
-
-
 </div> 
-
+	
     <!-- -------------Confirm  Profile Update -------------------- -->
 	<div data-theme="c" data-role="page" id="page_confirm_profile_update" >
 		<div data-theme="c" data-role="header" data-position="fixed" >
@@ -1139,9 +1132,9 @@
 		<div data-role="content">
 			<div id="errorConfirmProfileUpdate" style="color:#C00"></div>
 			
-			<a data-role="button" onClick="getImageProfile();" >Take Picture</a>       
+			<a data-role="button" onClick="getImageProfile();" >Take Picture</a>
 			<img src="" width="128" height="128" alt="" id="myImageProfile">
-			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden" value="">	
+			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden" value="">
             
 			<input type="hidden" name="lat_p" id="lat_p" readonly>
 			<input type="hidden" name="long_p" id="long_p" readonly><!--readonly-->
@@ -1764,7 +1757,7 @@
             <div data-role="content">	
             	<div id="error_complain_page" style="color:#C00"></div>	
                 	
-				<a data-role="button" onClick="getComplain()" >New</a>
+				<a data-role="button" onClick="getLocationInfo();getComplain();" >New</a>
 				<a data-role="button" onClick="showComplain()" >Show</a>
 				
             </div><!--/cont-->
@@ -1875,10 +1868,11 @@
                     <select name="complain_delivery_delivered_from" id="complain_delivery_delivered_from" data-native-menu="false">
                     </select>
                     </td></tr>
+                    <input type="hidden" name="complain_des" id="complain_des"  value="">
+                    <input type="hidden" name="complain_summary" id="complain_summary" value="">
                     
-                    <tr><td>Complain Description</td><td><input type="text" name="complain_des" id="complain_des"  value=""></td></tr>
-                    
-                    <tr><td>Complain Summary</td><td><input type="text" name="complain_summary" id="complain_summary" value=""></td></tr>
+                    <!--<tr><td>Complain Description</td><td>&nbsp;</td></tr>                    
+                    <tr><td>Complain Summary</td><td>&nbsp;</td></tr>-->
                     
                 </table>
                 
