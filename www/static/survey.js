@@ -1842,9 +1842,9 @@ function lscVisitSubmit(){
 	}else{
 		var imageName=localStorage.user_id+'_'+now.toString()+'.jpg';
 		
-		if (lat=='' || lat==0 || long=='' || long==0){
+		/*if (lat=='' || lat==0 || long=='' || long==0){
 			$("#errorChkVSubmit").html('Location not Confirmed');		
-		}else{
+		}else{*/
 			
 			if (visitClientId=='' || visitClientId==undefined){
 				$("#errorChkVSubmit").html('Invalid Client');		
@@ -1933,7 +1933,7 @@ function lscVisitSubmit(){
 										$("#btn_visit_submit").show();
 										
 										//image upload function									
-										uploadPhotoV(lscPhoto, imageName);
+										//uploadPhotoV(lscPhoto, imageName);
 										
 										//--
 										url = "#page_confirm_visit_success";	
@@ -1954,7 +1954,7 @@ function lscVisitSubmit(){
 					 });//end ajax	
 				}
 			}
-		  }//locaction check
+		  //}//locaction check
 	}
   }
 
@@ -3043,9 +3043,9 @@ function lscProfileSubmit(){
 	}
 	
 	
-	if (latLongFlag==0){
+	/*if (latLongFlag==0){
 		$("#errorConfirmProfileUpdate").html('Location not Confirmed');		
-	}else{
+	}else{*/
 		
 		if (clientUpdateStr==''){
 			$("#errorConfirmProfileUpdate").html('Data not available');		
@@ -3127,7 +3127,7 @@ function lscProfileSubmit(){
 			 });//end ajax	
 			
 		}
-	}//check location
+	//}//check location
   }
 
 
@@ -4294,9 +4294,9 @@ function complainSubmit(){
 			if(complainer_type=='' || complainer_type==0){
 				$("#error_complain").html('Complainer Type Required');		
 			}else{
-				if (latLongFlag==0){
+				/*if (latLongFlag==0){
 					$("#error_complain").html('Location not Confirmed');		
-				}else{
+				}else{*/
 					//----					
 					if(complainer_name==''){
 						$("#error_complain").html('Complainer name Required');	
@@ -4377,7 +4377,7 @@ function complainSubmit(){
 							 });//end ajax	
 						}
 					
-				}//location
+				//}//location
 			}//complainer type
 		}//complain type
 	}//zone
