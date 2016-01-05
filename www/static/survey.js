@@ -1,5 +1,4 @@
 
-
 var apipath_base_photo_dm='http://e.businesssolutionapps.com/lscrmap/syncmobile3/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
 //var apipath_base_photo_dm='http://127.0.0.1:8000/lscmreporting/syncmobile3/dmpath?CID=LSCRM&HTTPPASS=e99business321cba'
 
@@ -8,7 +7,7 @@ var mobile_off_flag=0;
 
 //-------GET GEO LOCATION
 function getLocationInfo() { //location
-	var options = { enableHighAccuracy: false};
+	var options = { enableHighAccuracy: false,timeout:20000};//20sec
 	navigator.geolocation.getCurrentPosition(onSuccess, onError , options);
 }
 
