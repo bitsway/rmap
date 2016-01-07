@@ -1808,12 +1808,13 @@ function lscVisitSubmit(){
 		}
 	
 	//----------------------- marchandizing status check
+	var photoRequired="No";
 	if (marchandizingInfoStr==undefined){
 		marchandizingInfoStr=''
 	}else{
 		var marchandizingList=marchandizingInfoStr.split('<rd>');	
-		var marchandizingItemLength=marchandizingList.length;	
-		var photoRequired="No";
+		var marchandizingItemLength=marchandizingList.length;
+		
 		for (var i=0; i < marchandizingItemLength; i++){		
 			var marchandizingArray = marchandizingList[i].split('<fd>');
 			var item_status=marchandizingArray[5];	
