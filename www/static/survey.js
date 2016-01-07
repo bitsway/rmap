@@ -1931,9 +1931,10 @@ function lscVisitSubmit(){
 										$("#wait_image_visit_submit").hide();
 										$("#btn_visit_submit").show();
 										
-										//image upload function									
-										//uploadPhotoV(lscPhoto, imageName);
-										
+										//image upload function	
+										if(lscPhoto!=''){								
+											uploadPhotoV(lscPhoto, imageName);
+										}
 										//--
 										url = "#page_confirm_visit_success";	
 										$.mobile.navigate(url);
