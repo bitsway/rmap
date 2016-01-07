@@ -4928,8 +4928,9 @@ function exit() {
 
 //Image
 function getImage() {
-	navigator.camera.getPicture(onSuccessV, onFailV, { quality: 10,
-		destinationType: Camera.DestinationType.FILE_URI });
+	navigator.camera.getPicture(onSuccessV, onFailV, { quality: 50,
+	targetWidth: 300,
+	destinationType: Camera.DestinationType.FILE_URI,correctOrientation: true });
 }
 function onSuccessV(imageURI) {
     var image = document.getElementById('myImage');
@@ -4944,8 +4945,9 @@ function onFailV(message) {
 
 //image Profile
 function getImageProfile() {	
-	navigator.camera.getPicture(onSuccessProfile, onFailProfile, { quality: 10,
-		destinationType: Camera.DestinationType.FILE_URI });
+	navigator.camera.getPicture(onSuccessProfile, onFailProfile, { quality: 50,
+	targetWidth: 300,
+	destinationType: Camera.DestinationType.FILE_URI,correctOrientation: true });
 }
 function onSuccessProfile(imageURI) {
     var image = document.getElementById('myImageProfile');
@@ -4960,8 +4962,9 @@ function onFailProfile(message) {
 
 //image Complain
 function getImageComplain() {	
-	navigator.camera.getPicture(onSuccessComplain, onFailComplain, { quality: 10,
-		destinationType: Camera.DestinationType.FILE_URI });
+	navigator.camera.getPicture(onSuccessComplain, onFailComplain, { quality: 50,
+	targetWidth: 300,
+	destinationType: Camera.DestinationType.FILE_URI,correctOrientation: true });
 }
 function onSuccessComplain(imageURI) {
     var image = document.getElementById('myImageComplain');
