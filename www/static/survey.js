@@ -4994,6 +4994,7 @@ function uploadPhotoV(imageURI, imageName) {
     params.value2 = "param";
 
     options.params = params;
+	options.chunkedMode = false;
 
     var ft = new FileTransfer();
      ft.upload(imageURI, encodeURI(localStorage.photo_submit_url+"fileUploaderVisit/"),winV,failV,options);
@@ -5026,6 +5027,7 @@ function uploadPhotoProfile(imageURI, imageName) {
     params.value2 = "param";
 	
     options.params = params;
+	options.chunkedMode = false;
 	
     var ft = new FileTransfer();
      ft.upload(imageURI, encodeURI(localStorage.photo_submit_url+"fileUploaderProfile/"),winProfile,failProfile,options);
@@ -5057,6 +5059,7 @@ function uploadPhotoComplain(imageURI, imageName){
     params.value2 = "param";
 	
     options.params = params;
+	options.chunkedMode = false;
 	
     var ft = new FileTransfer();
     ft.upload(imageURI, encodeURI(localStorage.photo_submit_url+"fileUploaderComplain/"),winComplain,failComplain,options);
